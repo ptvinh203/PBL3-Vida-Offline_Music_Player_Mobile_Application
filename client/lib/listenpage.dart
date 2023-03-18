@@ -12,31 +12,84 @@ class listenpage extends StatefulWidget {
 class _listenpageState extends State<listenpage> {
   final shadow = BoxShadow(color: Colors.black54, blurRadius: 30);
   final audioPlayer = AudioPlayer();
-  bool isPlaying = false;
+  static bool isPlaying = false;
   static Duration duration = Duration.zero;
   static Duration position = Duration.zero;
+  static String musicPath = 'assets/Maroon-5-She-Will-Be-Loved.mp3';
   @override
   void dispose() {
     audioPlayer.dispose();
     super.dispose();
   }
 
-  final sliderProgress = Slider(
-    min: 0,
-    max: duration.inSeconds.toDouble(),
-    value: position.inSeconds.toDouble(),
-    activeColor: Color.fromRGBO(62, 84, 172, 1),
-    thumbColor: Color.fromRGBO(172, 51, 196, 1),
-    onChanged: (value) async {},
-  );
+  @override
+  void initState() {
+    // TODO: implement initState
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      setState(() {
+        isPlaying = State == PlayerState.playing;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final sliderProgress = Slider(
+      min: 0,
+      max: duration.inSeconds.toDouble(),
+      value: position.inSeconds.toDouble(),
+      activeColor: Color.fromRGBO(19, 41, 128, 1),
+      thumbColor: Colors.deepPurpleAccent,
+      onChanged: (value) async {},
+    );
+    String formatTime(Duration duration) {
+      String twoDigits(int n) => n.toString().padLeft(2, '0');
+      final hours = twoDigits(duration.inHours);
+      final minutes = twoDigits(duration.inMinutes);
+      final seconds = twoDigits(duration.inSeconds);
+
+      return [
+        if (duration.inHours > 0) hours,
+        minutes,
+        seconds,
+      ].join(':');
+    }
+
+    final timePlay = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(formatTime(position)),
+          Text(formatTime(duration - position))
+        ],
+      ),
+    );
+    final playButton = CircleAvatar(
+        radius: 35,
+        child: IconButton(
+          icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+          iconSize: 35,
+          onPressed: () async {
+            if (isPlaying) {
+              await audioPlayer.pause();
+              initState();
+            } else {
+              String url = "assets/Maroon-5-She-Will-Be-Loved.mp3";
+
+              await audioPlayer.play(UrlSource(url));
+            }
+          },
+        ));
+
     final playListName = Center(
       child: Text(
         'W  E  D  D  I  N  G     P  L  A  Y  L  I  S  T',
         style: TextStyle(
-            fontSize: 10, color: Colors.black, fontWeight: FontWeight.w400),
+            fontSize: 10,
+            color: Color.fromRGBO(62, 84, 172, 1),
+            fontWeight: FontWeight.w400),
         textScaleFactor: 2,
       ),
     );
@@ -58,9 +111,7 @@ class _listenpageState extends State<listenpage> {
       child: Text(
         'She will be loved',
         style: TextStyle(
-            fontSize: 15,
-            color: Color.fromRGBO(62, 84, 172, 1),
-            fontWeight: FontWeight.bold),
+            fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
         textScaleFactor: 2,
       ),
     );
@@ -76,7 +127,7 @@ class _listenpageState extends State<listenpage> {
     );
 
     final borderedPlayZone = Container(
-        height: 500.0,
+        height: 550.0,
         padding: EdgeInsets.all(1.0),
         child: DecoratedBox(
             child: Center(
@@ -89,7 +140,9 @@ class _listenpageState extends State<listenpage> {
                   sizeBox,
                   nameOfSong,
                   nameOfArtist,
-                  sliderProgress
+                  sliderProgress,
+                  timePlay,
+                  playButton
                 ],
               ),
             ),
