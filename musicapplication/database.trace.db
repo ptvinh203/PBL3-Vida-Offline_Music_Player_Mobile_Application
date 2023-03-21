@@ -1,0 +1,3 @@
+2023-03-21 17:17:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SONG" not found (this database is empty); SQL statement:
+insert into song (song_id, artist_artistid, background_image_file_path, download_date, music_file_path, song_name) values (default, ?, ?, ?, ?, ?) [42104-214]
