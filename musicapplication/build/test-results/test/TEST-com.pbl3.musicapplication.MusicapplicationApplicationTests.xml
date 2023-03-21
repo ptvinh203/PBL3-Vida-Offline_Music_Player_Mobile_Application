@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.pbl3.musicapplication.MusicapplicationApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-03-21T10:17:16" hostname="PTVINH-73" time="0.26">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.pbl3.musicapplication.MusicapplicationApplicationTests" time="0.26"/>
+  <system-out><![CDATA[17:17:09.965 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [MusicapplicationApplicationTests]: using SpringBootContextLoader
+17:17:09.975 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.pbl3.musicapplication.MusicapplicationApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+17:17:09.976 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.pbl3.musicapplication.MusicapplicationApplicationTests]: MusicapplicationApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+17:17:10.026 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using ContextCustomizers for test class [MusicapplicationApplicationTests]: [DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, Customizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer]
+17:17:10.160 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [E:\StudyDocuments\ExerciseCode\DUT_Semesters\Semseter4\PBL3\musicapplication\build\classes\java\main\com\pbl3\musicapplication\MusicapplicationApplication.class]
+17:17:10.162 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.pbl3.musicapplication.MusicapplicationApplication for test class com.pbl3.musicapplication.MusicapplicationApplicationTests
+17:17:10.386 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners for test class [MusicapplicationApplicationTests]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener]
+17:17:10.388 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: class [MusicapplicationApplicationTests], class annotated with @DirtiesContext [false] with mode [null]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.0.4)
+
+2023-03-21T17:17:10.904+07:00  INFO 12272 --- [    Test worker] c.p.m.MusicapplicationApplicationTests   : Starting MusicapplicationApplicationTests using Java 19.0.1 with PID 12272 (started by DELL in E:\StudyDocuments\ExerciseCode\DUT_Semesters\Semseter4\PBL3\musicapplication)
+2023-03-21T17:17:10.906+07:00  INFO 12272 --- [    Test worker] c.p.m.MusicapplicationApplicationTests   : No active profile set, falling back to 1 default profile: "default"
+2023-03-21T17:17:11.729+07:00  INFO 12272 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-21T17:17:11.803+07:00  INFO 12272 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64 ms. Found 4 JPA repository interfaces.
+2023-03-21T17:17:12.422+07:00  INFO 12272 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-03-21T17:17:12.740+07:00  INFO 12272 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./database user=
+2023-03-21T17:17:12.746+07:00  INFO 12272 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-03-21T17:17:12.809+07:00  INFO 12272 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-03-21T17:17:12.881+07:00  INFO 12272 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.7.Final
+2023-03-21T17:17:14.103+07:00  INFO 12272 --- [    Test worker] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2023-03-21T17:17:15.420+07:00  INFO 12272 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-03-21T17:17:15.434+07:00  INFO 12272 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-03-21T17:17:15.995+07:00  WARN 12272 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-03-21T17:17:16.831+07:00  INFO 12272 --- [    Test worker] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./database'
+2023-03-21T17:17:16.919+07:00  INFO 12272 --- [    Test worker] c.p.m.MusicapplicationApplicationTests   : Started MusicapplicationApplicationTests in 6.42 seconds (process running for 8.312)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
