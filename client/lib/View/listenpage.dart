@@ -13,12 +13,12 @@ class listenpage extends StatefulWidget {
 class _listenpageState extends State<listenpage> {
   final audioPlayer = AudioPlayer();
   static bool isPlaying = false;
-  final playlist_string = 'S O C C E R   P L A Y L I S T';
-  final songname_string = 'Parado no pailao';
-  final image_path = 'assets/neymar.jpeg';
-  final artistname_string = 'Neymar Jr';
+  final playlist_string = 'W E D D I N G   P L A Y L I S T';
+  final songname_string = 'She will be loved';
+  final image_path = 'assets/she-will-be-loved.jpeg';
+  final artistname_string = 'Maroon 5';
   final player = AudioCache(prefix: './assets/');
-  final song_string = 'parado-no-bailao.mp3';
+  final song_string = 'Maroon-5-She-Will-Be-Loved.mp3';
   static Duration duration = Duration.zero;
   static Duration position = Duration.zero;
   static Duration seek = Duration.zero;
@@ -67,10 +67,10 @@ class _listenpageState extends State<listenpage> {
   @override
   Widget build(BuildContext context) {
     final shadow = BoxShadow(
-        offset: Offset(15, 30),
+        offset: Offset(14, 25),
         // color: Color.fromARGB(255, 80, 40, 255).withOpacity(0.45),
-        color: Colors.black.withOpacity(0.7),
-        blurRadius: 50);
+        color: Colors.black.withOpacity(0.8),
+        blurRadius: 40);
 
     final sliderProgress = Slider(
       min: 0,
@@ -320,10 +320,16 @@ class _listenpageState extends State<listenpage> {
               begin: Alignment.topLeft,
               end: Alignment.topRight,
               colors: [
-            // Color.fromARGB(248, 42, 42, 131).withOpacity(0.9),
-            // Color.fromARGB(255, 91, 61, 172)
             Color.fromARGB(255, 213, 160, 253),
             Color.fromARGB(255, 140, 166, 219)
+            //hh
+            // Color.fromARGB(255, 132, 94, 194),
+            // Color.fromARGB(255, 214, 93, 177),
+            // Color.fromARGB(255, 255, 111, 145),
+            // Color.fromARGB(255, 255, 150, 113),
+            // Color.fromARGB(255, 255, 199, 195),
+            // Color.fromARGB(255, 249, 248, 113)
+            //hh
           ])),
       child: Center(
         child: ListView(
