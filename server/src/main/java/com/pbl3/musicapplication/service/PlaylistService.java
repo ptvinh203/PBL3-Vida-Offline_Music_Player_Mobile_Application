@@ -7,5 +7,5 @@ public interface PlaylistService {
     Playlist create(PlaylistModel playlistModel);
     Playlist update(Integer id, PlaylistModel playlistModel);
     void delete(Integer id);
-    Playlist findById(Integer id);   
+    PlaylistModel findById(Integer id);   
 }

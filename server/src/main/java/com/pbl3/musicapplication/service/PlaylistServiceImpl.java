@@ -35,9 +35,9 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public Playlist findById(Integer id) {
-        return playlistRepository.findById(id).orElse(null);
-    }
-
-    
+    public PlaylistModel findById(Integer id) {
+        Playlist fromDB = playlistRepository.findById(id).orElse(null);
+        if (fromDB == null) return null;
+        return new PlaylistModel(fromDB);
+    }  
 }

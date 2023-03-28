@@ -34,14 +34,14 @@ public class ArtistServiceImpl implements ArtistService{
     }
 
     @Override
-    public void delete(Integer id) {
+    public void deleteById(Integer id) {
         artistRepository.deleteById(id);;
     }
 
     @Override
-    public Artist findById(Integer id) {
-        return artistRepository.findById(id).orElse(null);
+    public ArtistModel findById(Integer id) {
+        Artist fromDB = artistRepository.findById(id).orElse(null);
+        if (fromDB == null) return null;
+        return new ArtistModel(fromDB);
     }
-
-    
 }

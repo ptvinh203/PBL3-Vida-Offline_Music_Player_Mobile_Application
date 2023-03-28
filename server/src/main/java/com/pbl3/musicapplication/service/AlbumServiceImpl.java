@@ -34,13 +34,15 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
-    public void delete(Integer id) {
+    public void deleteById(Integer id) {
         albumRepository.deleteById(id);
     }
 
     @Override
-    public Album findById(Integer id) {
-        return albumRepository.findById(id).orElse(null);
+    public AlbumModel findById(Integer id) {
+        Album fromDB = albumRepository.findById(id).orElse(null);
+        if (fromDB == null) return null;
+        return new AlbumModel(fromDB);
     }
     
 }

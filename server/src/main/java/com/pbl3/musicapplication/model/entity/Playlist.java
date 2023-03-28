@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import com.pbl3.musicapplication.model.model.PlaylistModel;
 import com.pbl3.musicapplication.model.model.SongModel;
 
+import io.micrometer.common.lang.Nullable;
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.TableGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,10 +26,15 @@ import lombok.AccessLevel;
 @Entity
 public class Playlist {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableGenerator(name = "PlaylistId_Gen", initialValue = 0)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "PlaylistId_Gen")
     @Setter(AccessLevel.PRIVATE)
     private Integer playlistId;
 
+    @Nonnull
+    private String playlistName;
+    
+    @Nullable
     @OneToMany(targetEntity = Song.class)
     private ArrayList<Song> songsPList;
 
@@ -44,32 +52,9 @@ public class Playlist {
         for (SongModel songModel : songModels) {
             tmp.add(new Song(songModel));   
         }
-
         this.songsPList = tmp;
     }
-    // private int getIndex(Song s) {
-    //     for (int i = 0; i < songsPList.size(); i++)
-    //         if (songsPList.get(i).getSongId().compareTo(s.getSongId()) == 0)
-    //             return i;
-    //     return -1;
-    // }
-
-    // public int getLength() {
-    //     return songsPList.size();
-    // }
-
-    // public void addSong(Song s) throws Exception {
-    //     if (getIndex(s) != -1) 
-    //         throw new Exception("This song has been in your playlist"); 
-    //     else songsPList.add(s);
-    // }
-    // public void removeSong(Song s) throws Exception {
-    //     if (getIndex(s) == -1)
-    //         throw new Exception("This song hasn't been in your playlist");
-    //     else songsPList.remove(s);
-    // }
-    // public Song search(Song s) {
-
-    //     return new Song();
-    // }
+    public boolean isValid() {
+        return (!playlistName.isEmpty() && playlistName != null);
+    }
 }

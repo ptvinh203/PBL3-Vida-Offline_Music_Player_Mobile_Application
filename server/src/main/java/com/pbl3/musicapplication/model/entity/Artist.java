@@ -1,15 +1,19 @@
 package com.pbl3.musicapplication.model.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.pbl3.musicapplication.model.model.AlbumModel;
 import com.pbl3.musicapplication.model.model.ArtistModel;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.TableGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,30 +28,37 @@ import lombok.Setter;
 @Entity
 public class Artist {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableGenerator(name = "ArtistId_Gen", initialValue = 0)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "ArtistId_Gen")
     @Setter(AccessLevel.PRIVATE)
     private Integer artistID;
     
+    @Nonnull
     private String artistName;
+    @Nullable
     private String artistImagePath;
 
+    @Nullable
+    @Setter(AccessLevel.NONE)
     @OneToMany(targetEntity = Album.class)
-    private ArrayList<Album> albums;
+    private List<Album> albums;
 
     public Artist(ArtistModel artistModel) {
         this.artistName = artistModel.getArtistName();
         this.artistImagePath = artistModel.getArtistImagePath();
         
-        ArrayList<Album> tmp = new ArrayList<>();
-        for (AlbumModel albumModel : artistModel.getAlbumModels()) {
-            tmp.add(new Album(albumModel));
+        if (artistModel.getAlbumModels() != null) {
+            List<Album> tmp = new ArrayList<>();
+            for (AlbumModel albumModel : artistModel.getAlbumModels()) {
+                tmp.add(new Album(albumModel));
+            }
+            
+            this.albums = tmp;
         }
-        
-        this.albums = tmp;
     }
     
-    public void setAlbums(ArrayList<AlbumModel> albumModels) {
-        ArrayList<Album> tmp = new ArrayList<>();
+    public void setAlbums(@Nonnull List<AlbumModel> albumModels) {
+        List<Album> tmp = new ArrayList<>();
         for (AlbumModel albumModel : albumModels) {
             tmp.add(new Album(albumModel));
         }

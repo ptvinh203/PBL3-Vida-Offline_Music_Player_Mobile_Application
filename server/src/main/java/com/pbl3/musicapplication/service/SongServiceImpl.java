@@ -36,13 +36,15 @@ public class SongServiceImpl implements SongService{
     }
 
     @Override
-    public void delete(Integer id) {
+    public void deleteById(Integer id) {
         songRepository.deleteById(id);
     }
 
     @Override
-    public Song findById(Integer id) {
-        return songRepository.findById(id).orElse(null);
+    public SongModel findById(Integer id) {
+        Song fromDB = songRepository.findById(id).orElse(null);
+        if (fromDB == null) return null;
+        return new SongModel(fromDB);
     }
     
 }

@@ -19,10 +19,12 @@ import lombok.Setter;
 public class PlaylistModel {
     @Setter(AccessLevel.PRIVATE)
     private Integer playlistId;
+    private String playlistName;
     private ArrayList<SongModel> songModels;
 
     public PlaylistModel(Playlist entity) {
         this.playlistId = entity.getPlaylistId();
+        this.playlistName = entity.getPlaylistName();
         
         ArrayList<SongModel> tmp = new ArrayList<>();
         for (Song song : entity.getSongsPList()) {

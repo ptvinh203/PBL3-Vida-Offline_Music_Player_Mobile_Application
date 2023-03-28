@@ -6,6 +6,6 @@ import com.pbl3.musicapplication.model.model.AlbumModel;
 public interface AlbumService {
     Album create(AlbumModel albumModel);
     Album update(Integer id, AlbumModel albumModel);
-    void delete(Integer id);
-    Album findById(Integer id);
+    void deleteById(Integer id);
+    AlbumModel findById(Integer id);
 }

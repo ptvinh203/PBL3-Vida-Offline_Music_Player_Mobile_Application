@@ -1,6 +1,7 @@
 package com.pbl3.musicapplication.controller;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,18 +18,23 @@ import com.pbl3.musicapplication.model.model.SongModel;
 import com.pbl3.musicapplication.service.SongService;
 
 @RestController
-@RequestMapping("/song")
+@RequestMapping("/songs")
 public class SongController {
     @Autowired
     private SongService songService;
 
-    @GetMapping("/testCreate")
-    public Song test() {
-        return null;
+    @GetMapping("/localDateTime/currentTime")
+    public String getDateTime() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return (LocalDateTime.now()).format(dateTimeFormatter);
     }
-
+    @PostMapping("/localDateTime/newTime")
+    public String creaLocalDateTime(@RequestBody String localDateTimeString) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return LocalDateTime.parse(localDateTimeString, dateTimeFormatter).toString();
+    }
     @GetMapping("/{id}")
-    public Song findById(@PathVariable Integer id) {
+    public SongModel findById(@PathVariable Integer id) {
         return songService.findById(id);
     }
 
@@ -38,8 +44,8 @@ public class SongController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        songService.delete(id);
+    public void deleteById(@PathVariable Integer id) {
+        songService.deleteById(id);
     }
 
     @PutMapping("/{id}")
