@@ -1,16 +1,18 @@
 package com.pbl3.musicapplication.model.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.pbl3.musicapplication.model.model.AlbumModel;
 import com.pbl3.musicapplication.model.model.SongModel;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,30 +32,26 @@ public class Album {
     @Setter(AccessLevel.PRIVATE)
     private Integer albumId;
 
-    @OneToOne(targetEntity = Artist.class)
-    private Artist artist;
+    @Nonnull
+    private String albumName;
 
+    @Nullable
     @OneToMany(targetEntity = Song.class)
-    private ArrayList<Song> songsAlbum;
+    private List<Song> songsAlbum;
     
-    public Album (AlbumModel albumModel) {
-        this.artist = albumModel.getArtist();
-
-        ArrayList<Song> tmp = new ArrayList<>();
-        for (SongModel songModel : albumModel.getSongModels()) {
-            tmp.add(new Song(songModel));
+    public Album(AlbumModel albumModel) {
+        this.albumName = albumModel.getAlbumName();
+        
+        if (albumModel.getSongsAlbum() != null) {
+            List<Song> tmp = new ArrayList<>();
+            for (SongModel songModel : albumModel.getSongsAlbum()) {
+                tmp.add(new Song(songModel));
+            }
+            this.songsAlbum = tmp;
         }
-        this.songsAlbum = tmp;
     }
 
-    public void setSongsAlbum(ArrayList<SongModel> songModels){
-        ArrayList<Song> tmp = new ArrayList<>();
-        for (SongModel songModel : songModels) {
-            tmp.add(new Song(songModel));
-        }
-        this.songsAlbum = tmp;
-    }
     public boolean isValid() {
-        return artist.isValid();
+        return !(albumName == null || albumName.isEmpty());
     }
 }

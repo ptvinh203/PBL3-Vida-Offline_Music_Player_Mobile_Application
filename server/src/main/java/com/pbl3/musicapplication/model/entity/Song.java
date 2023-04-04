@@ -1,15 +1,17 @@
 package com.pbl3.musicapplication.model.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
-import com.pbl3.musicapplication.model.model.ArtistModel;
 import com.pbl3.musicapplication.model.model.SongModel;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,29 +29,28 @@ public class Song {
     @Setter(AccessLevel.PRIVATE)
     private Integer songId;
     
+    @Nonnull
     private String songName;
-    
-    @ManyToOne(targetEntity = Artist.class)
-    private Artist artist;
 
+    @Nullable
+    @Temporal(TemporalType.DATE)
     private Date downloadDate;
+
+    @Nonnull
     private String musicFilePath;
+
+    @Nullable
     private String backgroundImageFilePath;
 
+    
     public Song(SongModel songModel) {
         this.songName = songModel.getSongName();
-
-        this.artist = new Artist(songModel.getArtistModel());
-        
         this.downloadDate = songModel.getDownloadDate();
         this.musicFilePath = songModel.getMusicFilePath();
         this.backgroundImageFilePath = songModel.getBackgroundImageFilePath();
     }
-    public void setArtist(ArtistModel artistModel) {
-        this.artist = new Artist(artistModel);
-    }
     public boolean isValid() {
-        return !(songName.isEmpty() || songName == null || !artist.isValid() || downloadDate == null 
-                || musicFilePath.isEmpty() || musicFilePath == null);
+        return !(songName == null || songName.isEmpty() ||
+                musicFilePath == null|| musicFilePath.isEmpty());
     }
 }

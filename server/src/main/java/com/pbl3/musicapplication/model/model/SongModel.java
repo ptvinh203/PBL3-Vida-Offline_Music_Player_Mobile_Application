@@ -1,9 +1,12 @@
 package com.pbl3.musicapplication.model.model;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import com.pbl3.musicapplication.model.entity.Song;
 
+import jakarta.annotation.Nonnull;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,17 +18,22 @@ import lombok.Setter;
 @Getter@Setter
 @Builder
 public class SongModel {
+    @Setter(AccessLevel.PRIVATE)
     private Integer songId;
+
+    @Nonnull
     private String songName;
-    private ArtistModel artistModel;
+
     private Date downloadDate;
+
+    @Nonnull
     private String musicFilePath;
+
     private String backgroundImageFilePath;
 
     public SongModel (Song entity) {
-        this.songId = entity.getSongId();
+        this.songId = entity.getSongId(); 
         this.songName = entity.getSongName();
-        this.artistModel = new ArtistModel(entity.getArtist());
         this.downloadDate = entity.getDownloadDate();
         this.musicFilePath = entity.getMusicFilePath();
         this.backgroundImageFilePath = entity.getBackgroundImageFilePath();

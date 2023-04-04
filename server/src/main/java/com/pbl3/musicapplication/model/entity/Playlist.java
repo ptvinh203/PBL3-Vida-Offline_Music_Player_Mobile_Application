@@ -1,15 +1,18 @@
 package com.pbl3.musicapplication.model.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.pbl3.musicapplication.model.model.PlaylistModel;
 import com.pbl3.musicapplication.model.model.SongModel;
 
+import io.micrometer.common.lang.Nullable;
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,49 +30,24 @@ public class Playlist {
     @Setter(AccessLevel.PRIVATE)
     private Integer playlistId;
 
-    @OneToMany(targetEntity = Song.class)
-    private ArrayList<Song> songsPList;
+    @Nonnull
+    private String playlistName;
+    
+    @Nullable
+    @ManyToMany(targetEntity = Song.class)
+    private List<Song> songsPlaylist;
 
     public Playlist(PlaylistModel playlistModel) {
-        ArrayList<Song> tmp = new ArrayList<>();
-
-        for (SongModel songModel : playlistModel.getSongModels()) {
-            tmp.add(new Song(songModel));   
+        this.playlistName = playlistModel.getPlaylistName();
+        if (playlistModel.getSongsPlaylist() != null) {
+            List<Song> tmp = new ArrayList<>();
+            for (SongModel songModel : playlistModel.getSongsPlaylist()) {
+                tmp.add(new Song(songModel));   
+            }
+            this.songsPlaylist = tmp;
         }
-
-        this.songsPList = tmp;
     }
-    public void setSongsPList(ArrayList<SongModel> songModels) {
-        ArrayList<Song> tmp = new ArrayList<>();
-        for (SongModel songModel : songModels) {
-            tmp.add(new Song(songModel));   
-        }
-
-        this.songsPList = tmp;
+    public boolean isValid() {
+        return !(playlistName == null || playlistName.isEmpty());
     }
-    // private int getIndex(Song s) {
-    //     for (int i = 0; i < songsPList.size(); i++)
-    //         if (songsPList.get(i).getSongId().compareTo(s.getSongId()) == 0)
-    //             return i;
-    //     return -1;
-    // }
-
-    // public int getLength() {
-    //     return songsPList.size();
-    // }
-
-    // public void addSong(Song s) throws Exception {
-    //     if (getIndex(s) != -1) 
-    //         throw new Exception("This song has been in your playlist"); 
-    //     else songsPList.add(s);
-    // }
-    // public void removeSong(Song s) throws Exception {
-    //     if (getIndex(s) == -1)
-    //         throw new Exception("This song hasn't been in your playlist");
-    //     else songsPList.remove(s);
-    // }
-    // public Song search(Song s) {
-
-    //     return new Song();
-    // }
 }
