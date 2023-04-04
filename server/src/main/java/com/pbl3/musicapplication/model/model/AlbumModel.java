@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.pbl3.musicapplication.model.entity.Album;
-import com.pbl3.musicapplication.model.entity.Artist;
 import com.pbl3.musicapplication.model.entity.Song;
 
 import jakarta.annotation.Nonnull;
@@ -25,15 +24,12 @@ public class AlbumModel {
 
     @Nonnull
     private String albumName;
-    @Nonnull
-    private Artist artist;
 
-    private List<SongModel> songModels; 
+    private List<SongModel> songsAlbum; 
     
     public AlbumModel(Album entity) {
         this.albumId = entity.getAlbumId();
         this.albumName = entity.getAlbumName();
-        this.artist = entity.getArtist();
 
         if (entity.getSongsAlbum() != null) {
             List<SongModel> tmp = new ArrayList<>();
@@ -41,15 +37,15 @@ public class AlbumModel {
                 tmp.add(new SongModel(song));
             }
     
-            this.songModels = tmp;
+            this.songsAlbum = tmp;
         }
     }
-    public void setSongModels(@Nonnull List<Song> songs) {
+    public void convertToSongModels(@Nonnull List<Song> songs) {
         List<SongModel> tmp = new ArrayList<>();
         for (Song song : songs) {
             tmp.add(new SongModel(song));
         }
 
-        this.songModels = tmp;
+        this.songsAlbum = tmp;
     }
 }

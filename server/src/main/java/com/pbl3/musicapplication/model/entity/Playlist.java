@@ -1,6 +1,7 @@
 package com.pbl3.musicapplication.model.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.pbl3.musicapplication.model.model.PlaylistModel;
 import com.pbl3.musicapplication.model.model.SongModel;
@@ -11,8 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.TableGenerator;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,8 +26,7 @@ import lombok.AccessLevel;
 @Entity
 public class Playlist {
     @Id
-    @TableGenerator(name = "PlaylistId_Gen", initialValue = 0)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "PlaylistId_Gen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
     private Integer playlistId;
 
@@ -35,26 +34,20 @@ public class Playlist {
     private String playlistName;
     
     @Nullable
-    @OneToMany(targetEntity = Song.class)
-    private ArrayList<Song> songsPList;
+    @ManyToMany(targetEntity = Song.class)
+    private List<Song> songsPlaylist;
 
     public Playlist(PlaylistModel playlistModel) {
-        ArrayList<Song> tmp = new ArrayList<>();
-
-        for (SongModel songModel : playlistModel.getSongModels()) {
-            tmp.add(new Song(songModel));   
+        this.playlistName = playlistModel.getPlaylistName();
+        if (playlistModel.getSongsPlaylist() != null) {
+            List<Song> tmp = new ArrayList<>();
+            for (SongModel songModel : playlistModel.getSongsPlaylist()) {
+                tmp.add(new Song(songModel));   
+            }
+            this.songsPlaylist = tmp;
         }
-
-        this.songsPList = tmp;
-    }
-    public void setSongsPList(ArrayList<SongModel> songModels) {
-        ArrayList<Song> tmp = new ArrayList<>();
-        for (SongModel songModel : songModels) {
-            tmp.add(new Song(songModel));   
-        }
-        this.songsPList = tmp;
     }
     public boolean isValid() {
-        return (!playlistName.isEmpty() && playlistName != null);
+        return !(playlistName == null || playlistName.isEmpty());
     }
 }
