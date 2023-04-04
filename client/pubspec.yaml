@@ -9,17 +9,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  audioplayers: ^3.0.1
+  assets_audio_player: ^3.0.6
+  flutter_swiper_null_safety: ^1.0.2
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  
 
 flutter:
   uses-material-design: true
   assets:
-    - assets/she-will-be-loved.jpeg
-    - assets/Maroon-5-She-Will-Be-Loved.mp3
-    - assets/parado-no-bailao.mp3
-    - assets/neymar.jpeg
+    - assets/

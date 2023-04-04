@@ -1,8 +1,10 @@
+import 'package:client/View/enjoy_music.dart';
+import 'package:client/View/homepage.dart';
 import 'package:flutter/material.dart';
 import 'View/listenpage.dart';
 
 void main() {
-  runApp(const listenpage());
+  runApp(MaterialApp(home: EnjoyMusic()));
 }
 
 class MainApp extends StatelessWidget {
@@ -10,7 +12,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         body: Center(
           child: Text('Hello World!'),
