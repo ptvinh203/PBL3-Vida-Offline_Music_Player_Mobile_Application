@@ -7,8 +7,6 @@ import com.pbl3.musicapplication.model.model.AlbumModel;
 import com.pbl3.musicapplication.model.model.ArtistModel;
 import com.pbl3.musicapplication.model.model.SongModel;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,23 +32,17 @@ public class Artist {
     @Setter(AccessLevel.PRIVATE)
     private Integer artistId;
     
-    @Nonnull
     private String artistName;
-
-    @Nullable
     private String artistImagePath;
 
-    @Nullable
     @OneToMany(targetEntity = Album.class, cascade = CascadeType.REMOVE)
     private List<Album> albums;
 
-    @Nullable
     @ManyToMany(targetEntity = Song.class, cascade = CascadeType.REMOVE)
     private List<Song> singleAndEpSongs;
 
     public Artist(ArtistModel artistModel) {
         this.artistName = artistModel.getArtistName();
-        this.artistImagePath = artistModel.getArtistImagePath();
         
         if (artistModel.getAlbums() != null) {
             List<Album> tmp = new ArrayList<>();

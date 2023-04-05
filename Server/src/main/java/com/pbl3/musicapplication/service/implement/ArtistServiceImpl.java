@@ -87,7 +87,6 @@ public class ArtistServiceImpl implements ArtistService{
         Artist fromDB = artistRepository.findById(id).orElse(null);
         if (fromDB != null) {
             fromDB.setArtistName(artistModel.getArtistName());
-            fromDB.setArtistImagePath(artistModel.getArtistImagePath());
             
             if (!fromDB.isValid()) return null;
 
@@ -201,13 +200,13 @@ public class ArtistServiceImpl implements ArtistService{
     }
 
     @Override
-    public Artist findAlbum(Integer albumId) {
+    public ArtistModel findAlbum(Integer albumId) {
         Album album = albumRepository.findById(albumId).orElse(null);
         if (album != null) {
             for (Artist artist : artistRepository.findAll()) {
                 for (Album x : artist.getAlbums()) {
                     if (x.getAlbumId().compareTo(album.getAlbumId()) == 0) {
-                        return artist;
+                        return new ArtistModel(artist);
                     }
                 }
             }
@@ -217,13 +216,13 @@ public class ArtistServiceImpl implements ArtistService{
     }
 
     @Override
-    public Artist findSingleAndEpSong(Integer songId) {
+    public ArtistModel findSingleAndEpSong(Integer songId) {
         Song song = songRepository.findById(songId).orElse(null);
         if (song != null) {
             for (Artist artist : artistRepository.findAll()) {
                 for (Song x : artist.getSingleAndEpSongs()) {
                     if (x.getSongId().compareTo(song.getSongId()) == 0) {
-                        return artist;
+                        return new ArtistModel(artist);
                     }
                 }
             }

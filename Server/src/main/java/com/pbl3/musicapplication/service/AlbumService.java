@@ -14,7 +14,7 @@ public interface AlbumService extends GenericService<Album, AlbumModel>{
     List<SongModel> getAllSongsList(Integer id);
     Boolean updateArtist(Integer artistId, Integer albumId, Boolean checkAdd);
     Boolean updateSongs(@Nonnull Integer albumId, Boolean checkAdd);
-    Album setArtist(@Nonnull Integer albumId, @Nonnull Integer artistId);
+    AlbumModel setArtist(@Nonnull Integer albumId, @Nonnull Integer artistId);
     ArtistModel getArtistAlbum(Integer albumId);
 
 }

@@ -6,8 +6,6 @@ import java.util.List;
 import com.pbl3.musicapplication.model.model.PlaylistModel;
 import com.pbl3.musicapplication.model.model.SongModel;
 
-import io.micrometer.common.lang.Nullable;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,10 +28,8 @@ public class Playlist {
     @Setter(AccessLevel.PRIVATE)
     private Integer playlistId;
 
-    @Nonnull
     private String playlistName;
     
-    @Nullable
     @ManyToMany(targetEntity = Song.class)
     private List<Song> songsPlaylist;
 

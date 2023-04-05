@@ -90,12 +90,12 @@ public class AlbumServiceImpl implements AlbumService{
         return null;
     }
     @Override
-    public Album setArtist(Integer albumId, Integer artistId) {
+    public AlbumModel setArtist(Integer albumId, Integer artistId) {
         Artist artist = artistRepository.findById(artistId).orElse(null);
         Album album = albumRepository.findById(albumId).orElse(null);
         if (artist != null && album != null) {
             album.setArtist(artist);
-            return albumRepository.save(album);
+            return new AlbumModel(albumRepository.save(album));
         }
         return null;
     }

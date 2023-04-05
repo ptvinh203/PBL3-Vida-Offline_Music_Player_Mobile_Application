@@ -43,39 +43,37 @@ public class SongServiceImpl implements SongService{
         if (fromDB != null) {
             fromDB.setSongName(songModel.getSongName());
             fromDB.setDownloadDate(songModel.getDownloadDate());
-            fromDB.setMusicFilePath(songModel.getMusicFilePath());
-            fromDB.setBackgroundImageFilePath(songModel.getBackgroundImageFilePath());
     
             if (fromDB.isValid()) return songRepository.save(fromDB);
         }
         return null;
     }
     @Override 
-    public Song setArtist(Integer songId, Integer artistId) {
+    public SongModel setArtist(Integer songId, Integer artistId) {
         Artist artist = artistRepository.findById(artistId).orElse(null);
         Song song = songRepository.findById(songId).orElse(null);
         if (artist != null && song != null) {
             song.setArtist(artist);
-            return songRepository.save(song);
+            return new SongModel(songRepository.save(song));
         }
         return null;
     }
     @Override 
-    public Song setAlbum(Integer songId, Integer albumId) {
+    public SongModel setAlbum(Integer songId, Integer albumId) {
         Album album = albumRepository.findById(albumId).orElse(null);
         Song song = songRepository.findById(songId).orElse(null);
         if (album != null && song != null) {
             song.setAlbum(album);
-            return songRepository.save(song);
+            return new SongModel(songRepository.save(song));
         }
         return null;
     }
     @Override
-    public Song removeAlbum(Integer songId) {
+    public SongModel removeAlbum(Integer songId) {
         Song song = songRepository.findById(songId).orElse(null);
         if (song != null) {
             song.setAlbum(null);
-            return songRepository.save(song);
+            return new SongModel(songRepository.save(song));
         }   
         return null;
     }

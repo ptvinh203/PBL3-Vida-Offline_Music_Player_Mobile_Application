@@ -6,8 +6,6 @@ import java.util.List;
 import com.pbl3.musicapplication.model.model.AlbumModel;
 import com.pbl3.musicapplication.model.model.SongModel;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,14 +31,11 @@ public class Album {
     @Setter(AccessLevel.PRIVATE)
     private Integer albumId;
 
-    @Nonnull
     private String albumName;
 
-    @Nullable
     @ManyToOne(targetEntity = Artist.class)
     private Artist artist;
 
-    @Nullable
     @OneToMany(targetEntity = Song.class)
     private List<Song> songsAlbum;
     

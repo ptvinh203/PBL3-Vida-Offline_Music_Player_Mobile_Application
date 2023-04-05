@@ -7,8 +7,6 @@ import com.pbl3.musicapplication.model.entity.Album;
 import com.pbl3.musicapplication.model.entity.Artist;
 import com.pbl3.musicapplication.model.entity.Song;
 
-import jakarta.annotation.Nonnull;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,18 +18,14 @@ import lombok.Setter;
 @Getter@Setter
 @Builder
 public class ArtistModel {
-    @Setter(AccessLevel.PRIVATE)
     private Integer artistId;
     private String artistName;
-    private String artistImagePath;
-
     private List<AlbumModel> albums;
     private List<SongModel> singleAndEpSongs;
 
     public ArtistModel(Artist entity) {
         this.artistId = entity.getArtistId();
         this.artistName = entity.getArtistName();
-        this.artistImagePath = entity.getArtistImagePath();
         
         if (entity.getAlbums() != null) {
             List<AlbumModel> tmp = new ArrayList<>();
@@ -75,28 +69,5 @@ public class ArtistModel {
             }
         }
         return null;
-    }
-    public void updateAlbums() {
-        if (this.albums != null) {
-            for (AlbumModel albumModel : this.albums) {
-                albumModel.setArtist(this);
-                albumModel.updateSongsAlbum();
-            }
-        }
-    }
-    public void updateSingleAndEpSongs() {
-        if (this.singleAndEpSongs != null) {
-            for (SongModel songModel : this.singleAndEpSongs) {
-                songModel.setArtist(this);
-                System.out.println(1);
-            }
-        }
-    }
-    public void convertToAlbumModels(@Nonnull List<Album> albums) {
-        List<AlbumModel> tmp = new ArrayList<>();
-        for (Album album : albums) {
-            tmp.add(new AlbumModel(album));
-        }
-        this.albums = tmp;
     }
 }

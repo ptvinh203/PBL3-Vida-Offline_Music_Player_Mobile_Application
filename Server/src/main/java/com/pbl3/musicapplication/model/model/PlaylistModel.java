@@ -6,8 +6,6 @@ import java.util.List;
 import com.pbl3.musicapplication.model.entity.Playlist;
 import com.pbl3.musicapplication.model.entity.Song;
 
-import jakarta.annotation.Nonnull;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +17,6 @@ import lombok.Setter;
 @Getter@Setter
 @Builder
 public class PlaylistModel {
-    @Setter(AccessLevel.PRIVATE)
     private Integer playlistId;
     private String playlistName;
     private List<SongModel> songsPlaylist;
@@ -35,12 +32,5 @@ public class PlaylistModel {
             }
             this.songsPlaylist = tmp;
         }
-    }
-    public void convertToSongModels(@Nonnull List<Song> songs) {
-        List<SongModel> tmp = new ArrayList<>();
-        for (Song song : songs) {
-            tmp.add(new SongModel(song));
-        }
-        this.songsPlaylist = tmp;
     }
 }

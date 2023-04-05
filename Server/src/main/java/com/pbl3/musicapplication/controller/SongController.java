@@ -70,7 +70,7 @@ public class SongController {
 
             songService.updateAlbum(albumId, song.getSongId(), true);
             songService.setAlbum(song.getSongId(), albumId);
-            songService.setArtist(song.getSongId(), albumService.findById(albumId).getArtist().getArtistId());
+            songService.setArtist(song.getSongId(), albumService.getArtistAlbum(albumId).getArtistId());
             return ResponseEntity.ok(new SongModel(song));
         }
         else return ResponseEntity.badRequest().body(null);

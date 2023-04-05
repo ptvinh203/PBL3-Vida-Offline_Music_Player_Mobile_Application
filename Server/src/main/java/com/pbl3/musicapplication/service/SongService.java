@@ -14,9 +14,9 @@ public interface SongService extends GenericService<Song, SongModel>{
     List<String> getSongNameList();
     Boolean updateArtist(Integer artistId, Integer songId, Boolean checkAdd);
     Boolean updateAlbum(Integer albumId, Integer songId, Boolean checkAdd);
-    Song setArtist(@Nonnull Integer songId, @Nonnull Integer artistId);
-    Song setAlbum(@Nonnull Integer songId, @Nonnull Integer albumId);
-    Song removeAlbum(@Nonnull Integer songId);
+    SongModel setArtist(@Nonnull Integer songId, @Nonnull Integer artistId);
+    SongModel setAlbum(@Nonnull Integer songId, @Nonnull Integer albumId);
+    SongModel removeAlbum(@Nonnull Integer songId);
     ArtistModel getArtistSong(Integer songId);
     AlbumModel getAlbumSong(Integer songId);
 }
