@@ -52,7 +52,6 @@ public class SongController {
             if (song == null) {
                 return ResponseEntity.badRequest().body(null);
             }
-
             songService.updateArtist(artistId, song.getSongId(), true);
             songService.setArtist(song.getSongId(), artistId);
             return ResponseEntity.ok(new SongModel(song));

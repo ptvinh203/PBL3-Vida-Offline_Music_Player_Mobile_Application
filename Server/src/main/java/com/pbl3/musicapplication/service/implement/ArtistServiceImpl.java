@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.pbl3.musicapplication.model.entity.Album;
 import com.pbl3.musicapplication.model.entity.Artist;
+import com.pbl3.musicapplication.model.entity.MyFile;
 import com.pbl3.musicapplication.model.entity.Song;
 import com.pbl3.musicapplication.model.model.AlbumModel;
 import com.pbl3.musicapplication.model.model.ArtistModel;
 import com.pbl3.musicapplication.model.model.SongModel;
 import com.pbl3.musicapplication.model.repository.AlbumRepository;
 import com.pbl3.musicapplication.model.repository.ArtistRepository;
+import com.pbl3.musicapplication.model.repository.MyFileRepository;
 import com.pbl3.musicapplication.model.repository.SongRepository;
 import com.pbl3.musicapplication.service.AlbumService;
 import com.pbl3.musicapplication.service.ArtistService;
@@ -31,6 +33,9 @@ public class ArtistServiceImpl implements ArtistService{
 
     @Autowired
     private SongRepository songRepository;
+
+    @Autowired
+    private MyFileRepository myFileRepository;
 
     @Autowired
     private AlbumService albumService;
@@ -231,4 +236,14 @@ public class ArtistServiceImpl implements ArtistService{
         return null;
     }
 
+    @Override
+    public ArtistModel setArtistImage(@Nonnull Integer artistId, @Nonnull Integer artistImageFileId) {
+        Artist artist = artistRepository.findById(artistId).orElse(null);
+        MyFile artistImageFile = myFileRepository.findById(artistImageFileId).orElse(null);
+        if (artist != null && artistImageFile != null) {
+            artist.setArtistImage(artistImageFile);
+            return new ArtistModel(artistRepository.save(artist));
+        }
+        return null;
+    }
 }

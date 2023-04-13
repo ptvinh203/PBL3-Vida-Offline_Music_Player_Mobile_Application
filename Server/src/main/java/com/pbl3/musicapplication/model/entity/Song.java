@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.pbl3.musicapplication.model.model.SongModel;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -40,8 +41,11 @@ public class Song {
     @Temporal(TemporalType.DATE)
     private Date downloadDate;
 
-    private String musicFilePath;
-    private String backgroundImageFilePath;
+    @OneToOne(targetEntity = MyFile.class, cascade = CascadeType.REMOVE)
+    private MyFile musicFile;
+
+    @OneToOne(targetEntity = MyFile.class, cascade = CascadeType.REMOVE)
+    private MyFile backgroundImageFile;
 
     
     public Song(SongModel songModel) {

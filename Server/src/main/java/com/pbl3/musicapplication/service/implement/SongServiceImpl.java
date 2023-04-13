@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.pbl3.musicapplication.model.entity.Album;
 import com.pbl3.musicapplication.model.entity.Artist;
+import com.pbl3.musicapplication.model.entity.MyFile;
 import com.pbl3.musicapplication.model.entity.Song;
 import com.pbl3.musicapplication.model.model.AlbumModel;
 import com.pbl3.musicapplication.model.model.ArtistModel;
 import com.pbl3.musicapplication.model.model.SongModel;
 import com.pbl3.musicapplication.model.repository.AlbumRepository;
 import com.pbl3.musicapplication.model.repository.ArtistRepository;
+import com.pbl3.musicapplication.model.repository.MyFileRepository;
 import com.pbl3.musicapplication.model.repository.SongRepository;
 import com.pbl3.musicapplication.service.SongService;
 
@@ -29,6 +31,10 @@ public class SongServiceImpl implements SongService{
     
     @Autowired
     private AlbumRepository albumRepository;
+
+    @Autowired
+    private MyFileRepository myFileRepository;
+    
     @Override
     public Song create(@Nonnull SongModel songModel) {
         Song song = new Song(songModel);
@@ -64,6 +70,22 @@ public class SongServiceImpl implements SongService{
         Song song = songRepository.findById(songId).orElse(null);
         if (album != null && song != null) {
             song.setAlbum(album);
+            return new SongModel(songRepository.save(song));
+        }
+        return null;
+    }
+    @Override
+    public SongModel setSongFile(Integer songId, Integer fileId) {
+        Song song = songRepository.findById(songId).orElse(null);
+        MyFile myFile = myFileRepository.findById(fileId).orElse(null);
+        if (song != null && myFile != null) {
+            String[] arr = myFile.getFileType().split("/");
+            if (arr[0].compareToIgnoreCase("audio") == 0) {
+                song.setMusicFile(myFile);
+            }
+            else if (arr[0].compareToIgnoreCase("image") == 0) {
+                song.setBackgroundImageFile(myFile);
+            }
             return new SongModel(songRepository.save(song));
         }
         return null;

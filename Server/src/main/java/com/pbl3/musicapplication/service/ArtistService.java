@@ -14,4 +14,5 @@ public interface ArtistService extends GenericService<Artist, ArtistModel>{
     Boolean updateSingleAndEpSongs(Integer artistId);
     ArtistModel findAlbum(@Nonnull Integer albumId);
     ArtistModel findSingleAndEpSong(@Nonnull Integer songId);
+    ArtistModel setArtistImage(@Nonnull Integer artistId, @Nonnull Integer artistImageFileId);
 }

@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +34,9 @@ public class Artist {
     private Integer artistId;
     
     private String artistName;
-    private String artistImagePath;
+
+    @OneToOne(targetEntity = MyFile.class, cascade = CascadeType.REMOVE)
+    private MyFile artistImage;
 
     @OneToMany(targetEntity = Album.class, cascade = CascadeType.REMOVE)
     private List<Album> albums;
