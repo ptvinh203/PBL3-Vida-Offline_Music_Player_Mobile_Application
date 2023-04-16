@@ -1,0 +1,54 @@
+PODS:
+  - audio_session (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - just_audio (0.0.1):
+    - Flutter
+  - on_audio_query (0.0.1):
+    - Flutter
+    - SwiftyBeaver
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - permission_handler_apple (9.0.4):
+    - Flutter
+  - SwiftyBeaver (1.9.5)
+
+DEPENDENCIES:
+  - audio_session (from `.symlinks/plugins/audio_session/ios`)
+  - Flutter (from `Flutter`)
+  - just_audio (from `.symlinks/plugins/just_audio/ios`)
+  - on_audio_query (from `.symlinks/plugins/on_audio_query/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+
+SPEC REPOS:
+  trunk:
+    - SwiftyBeaver
+
+EXTERNAL SOURCES:
+  audio_session:
+    :path: ".symlinks/plugins/audio_session/ios"
+  Flutter:
+    :path: Flutter
+  just_audio:
+    :path: ".symlinks/plugins/just_audio/ios"
+  on_audio_query:
+    :path: ".symlinks/plugins/on_audio_query/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
+
+SPEC CHECKSUMS:
+  audio_session: 4f3e461722055d21515cf3261b64c973c062f345
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
+  on_audio_query: fb9ef94de33842b22417f8b55350ebf2ed80190e
+  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  SwiftyBeaver: 84069991dd5dca07d7069100985badaca7f0ce82
+
+PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
+
+COCOAPODS: 1.12.0
