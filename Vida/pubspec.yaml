@@ -14,6 +14,9 @@ dependencies:
   just_audio: ^0.9.32
   on_audio_query: ^2.7.0
   permission_handler: ^10.2.0
+  flutter_svg: ^0.22.0
+  intl: ^0.17.0
+  animations: ^2.0.1
 
 
 dev_dependencies:
@@ -23,4 +26,20 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/image/
+    - assets/icon/
+
+  fonts:
+    - family: SF Pro
+      fonts:
+        - asset: assets/font/SF-Pro-Display-Black.ttf
+        - asset: assets/font/SF-Pro-Display-Bold.ttf
+        - asset: assets/font/SF-Pro-Display-Light.ttf
+        - asset: assets/font/SF-Pro-Display-Medium.ttf
+        - asset: assets/font/SF-Pro-Display-Regular.ttf
+        - asset: assets/font/SF-Pro-Display-Semibold.ttf
+        - asset: assets/font/SF-Pro-Display-Thin.ttf
+        - asset: assets/font/SF-Pro-Display-Ultralight.ttf
  

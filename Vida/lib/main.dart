@@ -1,3 +1,4 @@
+import 'package:Vida/views/auth/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:Vida/views/home.dart';
@@ -14,7 +15,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: LoginPage(),
       title: 'Beats',
       theme: ThemeData(
           appBarTheme:
