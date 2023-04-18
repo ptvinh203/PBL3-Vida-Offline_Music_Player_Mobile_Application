@@ -1,4 +1,4 @@
-name: pbl03_final
+name: Vida
 description: A new Flutter project.
 publish_to: 'none'
 version: 0.1.0
@@ -14,6 +14,7 @@ dependencies:
   just_audio: ^0.9.32
   on_audio_query: ^2.7.0
   permission_handler: ^10.2.0
+
 
 dev_dependencies:
   flutter_test:

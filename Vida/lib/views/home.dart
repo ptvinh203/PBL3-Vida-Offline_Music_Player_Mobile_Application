@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:pbl03_final/consts/colors.dart';
-import 'package:pbl03_final/consts/text_style.dart';
-import 'package:pbl03_final/controllers/player_controller.dart';
-import 'package:pbl03_final/views/player.dart';
+import 'package:Vida/consts/colors.dart';
+import 'package:Vida/consts/text_style.dart';
+import 'package:Vida/controllers/player_controller.dart';
+import 'package:Vida/views/player.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});

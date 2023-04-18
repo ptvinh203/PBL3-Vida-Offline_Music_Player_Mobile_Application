@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:pbl03_final/consts/colors.dart';
-import 'package:pbl03_final/consts/text_style.dart';
-import 'package:pbl03_final/controllers/player_controller.dart';
+import 'package:Vida/consts/colors.dart';
+import 'package:Vida/consts/text_style.dart';
+import 'package:Vida/controllers/player_controller.dart';
 
 class Player extends StatelessWidget {
   final List<SongModel> songList;
@@ -13,6 +13,7 @@ class Player extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<PlayerController>();
+    var isLooping = false;
     return Scaffold(
       backgroundColor: flutterPurple,
       appBar: AppBar(),
@@ -99,7 +100,7 @@ class Player extends StatelessWidget {
                                     value: controller.value.value,
                                     inactiveColor: bgcolor,
                                     thumbColor: thumbColor,
-                                    activeColor: sliderColor,
+                                    activeColor: flutterPurple,
                                     min: const Duration(seconds: 0)
                                         .inSeconds
                                         .toDouble(),
@@ -108,6 +109,17 @@ class Player extends StatelessWidget {
                                       controller.changeDurationToSecond(
                                           newValue.toInt());
                                       newValue = newValue;
+                                      //if ((controller. -
+                                      //    controller.max.value).abs() < 1e-5) {
+                                      //  controller.playSong(
+                                      //      songList[(controller
+                                      //                      .playIndex.value +
+                                      //                  1) %
+                                      //              songList.length]
+                                      //          .uri,
+                                      //      (controller.playIndex.value + 1) %
+                                      //          songList.length);
+                                      //}
                                     })),
                             Text(controller.duration.value,
                                 style: ourStyle(color: bgDarkColor))
@@ -116,7 +128,7 @@ class Player extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 36,
+                      height: 40,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -181,9 +193,20 @@ class Player extends StatelessWidget {
                             )),
                         IconButton(
                             onPressed: () {
-                              controller.audioPlayer.setLoopMode(LoopMode.one);
+                              if (controller.audioPlayer.loopMode ==
+                                  LoopMode.off)
+                                controller.audioPlayer
+                                    .setLoopMode(LoopMode.one);
+                              else
+                                controller.audioPlayer
+                                    .setLoopMode(LoopMode.off);
                             },
-                            icon: Icon(Icons.loop, size: 25, color: bar)),
+                            icon: Icon(
+                                controller.audioPlayer.loopMode == LoopMode.off
+                                    ? Icons.loop
+                                    : Icons.access_alarm,
+                                size: 25,
+                                color: bar)),
                       ],
                     )
                   ],

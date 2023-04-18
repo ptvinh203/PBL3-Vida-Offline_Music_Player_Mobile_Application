@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pbl03_final/views/home.dart';
-import 'package:pbl03_final/views/player.dart';
+import 'package:Vida/views/home.dart';
+import 'package:Vida/views/player.dart';
 
 void main() {
   runApp(const MainApp());
@@ -22,5 +22,3 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-
-

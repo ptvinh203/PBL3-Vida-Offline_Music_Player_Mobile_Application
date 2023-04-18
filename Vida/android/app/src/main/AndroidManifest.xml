@@ -5,8 +5,9 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
    <application
-        android:label="pbl03_final"
+        android:label="Vida"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
