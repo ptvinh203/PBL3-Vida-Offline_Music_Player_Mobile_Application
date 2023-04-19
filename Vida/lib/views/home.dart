@@ -40,6 +40,9 @@ class Home extends StatelessWidget {
               sortType: null,
               uriType: UriType.EXTERNAL),
           builder: (BuildContext context, snapshot) {
+            String searchValue = '';
+            List<String> listTitle = List.generate(snapshot.data?.length ?? 0,
+                (index) => snapshot.data![index].title);
             print("Debug list view");
             if (snapshot.data == null) {
               return const Center(

@@ -42,8 +42,10 @@ class Player extends StatelessWidget {
                   child: QueryArtworkWidget(
                     id: songList[controller.playIndex.value].id,
                     type: ArtworkType.AUDIO,
-                    artworkHeight: double.infinity,
-                    artworkWidth: double.infinity,
+                    artworkQuality: FilterQuality.high,
+                    artworkHeight: 350,
+                    artworkWidth: 350,
+                    quality: 100,
                     nullArtworkWidget: const Icon(Icons.music_note,
                         size: 48, color: bgDarkColor),
                   ),
@@ -164,8 +166,6 @@ class Player extends StatelessWidget {
                                       controller.audioPlayer.play();
                                       controller.isPlaying(true);
                                     }
-
-                                    
                                   },
                                   icon: controller.isPlaying.value
                                       ? const Icon(

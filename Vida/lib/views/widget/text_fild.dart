@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:Vida/consts/colors.dart';
 import 'package:Vida/consts/text_style_log.dart';
 
 Widget textFild({
   required String hintTxt,
-  required String image,
   required TextEditingController controller,
   bool isObs = false,
   TextInputType? keyBordType,
+  required IconData image,
 }) {
   return Container(
     height: 70.0,
@@ -39,11 +38,16 @@ Widget textFild({
             style: headline2,
           ),
         ),
-        SvgPicture.asset(
-          'assets/icon/$image',
-          height: 20.0,
-          color: grayText,
-        )
+        CupertinoButton(
+          padding: EdgeInsets.zero,
+          minSize: 20,
+          child: Icon(
+            image,
+            size: 20,
+            color: grayText,
+          ),
+          onPressed: () {},
+        ),
       ],
     ),
   );

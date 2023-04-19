@@ -1,4 +1,5 @@
 import 'package:Vida/views/home.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Vida/consts/colors.dart';
 import 'package:Vida/consts/space.dart';
@@ -40,12 +41,12 @@ class _LoginPageState extends State<LoginPage> {
               SpaceVH(height: 60.0),
               textFild(
                 controller: phoneNum,
-                image: 'user.svg',
+                image: CupertinoIcons.person,
                 hintTxt: 'Phone Number',
               ),
               textFild(
                 controller: userPass,
-                image: 'hide.svg',
+                image: CupertinoIcons.lock,
                 isObs: true,
                 hintTxt: 'Password',
               ),

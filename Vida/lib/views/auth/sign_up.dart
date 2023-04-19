@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Vida/consts/colors.dart';
@@ -41,26 +42,26 @@ class _SignUpPageState extends State<SignUpPage> {
               SpaceVH(height: 60.0),
               textFild(
                 controller: userName,
-                image: 'user.svg',
+                image: CupertinoIcons.person,
                 keyBordType: TextInputType.name,
                 hintTxt: 'Full Name',
               ),
               textFild(
                 controller: userEmail,
                 keyBordType: TextInputType.emailAddress,
-                image: 'user.svg',
+                image: CupertinoIcons.person,
                 hintTxt: 'Email Address',
               ),
               textFild(
                 controller: userPh,
-                image: 'user.svg',
+                image: CupertinoIcons.phone,
                 keyBordType: TextInputType.phone,
                 hintTxt: 'Phone Number',
               ),
               textFild(
                 controller: userPass,
                 isObs: true,
-                image: 'hide.svg',
+                image: CupertinoIcons.lock,
                 hintTxt: 'Password',
               ),
               SpaceVH(height: 80.0),
