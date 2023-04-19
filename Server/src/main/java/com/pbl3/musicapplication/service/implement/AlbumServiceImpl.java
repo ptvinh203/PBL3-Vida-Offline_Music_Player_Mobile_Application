@@ -159,18 +159,24 @@ public class AlbumServiceImpl implements AlbumService{
         Album album = albumRepository.findById(albumId).orElse(null);
         if (artist != null && album != null) {
             List<Album> list = artist.getAlbums();
-            if (checkAdd) list.add(album);
-            else {
-                list.remove(album);
-                List<Song> lSongs = artist.getSingleAndEpSongs();
-                for (Song song : album.getSongsAlbum()) {
-                    Song tmp = songRepository.findById(song.getSongId()).orElse(null);
-                    if (tmp != null) {
-                        lSongs.add(tmp);
+            boolean contains = false;
+            for (Album tmp : list) {
+                if (tmp.getAlbumId().compareTo(albumId) == 0) {
+                    if (!checkAdd) list.remove(tmp);
+                    contains = true;
+
+                    List<Song> lSongs = artist.getSingleAndEpSongs();
+                    for (Song song : album.getSongsAlbum()) {
+                        Song tmp1 = songRepository.findById(song.getSongId()).orElse(null);
+                        if (tmp1 != null) {
+                            lSongs.add(tmp1);
+                        }
                     }
+                    artist.setSingleAndEpSongs(lSongs);
+                    break;
                 }
-                artist.setSingleAndEpSongs(lSongs);
             }
+            if (!contains && checkAdd) list.add(album);
 
             artist.setAlbums(list);
             artistRepository.save(artist);
@@ -185,7 +191,10 @@ public class AlbumServiceImpl implements AlbumService{
         if (album != null && album.getSongsAlbum() != null) {
             List<Song> songs = album.getSongsAlbum();
             for (Song song : songs) {
-                if (checkAdd) songService.setAlbum(song.getSongId(), albumId);
+                if (checkAdd) {
+                    songService.setAlbum(song.getSongId(), albumId);
+                    songService.setArtist(song.getSongId(), album.getArtist().getArtistId());
+                }
                 else songService.removeAlbum(song.getSongId());
             }
             return true;

@@ -9,6 +9,7 @@ import com.pbl3.musicapplication.model.model.SongModel;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,13 +36,13 @@ public class Artist {
     
     private String artistName;
 
-    @OneToOne(targetEntity = MyFile.class, cascade = CascadeType.REMOVE)
+    @OneToOne(targetEntity = MyFile.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private MyFile artistImage;
 
-    @OneToMany(targetEntity = Album.class, cascade = CascadeType.REMOVE)
+    @OneToMany(targetEntity = Album.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Album> albums;
 
-    @ManyToMany(targetEntity = Song.class, cascade = CascadeType.REMOVE)
+    @ManyToMany(targetEntity = Song.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Song> singleAndEpSongs;
 
     public Artist(ArtistModel artistModel) {

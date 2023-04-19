@@ -80,41 +80,6 @@ public class PlaylistServiceImpl implements PlaylistService {
         List<PlaylistModel> listPlaylistModels = new ArrayList<>();
         for (Playlist playlist : playlistRepository.findAll()) {
             PlaylistModel playlistModel = new PlaylistModel(playlist);
-
-            // List<SongModel> lSongModels = new ArrayList<>();
-            // List<ArtistModel> lArtists = new ArrayList<>();
-            // List<Integer> lArtistsId = new ArrayList<>();
-            // for (Song song : playlist.getSongsPlaylist()) {
-            //     Artist artist = artistRepository.findById(song.getArtist().getArtistId()).orElse(null);
-            //     if (!lArtistsId.contains(artist.getArtistId()) && artist != null) {
-            //         ArtistModel artistModel = new ArtistModel(artist);
-            //         artistModel.updateAlbums();
-            //         artistModel.updateSingleAndEpSongs();
-
-            //         lArtists.add(artistModel);
-            //         lArtistsId.add(artistModel.getArtistId());
-            //         if (song.getAlbum() == null) {
-            //             lSongModels.add(artistModel.findSongById(song.getSongId(), true));
-            //         }
-            //         else
-            //             lSongModels.add(artistModel.findSongById(song.getSongId(), false));
-            //     }
-            //     else {
-            //         for (ArtistModel x : lArtists) {
-            //             if (x.getArtistId().compareTo(artist.getArtistId()) == 0) {
-            //                 if (song.getAlbum() == null) {
-            //                     lSongModels.add(x.findSongById(song.getSongId(), true));
-            //                 }
-            //                 else
-            //                     lSongModels.add(x.findSongById(song.getSongId(), false));
-            //                 break;
-            //             }
-            //         }
-
-            //     }
-            // }
-
-            // playlistModel.setSongsPlaylist(lSongModels);
             listPlaylistModels.add(playlistModel);
         }
         return listPlaylistModels;
@@ -125,24 +90,6 @@ public class PlaylistServiceImpl implements PlaylistService {
         if (fromDB == null) return null;
 
         PlaylistModel playlistModel = new PlaylistModel(fromDB);
-
-        // List<SongModel> lSongModels = new ArrayList<>();
-        // for (Song song : fromDB.getSongsPlaylist()) {
-        //     Artist artist = artistRepository.findById(song.getArtist().getArtistId()).orElse(null);
-        //     if (artist != null) {
-        //         ArtistModel artistModel = new ArtistModel(artist);
-        //         artistModel.updateAlbums();
-        //         artistModel.updateSingleAndEpSongs();
-
-        //         if (song.getAlbum() == null) {
-        //             lSongModels.add(artistModel.findSongById(song.getSongId(), true));
-        //         }
-        //         else
-        //             lSongModels.add(artistModel.findSongById(song.getSongId(), false));
-        //     }
-        // }
-
-        // playlistModel.setSongsPlaylist(lSongModels);
         return playlistModel;
     }
 

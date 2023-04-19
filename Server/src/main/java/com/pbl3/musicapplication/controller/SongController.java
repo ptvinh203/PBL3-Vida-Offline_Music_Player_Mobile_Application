@@ -89,6 +89,8 @@ public class SongController {
         else {
             songService.updateAlbum(albumModel.getAlbumId(), id, false);
         }
+        songService.updatePlaylist(id, false);
+        
         songService.deleteById(id);
         return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
