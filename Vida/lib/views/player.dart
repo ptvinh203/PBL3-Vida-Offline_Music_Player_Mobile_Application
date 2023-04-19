@@ -164,6 +164,8 @@ class Player extends StatelessWidget {
                                       controller.audioPlayer.play();
                                       controller.isPlaying(true);
                                     }
+
+                                    
                                   },
                                   icon: controller.isPlaying.value
                                       ? const Icon(
