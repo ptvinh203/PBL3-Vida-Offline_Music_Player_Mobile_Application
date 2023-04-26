@@ -14,10 +14,14 @@ dependencies:
   just_audio: ^0.9.32
   on_audio_query: ^2.7.0
   permission_handler: ^10.2.0
-  
   intl: ^0.17.0
   animations: ^2.0.1
   easy_search_bar: ^2.4.2
+  ionicons: ^0.2.2
+  http: ^0.13.5
+  pull_to_refresh: ^2.0.0
+
+
   
 
 
@@ -31,17 +35,14 @@ flutter:
 
   assets:
     - assets/image/
-    
-
+  
   fonts:
-    - family: SF Pro
+    - family: Comfortaa
       fonts:
-        - asset: assets/font/SF-Pro-Display-Black.ttf
-        - asset: assets/font/SF-Pro-Display-Bold.ttf
-        - asset: assets/font/SF-Pro-Display-Light.ttf
-        - asset: assets/font/SF-Pro-Display-Medium.ttf
-        - asset: assets/font/SF-Pro-Display-Regular.ttf
-        - asset: assets/font/SF-Pro-Display-Semibold.ttf
-        - asset: assets/font/SF-Pro-Display-Thin.ttf
-        - asset: assets/font/SF-Pro-Display-Ultralight.ttf
+        - asset: assets/font/Comfortaa-VariableFont_wght.ttf
+        - asset: assets/font/Comfortaa-Bold.ttf
+        - asset: assets/font/Comfortaa-Light.ttf
+        - asset: assets/font/Comfortaa-Medium.ttf
+        - asset: assets/font/Comfortaa-Regular.ttf
+        - asset: assets/font/Comfortaa-Semibold.ttf
  

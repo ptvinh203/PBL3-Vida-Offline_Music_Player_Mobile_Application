@@ -1,12 +1,14 @@
-import 'package:Vida/views/home.dart';
+import 'package:Vida/views/offline_page.dart';
+import 'package:Vida/views/my_bottom_navigation_bar.dart';
+import 'package:Vida/views/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Vida/consts/colors.dart';
 import 'package:Vida/consts/space.dart';
 import 'package:Vida/consts/text_style_log.dart';
-import 'package:Vida/views/auth/sign_up.dart';
-import 'package:Vida/views/widget/main_button.dart';
-import 'package:Vida/views/widget/text_fild.dart';
+import 'package:Vida/views/sign_up.dart';
+import 'package:Vida/widget/main_button.dart';
+import 'package:Vida/widget/text_fild.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
@@ -42,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
               textFild(
                 controller: phoneNum,
                 image: CupertinoIcons.person,
-                hintTxt: 'Phone Number',
+                hintTxt: 'User name',
               ),
               textFild(
                 controller: userPass,
@@ -71,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Mainbutton(
                       onTap: () {
-                        Get.to(() => Home());
+                        Get.to(() => ProfilePage());
                       },
                       text: 'Sign in',
                       btnColor: purpButton,

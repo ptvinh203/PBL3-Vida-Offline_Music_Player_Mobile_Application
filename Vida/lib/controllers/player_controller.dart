@@ -1,13 +1,16 @@
-import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:permission_handler/permission_handler.dart';
+
+
 
 class PlayerController extends GetxController {
   final audioQuery = new OnAudioQuery();
   final audioPlayer = new AudioPlayer();
   bool _hasPermission = false;
+  var isLoveds = <RxBool>[];
+  var isLoved = false.obs;
   var playIndex = 0.obs;
   var isPlaying = false.obs;
   var duration = ''.obs;
