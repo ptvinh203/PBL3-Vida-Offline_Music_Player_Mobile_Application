@@ -8,12 +8,13 @@ import 'package:Vida/controllers/player_controller.dart';
 
 class Player extends StatelessWidget {
   final List<SongModel> songList;
+
   const Player({super.key, required this.songList});
 
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<PlayerController>();
-    var isLooping = false;
+
     return Scaffold(
       backgroundColor: flutterPurple,
       appBar: AppBar(),
@@ -30,9 +31,9 @@ class Player extends StatelessWidget {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black54,
+                        color: Colors.black87,
                         blurRadius: 30,
-                        offset: Offset(12, 20), // Shadow position
+                        offset: Offset(14, 18), // Shadow position
                       ),
                     ],
                   ),
@@ -42,8 +43,10 @@ class Player extends StatelessWidget {
                   child: QueryArtworkWidget(
                     id: songList[controller.playIndex.value].id,
                     type: ArtworkType.AUDIO,
-                    artworkHeight: double.infinity,
-                    artworkWidth: double.infinity,
+                    artworkQuality: FilterQuality.high,
+                    artworkHeight: 350,
+                    artworkWidth: 350,
+                    quality: 100,
                     nullArtworkWidget: const Icon(Icons.music_note,
                         size: 48, color: bgDarkColor),
                   ),
@@ -58,9 +61,9 @@ class Player extends StatelessWidget {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black54.withOpacity(0.6),
-                      blurRadius: 30,
-                      offset: Offset(14, 20), // Shadow position
+                      color: Colors.black87.withOpacity(0.6),
+                      blurRadius: 35,
+                      offset: Offset(20, 20), // Shadow position
                     ),
                   ],
                   borderRadius: BorderRadius.vertical(
@@ -164,8 +167,6 @@ class Player extends StatelessWidget {
                                       controller.audioPlayer.play();
                                       controller.isPlaying(true);
                                     }
-
-                                    
                                   },
                                   icon: controller.isPlaying.value
                                       ? const Icon(

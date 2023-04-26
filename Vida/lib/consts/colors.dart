@@ -12,6 +12,7 @@ const Color white = Color(0xFFFFFFFF);
 const Color black = Color(0xFF000000);
 
 const Color blackBG = Color(0xFF181A20);
+//const Color blackBG = Colors.black;
 const Color blackTextFild = Color(0xFF262A34);
 
 const List<Color> gradient = [
@@ -32,6 +33,9 @@ final bar = Colors.black;
 const buttonColor = Colors.blue;
 const bgDarkColor = Colors.black;
 
+final littleWhite = Colors.white70;
+final littleBlack = Colors.black12;
+
 final Shader linearGradient = const LinearGradient(
   colors: <Color>[
     Color(0xffDA44bb),
@@ -44,3 +48,4 @@ final Shader linearGradient = const LinearGradient(
 
 final flutterPurple = Color.fromARGB(255, 178, 164, 255);
 final homeBGColor = Color.fromARGB(255, 97, 85, 166);
+final playerColor = Color.fromARGB(255, 180, 120, 255);

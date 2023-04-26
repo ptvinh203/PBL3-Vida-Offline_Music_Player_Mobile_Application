@@ -1,7 +1,10 @@
-import 'package:Vida/views/auth/login_page.dart';
+import 'package:Vida/views/download_page.dart';
+import 'package:Vida/views/login_page.dart';
+import 'package:Vida/views/my_bottom_navigation_bar.dart';
+import 'package:Vida/views/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:Vida/views/home.dart';
+import 'package:Vida/views/offline_page.dart';
 import 'package:Vida/views/player.dart';
 
 void main() {
@@ -15,8 +18,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
-      title: 'Beats',
+      home: MyBottomNavigationBar(),
+      title: 'Vida',
       theme: ThemeData(
           appBarTheme:
               AppBarTheme(backgroundColor: Colors.transparent, elevation: 0)),
