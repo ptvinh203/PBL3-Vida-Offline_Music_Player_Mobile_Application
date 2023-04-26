@@ -16,8 +16,8 @@ import com.pbl3.musicapplication.algorithm.TrieService;
 
 @Service
 public class TrieServiceImpl implements TrieService{
-    private static final String ARTIST_FILE_URL = "../storage/ArtistTrieStorage.txt";
-    private static final String SONG_FILE_URL = "../storage/SongTrieStorage.txt";
+    private static final String ARTIST_FILE_URL = "src/main/java/com/pbl3/musicapplication/algorithm/storage/ArtistTrieStorage.txt";
+    private static final String SONG_FILE_URL = "src/main/java/com/pbl3/musicapplication/algorithm/storage/SongTrieStorage.txt";
 
     @Override
     public Trie buildArtistTrie() throws IOException, ClassNotFoundException{

@@ -1,6 +1,8 @@
 package com.pbl3.musicapplication;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -55,23 +57,14 @@ class MusicapplicationApplicationTests {
 
 	@Test
 	public void test2() {
-		String ARTIST_FILE_URL = "/src/main/java/com/pbl3/musicapplication/algorithm/storage/ArtistTrieStorage.txt";
-		File file = new File(ARTIST_FILE_URL);
-		System.out.println(file.getParent());
+		String ARTIST_FILE_URL = "src/main/java/com/pbl3/musicapplication/algorithm/storage/ArtistTrieStorage.txt";
+		Path path = Paths.get(ARTIST_FILE_URL);
+		
+
+		File file = path.toFile();
+
 		System.out.println(file.getAbsolutePath());
 		System.out.println(file.isFile());
-
-		// Trie trie = new Trie();
-        // trie.insert("apple");
-        // trie.insert("banana");
-        // trie.insert("cat");
-        // trie.insert("caterpillar");
-        // trie.insert("call");
-
-        // List<String> completions = trie.autocomplete("ca");
-        // for (String completion : completions) {
-        //     System.out.println(completion);
-        // }
 	}
 
 }
