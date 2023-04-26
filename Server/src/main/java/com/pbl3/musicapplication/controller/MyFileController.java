@@ -74,15 +74,17 @@ public class MyFileController {
         httpHeaders.setContentDisposition(ContentDisposition.builder("attachment").filename(myFile.getFileName(), StandardCharsets.UTF_8).build());
 
         return ResponseEntity.ok()
-            .contentType(MediaType.parseMediaType(myFile.getFileType()))
+            // .contentType(MediaType.parseMediaType(myFile.getFileType()))
             .headers(httpHeaders)
             .body(new ByteArrayResource(myFile.getFileData()));
     }
 
     @DeleteMapping("/{fileId}")
     public ResponseEntity<?> deleteFile(@PathVariable Integer fileId) {
-        myFileService.deleteById(fileId);  
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (myFileService.findById(fileId) == null)
+            return new ResponseEntity<>("Not found object", HttpStatus.NO_CONTENT);
+        myFileService.deleteById(fileId);
+        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT); 
     }
 
     @PutMapping("/{fileId}")

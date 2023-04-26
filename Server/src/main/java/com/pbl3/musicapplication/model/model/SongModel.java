@@ -19,10 +19,20 @@ public class SongModel {
     private Integer songId;
     private String songName;
     private Date downloadDate;
+    private String musicFileUrl;
+    private String backgroundImageFileUrl;
 
     public SongModel (Song entity) {
         this.songId = entity.getSongId(); 
         this.songName = entity.getSongName();
         this.downloadDate = entity.getDownloadDate();
+
+        if (entity.getMusicFile() != null) {
+            this.musicFileUrl = (new MyFileModel(entity.getMusicFile()).getFileDownloadUri());
+        }
+
+        if (entity.getBackgroundImageFile() != null) {
+            this.backgroundImageFileUrl = (new MyFileModel(entity.getBackgroundImageFile()).getFileDownloadUri());
+        }
     }
 }

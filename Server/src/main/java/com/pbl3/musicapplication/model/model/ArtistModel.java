@@ -20,13 +20,18 @@ import lombok.Setter;
 public class ArtistModel {
     private Integer artistId;
     private String artistName;
+    private String artistImageUrl;
     private List<AlbumModel> albums;
     private List<SongModel> singleAndEpSongs;
 
     public ArtistModel(Artist entity) {
         this.artistId = entity.getArtistId();
         this.artistName = entity.getArtistName();
-        
+
+        if (entity.getArtistImage() != null) {
+            this.artistImageUrl = (new MyFileModel(entity.getArtistImage()).getFileDownloadUri());
+        }
+
         if (entity.getAlbums() != null) {
             List<AlbumModel> tmp = new ArrayList<>();
             for (Album album  : entity.getAlbums()) {

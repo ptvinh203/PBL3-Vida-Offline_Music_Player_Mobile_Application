@@ -54,7 +54,7 @@ public class ArtistController {
         if (artistService.findById(id) == null)
             return new ResponseEntity<>("Not found object", HttpStatus.NO_CONTENT);
         artistService.deleteById(id);
-        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT); 
     }
 
     @PutMapping("/{id}")

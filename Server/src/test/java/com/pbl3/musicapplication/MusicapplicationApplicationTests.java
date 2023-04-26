@@ -1,5 +1,6 @@
 package com.pbl3.musicapplication;
 
+import java.io.File;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -20,9 +21,6 @@ class MusicapplicationApplicationTests {
 	private ArtistRepository artistRepository;
 
 	
-
-	// @Autowired
-	// private AlbumRepository	albumRepository;
 
 	@Test
 	void contextLoads() {
@@ -55,14 +53,25 @@ class MusicapplicationApplicationTests {
 		
 	}
 
-	// @Test
-	// void test2() {
-	// 	Artist artist = artistRepository.findById(129).orElse(null);
+	@Test
+	public void test2() {
+		String ARTIST_FILE_URL = "/src/main/java/com/pbl3/musicapplication/algorithm/storage/ArtistTrieStorage.txt";
+		File file = new File(ARTIST_FILE_URL);
+		System.out.println(file.getParent());
+		System.out.println(file.getAbsolutePath());
+		System.out.println(file.isFile());
 
-	// 	Album album = albumRepository.findById(353).orElse(null);
+		// Trie trie = new Trie();
+        // trie.insert("apple");
+        // trie.insert("banana");
+        // trie.insert("cat");
+        // trie.insert("caterpillar");
+        // trie.insert("call");
 
-	// 	List<Album> lAlbums = artist.getAlbums();
-	// 	System.out.println(lAlbums.get(0).getAlbumName());
-	// }
+        // List<String> completions = trie.autocomplete("ca");
+        // for (String completion : completions) {
+        //     System.out.println(completion);
+        // }
+	}
 
 }
