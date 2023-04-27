@@ -1,5 +1,6 @@
 package com.pbl3.musicapplication.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pbl3.musicapplication.algorithm.TrieService;
 import com.pbl3.musicapplication.model.entity.Artist;
 import com.pbl3.musicapplication.model.model.ArtistModel;
 import com.pbl3.musicapplication.service.ArtistService;
@@ -23,6 +25,8 @@ import com.pbl3.musicapplication.service.ArtistService;
 public class ArtistController {
     @Autowired
     private ArtistService artistService;
+    @Autowired 
+    private TrieService trieService;
 
     @GetMapping("/{id}")
     public ResponseEntity<ArtistModel> findById(@PathVariable Integer id) {
@@ -46,14 +50,24 @@ public class ArtistController {
 
         artistService.updateAlbums(artist.getArtistId());
         artistService.updateSingleAndEpSongs(artist.getArtistId());
+
+        try {
+            trieService.insert(artist.getArtistName(), true);
+        } catch (IOException e) {}
+
         return ResponseEntity.ok(new ArtistModel(artist));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Integer id) {
-        if (artistService.findById(id) == null)
+        ArtistModel artistModel = artistService.findById(id);
+        if (artistModel == null)
             return new ResponseEntity<>("Not found object", HttpStatus.NO_CONTENT);
         artistService.deleteById(id);
+            
+        try {
+            trieService.delete(artistModel.getArtistName(), true);
+        } catch (IOException e) { }
         return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT); 
     }
 

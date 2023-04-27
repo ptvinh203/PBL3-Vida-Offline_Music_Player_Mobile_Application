@@ -1,6 +1,5 @@
 package com.pbl3.musicapplication.algorithm;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,5 +107,14 @@ public class Trie {
             autocompleteHelper(current.children.get(ch), sb, result);
             sb.deleteCharAt(sb.length() - 1);
         }
+    }
+
+    public List<String> showAll() {
+        List<String> result = new ArrayList<>();
+        for (char ch : this.root.children.keySet()) {
+            List<String> append = autocomplete(String.valueOf(ch));
+            result.addAll(append);
+        }
+        return result;
     }
 }

@@ -6,7 +6,9 @@ import java.util.List;
 public interface TrieService {
     Trie buildArtistTrie() throws IOException, ClassNotFoundException;
     Trie buildSongTrie() throws IOException, ClassNotFoundException;
-    List<String> searchArtist(Trie trie, String prefix);
-    List<String> searchSong(Trie trie, String prefix);
-    void saveToFile(Trie trie, boolean isArtist) throws IOException;
+    void insert(String newName, boolean isArtist) throws IOException;
+    void delete(String name, boolean isArtist) throws IOException;
+    List<String> search(String prefix, boolean isArtist);
+    void saveToFile(boolean isArtist) throws IOException;
+    List<String> showAll(boolean isArtist);
 }

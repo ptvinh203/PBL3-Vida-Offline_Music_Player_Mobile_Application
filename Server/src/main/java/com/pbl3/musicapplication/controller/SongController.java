@@ -1,5 +1,6 @@
 package com.pbl3.musicapplication.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pbl3.musicapplication.algorithm.TrieService;
 import com.pbl3.musicapplication.model.entity.Song;
 import com.pbl3.musicapplication.model.model.AlbumModel;
 import com.pbl3.musicapplication.model.model.ArtistModel;
@@ -31,6 +33,8 @@ public class SongController {
     private ArtistService artistService;
     @Autowired
     private AlbumService albumService;
+    @Autowired
+    private TrieService trieService;
 
     @GetMapping("/{id}")
     public ResponseEntity<SongModel> findById(@PathVariable Integer id) {
@@ -54,6 +58,11 @@ public class SongController {
             }
             songService.updateArtist(artistId, song.getSongId(), true);
             songService.setArtist(song.getSongId(), artistId);
+
+            try {
+                trieService.insert(song.getSongName(), false);
+            } catch (IOException e) {}
+
             return ResponseEntity.ok(new SongModel(song));
         }
         else return ResponseEntity.badRequest().body(null);
@@ -70,6 +79,10 @@ public class SongController {
             songService.updateAlbum(albumId, song.getSongId(), true);
             songService.setAlbum(song.getSongId(), albumId);
             songService.setArtist(song.getSongId(), albumService.getArtistAlbum(albumId).getArtistId());
+
+            try {
+                trieService.insert(song.getSongName(), false);
+            } catch (IOException e) {}
             return ResponseEntity.ok(new SongModel(song));
         }
         else return ResponseEntity.badRequest().body(null);
@@ -92,6 +105,10 @@ public class SongController {
         songService.updatePlaylist(id, false);
         
         songService.deleteById(id);
+
+        try {
+            trieService.delete(songModel.getSongName(), false);
+        } catch (IOException e) {}
         return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
 
