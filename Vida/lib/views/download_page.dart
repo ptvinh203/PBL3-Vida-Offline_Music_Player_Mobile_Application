@@ -1,4 +1,4 @@
-
+import 'package:Vida/services/song_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -16,8 +16,24 @@ class DownloadPage extends StatefulWidget {
 }
 
 class _DownloadPageState extends State<DownloadPage> {
+  List<SongModelDownload> songModelDownloadList = [];
+  SongService service = SongService();
+
   Future refresh() async {
     setState(() {});
+  }
+
+  void GetAll() {
+    service.getAll().then((value) {
+      songModelDownloadList = value;
+      refresh();
+    });
+  }
+
+  @override
+  void initState() {
+    GetAll();
+    super.initState();
   }
 
   @override
@@ -91,7 +107,10 @@ class _DownloadPageState extends State<DownloadPage> {
                           ),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(100),
-                            onTap: () async {},
+                            onTap: () async {
+                              service
+                                  .downloadSong(songModelDownloadList[index]);
+                            },
                             child: Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: Row(
