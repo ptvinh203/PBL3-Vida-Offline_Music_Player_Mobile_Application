@@ -42,7 +42,7 @@ flutter:
   fonts:
     - family: Comfortaa
       fonts:
-        - asset: assets/font/Comfortaa-VariableFont_wght.ttf
+        
         - asset: assets/font/Comfortaa-Bold.ttf
         - asset: assets/font/Comfortaa-Light.ttf
         - asset: assets/font/Comfortaa-Medium.ttf
