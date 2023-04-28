@@ -1,10 +1,11 @@
 import 'package:Vida/services/song_service.dart';
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:Vida/models/song_model_download.dart';
 import 'package:ionicons/ionicons.dart';
-
+import 'dart:io';
 import '../consts/colors.dart';
 import '../widget/custom_icon_button.dart';
 
@@ -18,16 +19,25 @@ class DownloadPage extends StatefulWidget {
 class _DownloadPageState extends State<DownloadPage> {
   List<SongModelDownload> songModelDownloadList = [];
   SongService service = SongService();
-
+  var connectionChecked = false;
+  CancelableOperation? cancelOperator = null;
   Future refresh() async {
     setState(() {});
   }
 
   void GetAll() {
-    service.getAll().then((value) {
-      songModelDownloadList = value;
+    try {
+      cancelOperator =
+          CancelableOperation.fromFuture(service.getAll().then((value) {
+        songModelDownloadList = value;
+        connectionChecked = true;
+        refresh();
+      }));
+    } on Exception catch (e) {
+      print('Error caught: : $e');
+      connectionChecked = false;
       refresh();
-    });
+    }
   }
 
   @override
@@ -38,6 +48,7 @@ class _DownloadPageState extends State<DownloadPage> {
 
   @override
   Widget build(BuildContext context) {
+    cancelOperator?.cancel();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -90,110 +101,120 @@ class _DownloadPageState extends State<DownloadPage> {
               physics: BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
               padding: const EdgeInsets.all(14),
-              children: [
-                Column(
-                  children:
-                      List.generate(songModelDownloadList.length, (index) {
-                    //if (connection??????) {
-                    //  return Center(
-                    //      child: Text(
-                    //    'no network connection',
-                    //    style: TextStyle(fontSize: 25, color: littleWhite),
-                    //  ));
-                    //} else {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: SizedBox(
-                        height: 100,
-                        width: double.maxFinite,
-                        child: Card(
-                          color: blackTextFild,
-                          elevation: 0.4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+              children: (connectionChecked == false)
+                  ? <Widget>[
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 40, left: 25),
+                          child: Image.asset(
+                            'assets/image/dash_lost_connection.png',
+                            fit: BoxFit.cover,
                           ),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(100),
-                            onTap: () async {
-                              service
-                                  .downloadSong(songModelDownloadList[index]);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(2),
-                                    decoration: BoxDecoration(
-                                        color: purpButton,
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: Image.network(
-                                        songModelDownloadList[index].imgurl,
-                                        height: 100,
-                                        width: 100,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                        ),
+                      )
+                    ]
+                  : [
+                      Column(
+                        children: List.generate(songModelDownloadList.length,
+                            (index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: SizedBox(
+                              height: 100,
+                              width: double.maxFinite,
+                              child: Card(
+                                color: blackTextFild,
+                                elevation: 0.4,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(100),
+                                  onTap: () async {
+                                    service.downloadSong(
+                                        songModelDownloadList[index]);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Row(
                                       children: [
-                                        const SizedBox(height: 10),
-                                        Text(
-                                          songModelDownloadList[index].title,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: white),
+                                        Container(
+                                          padding: EdgeInsets.all(2),
+                                          decoration: BoxDecoration(
+                                              color: purpButton,
+                                              borderRadius:
+                                                  BorderRadius.circular(100)),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            child: Image.network(
+                                              songModelDownloadList[index]
+                                                  .imgurl,
+                                              height: 100,
+                                              width: 100,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
-                                        const Spacer(),
-                                        Text(
-                                          songModelDownloadList[index].artist,
-                                          style: TextStyle(
-                                              fontSize: 13, color: littleWhite),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        // DISTANCE WIDGET
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                songModelDownloadList[index]
+                                                    .title,
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: white),
+                                              ),
+                                              const Spacer(),
+                                              Text(
+                                                songModelDownloadList[index]
+                                                    .artist,
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: littleWhite),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              // DISTANCE WIDGET
 
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.download,
-                                              color: white,
-                                              size: 30,
-                                            ),
-                                            const Spacer(),
-                                            Text(
-                                              'Click to download',
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: purpButton),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                              height: 10,
-                                            )
-                                          ],
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.download,
+                                                    color: white,
+                                                    size: 30,
+                                                  ),
+                                                  const Spacer(),
+                                                  Text(
+                                                    'Click to download',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: purpButton),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20,
+                                                    height: 10,
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),
-                                  )
-                                ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
+                          );
+                        }),
                       ),
-                    );
-                  }),
-                ),
-              ]),
+                    ]),
         ),
       ),
     );

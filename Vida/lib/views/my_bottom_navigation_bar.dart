@@ -34,10 +34,8 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        
         body: pages[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
-          
           backgroundColor: blackBG,
           selectedItemColor: purpButton,
           unselectedItemColor: grayText,
