@@ -45,8 +45,12 @@ public class SongController {
         return ResponseEntity.ok(songService.findAll());
     }
     @GetMapping("/all/name")
-    public ResponseEntity<List<String>>  getSongNameList() {
+    public ResponseEntity<List<String>> getSongNameList() {
         return ResponseEntity.ok(songService.getSongNameList());
+    }
+    @GetMapping("/{id}/artist")
+    public ResponseEntity<ArtistModel> getArtistOfSong(@PathVariable Integer id) {
+        return ResponseEntity.ok(songService.getArtistSong(id));
     }
 
     @PostMapping("/artist/{artistId}")

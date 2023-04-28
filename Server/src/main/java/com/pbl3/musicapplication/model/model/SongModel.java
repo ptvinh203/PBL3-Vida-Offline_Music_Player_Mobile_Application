@@ -22,6 +22,8 @@ public class SongModel {
     private String musicFileUrl;
     private String backgroundImageFileUrl;
 
+    private String artistName;
+
     public SongModel (Song entity) {
         this.songId = entity.getSongId(); 
         this.songName = entity.getSongName();
@@ -33,6 +35,10 @@ public class SongModel {
 
         if (entity.getBackgroundImageFile() != null) {
             this.backgroundImageFileUrl = (new MyFileModel(entity.getBackgroundImageFile()).getFileDownloadUri());
+        }
+
+        if (entity.getArtist() != null) {
+            this.artistName = entity.getArtist().getArtistName();
         }
     }
 }
