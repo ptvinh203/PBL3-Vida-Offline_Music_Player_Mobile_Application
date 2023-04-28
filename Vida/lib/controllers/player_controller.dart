@@ -53,7 +53,7 @@ class PlayerController extends GetxController {
     playIndex.value = index;
     try {
       audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(uri!)));
-      print("____________________________${Uri.parse(uri!).authority}");
+      print("____________________________${Uri.parse(uri).authority}");
       audioPlayer.play();
       isPlaying(true);
       updatePosition();

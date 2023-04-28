@@ -22,8 +22,6 @@ class _OfflinePageState extends State<OfflinePage> {
     setState(() {});
   }
 
-  
-
   List<Widget> buildTrailing(int index, bool isPlaying) {
     print("Building");
     LovedIcon icon = LovedIcon(isLoved: controller.isLoveds[index]);

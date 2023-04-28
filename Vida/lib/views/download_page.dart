@@ -1,10 +1,14 @@
 import 'package:Vida/services/song_service.dart';
 import 'package:async/async.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:Vida/models/song_model_download.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:http/http.dart';
 import 'package:ionicons/ionicons.dart';
+
 import 'dart:io';
 import '../consts/colors.dart';
 import '../widget/custom_icon_button.dart';
@@ -17,12 +21,71 @@ class DownloadPage extends StatefulWidget {
 }
 
 class _DownloadPageState extends State<DownloadPage> {
+  double? _progress;
+  static var httpClient = new HttpClient();
   List<SongModelDownload> songModelDownloadList = [];
   SongService service = SongService();
   var connectionChecked = false;
   CancelableOperation? cancelOperator = null;
   Future refresh() async {
     setState(() {});
+  }
+
+  void downloadSong(SongModelDownload songmd) async {
+    if (songmd.isDownloaded == true) {
+      var snackBar = SnackBar(
+        backgroundColor: blackBG,
+        content: Center(
+            child: Text(
+          'This song already exist',
+          style: TextStyle(color: littleWhite),
+        )),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return;
+    } else {
+      setState(() {
+        songmd.setIsDownloaded();
+      });
+
+      FileDownloader.downloadFile(
+          url: songmd.linkDownload.toString(),
+          onProgress: (name, progress) {
+            var snackBar = SnackBar(
+              backgroundColor: blackBG,
+              content: Text(
+                'DOWNLOADING',
+                style: TextStyle(color: littleWhite),
+              ),
+              duration: Duration(seconds: 1),
+            );
+            setState(() {
+              _progress = progress;
+              songmd.setIsDownloaded();
+            });
+          },
+          onDownloadError: (String error) {
+            print('DOWNLOAD ERROR: $error');
+          },
+          onDownloadCompleted: (value) {
+            print('path  $value ');
+
+            var snackBar = SnackBar(
+              backgroundColor: blackBG,
+              content: Center(
+                  child: Text(
+                'DOWNLOADED',
+                style: TextStyle(color: littleWhite),
+              )),
+              duration: Duration(seconds: 2),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            setState(() {
+              _progress = null;
+              songmd.setIsDownloaded();
+            });
+          });
+    }
   }
 
   void GetAll() {
@@ -43,6 +106,7 @@ class _DownloadPageState extends State<DownloadPage> {
   @override
   void initState() {
     GetAll();
+
     super.initState();
   }
 
@@ -101,17 +165,59 @@ class _DownloadPageState extends State<DownloadPage> {
               physics: BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
               padding: const EdgeInsets.all(14),
-              children: (connectionChecked == false)
+              children: (connectionChecked == false ||
+                      songModelDownloadList.isEmpty)
                   ? <Widget>[
                       Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 40, left: 25),
-                          child: Image.asset(
-                            'assets/image/dash_lost_connection.png',
-                            fit: BoxFit.cover,
+                          child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25, top: 150),
+                            child: Image.asset(
+                              'assets/image/dash_lost_connection.png',
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                      )
+                          Container(
+                            height: 70.0,
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                              vertical: 10.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: blackTextFild,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 200,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 15),
+                                      Text(
+                                        'Lost connection to server.',
+                                        style: TextStyle(
+                                            color: littleWhite,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                      Text(
+                                        'Please check your network.',
+                                        style: TextStyle(
+                                            color: littleWhite,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      )),
                     ]
                   : [
                       Column(
@@ -120,7 +226,7 @@ class _DownloadPageState extends State<DownloadPage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: SizedBox(
-                              height: 100,
+                              height: 120,
                               width: double.maxFinite,
                               child: Card(
                                 color: blackTextFild,
@@ -131,11 +237,10 @@ class _DownloadPageState extends State<DownloadPage> {
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(100),
                                   onTap: () async {
-                                    service.downloadSong(
-                                        songModelDownloadList[index]);
+                                    downloadSong(songModelDownloadList[index]);
                                   },
                                   child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
+                                    padding: const EdgeInsets.all(10.0),
                                     child: Row(
                                       children: [
                                         Container(
@@ -150,8 +255,8 @@ class _DownloadPageState extends State<DownloadPage> {
                                             child: Image.network(
                                               songModelDownloadList[index]
                                                   .imgurl,
-                                              height: 100,
-                                              width: 100,
+                                              height: 80,
+                                              width: 80,
                                               fit: BoxFit.cover,
                                             ),
                                           ),

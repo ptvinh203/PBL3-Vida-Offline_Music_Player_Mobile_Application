@@ -1,16 +1,11 @@
 import 'package:Vida/views/download_page.dart';
 import 'package:Vida/views/login_page.dart';
 import 'package:Vida/views/my_bottom_navigation_bar.dart';
-import 'package:Vida/views/profile_page.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:get/get.dart';
 import 'package:Vida/views/offline_page.dart';
-import 'package:Vida/views/player.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize();
+void main() {
   runApp(const MainApp());
 }
 

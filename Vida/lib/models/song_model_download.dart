@@ -6,7 +6,7 @@ class SongModelDownload {
   late String title;
   late String imgurl;
   String? linkDownload;
-  late RxBool isDownloaded = RxBool(false);
+  bool isDownloaded = false;
   SongModelDownload({
     this.id = 0,
     this.artist = 'undefined',
@@ -18,12 +18,12 @@ class SongModelDownload {
 
   SongModelDownload.fromJson(Map<String, dynamic> json) {
     this.id = json["songId"];
-    this.artist = 'undefined';
+    this.artist = json['artistName'] ?? 'undefined';
     this.title = json["songName"] ?? "undefined";
     this.imgurl = json["backgroundImageFileUrl"] ??
         "https://pbs.twimg.com/media/FKNlhKZUcAEd7FY?format=jpg&name=4096x4096";
     this.linkDownload = json["musicFileUrl"] ??
-        "https://dl.last.fm/static/1682505342/131211148/4cf4cdcb8a72f5e7dea0ab972f51eabd2793b03e4e0492065a067536a4cd062f/Death+Grips+-+Get+Got.mp3";
+        "https://109a15170.vws.vegacdn.vn/klQA04kyjHDH5VmBLWARoA/1682719414/media1/song/web1/30/249450/249450.mp3?d=1&v=3&title=Buong-Doi-Tay-Nhau-Ra-Son-Tung-M-TP.mp3&fbclid=IwAR0tLJptzNk09mrVO3s5GyrFYLZ0TIgtSMrIZ-lts_QLnker5lIJvAsLssM";
   }
 
   int getId() => this.id;
@@ -46,9 +46,9 @@ class SongModelDownload {
 
   void setLinkDownload(String linkDownload) => this.linkDownload = linkDownload;
 
-  bool getIsDownloaded() => this.isDownloaded.value;
+  bool getIsDownloaded() => this.isDownloaded;
 
-  void setIsDownloaded() => this.isDownloaded.value = !this.isDownloaded.value;
+  void setIsDownloaded() => this.isDownloaded = true;
 }
 
 //List<SongModelDownload> songModelDownloadList = [
