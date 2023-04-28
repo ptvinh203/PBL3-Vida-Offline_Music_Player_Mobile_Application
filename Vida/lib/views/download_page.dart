@@ -94,6 +94,13 @@ class _DownloadPageState extends State<DownloadPage> {
                 Column(
                   children:
                       List.generate(songModelDownloadList.length, (index) {
+                    //if (connection??????) {
+                    //  return Center(
+                    //      child: Text(
+                    //    'no network connection',
+                    //    style: TextStyle(fontSize: 25, color: littleWhite),
+                    //  ));
+                    //} else {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: SizedBox(
