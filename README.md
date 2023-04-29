@@ -3,21 +3,20 @@ Project Base Learning at University about application programming that allows us
 ## Demo App
 <div>
 <img src="https://github.com/thanhvinh73/PBL3/blob/main/document/MusicPlayer.jpeg" width="180" height="360" />
-&emsp;&nbsp;
+&emsp;&ensp;
 <img src="https://github.com/thanhvinh73/PBL3/blob/main/document/HomePage.jpeg" width="180" height="360" />
-&emsp;&nbsp;
+&emsp;&ensp;
 <img src="https://github.com/thanhvinh73/PBL3/blob/main/document/DownloadPage.jpeg" width="180" height="360" />
-&emsp;&nbsp;
+&emsp;&ensp;
 <img src="https://github.com/thanhvinh73/PBL3/blob/main/document/FavouritePlaylistPage.jpeg" width="180" height="360" />
 <div/>
 <br>
 <br>
-<br>
 <div>
 <img src="https://github.com/thanhvinh73/PBL3/blob/main/document/LoginPage.jpeg" width="180" height="360" />
-&emsp;&nbsp;
+&emsp;&ensp;
 <img src="https://github.com/thanhvinh73/PBL3/blob/main/document/Register.jpeg" width="180" height="360" />
-&emsp;&nbsp;
+&emsp;&ensp;
 <img src="https://github.com/thanhvinh73/PBL3/blob/main/document/Profile.jpeg" width="180" height="360" />
 <div/>
 
