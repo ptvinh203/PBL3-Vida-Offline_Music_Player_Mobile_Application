@@ -1,3 +1,7 @@
+
+import 'dart:io';
+
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
@@ -8,6 +12,7 @@ import 'package:Vida/controllers/player_controller.dart';
 import 'package:Vida/views/player.dart';
 import 'package:Vida/widget/loved_icon.dart';
 import '../widget/custom_icon_button.dart';
+import 'package:dart_tags/dart_tags.dart';
 
 class OfflinePage extends StatefulWidget {
   OfflinePage({super.key});
@@ -46,6 +51,13 @@ class _OfflinePageState extends State<OfflinePage> {
 
     return widgets;
   }
+
+  //Future<String> getArtist(SongModel song) async {
+  //  final file = File(song.data);
+  //  final tagProcessor = TagProcessor();
+  //  final tags = tagProcessor.getTagsFromByteArray(file.readAsBytes()).then((value) => null);
+  //  return tags[0].toString();
+  //}
 
   @override
   Widget build(BuildContext context) {
@@ -140,13 +152,15 @@ class _OfflinePageState extends State<OfflinePage> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(13.0)),
                               tileColor: blackTextFild,
-                              title: Text(snapshot.data![index].title,
-                                  style: ourStyle(
-                                    color: white,
-                                    fontWeight: FontWeight.bold,
-                                    size: 15.0,
-                                  )),
-                              subtitle: Text("${snapshot.data![index].artist}",
+                              title:
+                                  Text("${snapshot.data![index].title}",
+                                      style: ourStyle(
+                                        color: white,
+                                        fontWeight: FontWeight.bold,
+                                        size: 15.0,
+                                      )),
+                              subtitle: Text(
+                                  "${snapshot.data![index].artist}",
                                   style:
                                       ourStyle(size: 15.0, color: littleWhite)),
                               leading: Container(
@@ -176,11 +190,28 @@ class _OfflinePageState extends State<OfflinePage> {
                                           controller.isPlaying.value),
                                 ),
                               ),
-                              onTap: () {
+                              onTap: () async {
                                 Get.to(
                                   () => Player(songList: snapshot.data!),
                                   transition: Transition.downToUp,
                                 );
+                                print(
+                                    "_________________________________________________________________________________________________________");
+                                final file = File(snapshot.data![index].data);
+
+                                final tagProcessor = TagProcessor();
+                                final bytes = file.readAsBytesSync().toList();
+                                final futureBytes = Future.value(bytes);
+                                final tags = await tagProcessor
+                                    .getTagsFromByteArray(futureBytes);
+                                print(tags);
+                                // print tag title here please
+                                var tagString =
+                                    tags.elementAt(0).tags["artist"];
+                                print(tagString);
+
+                                print(
+                                    "__________________________________________________________________________");
                                 controller.playSong(
                                     snapshot.data![index].uri, index);
                               },

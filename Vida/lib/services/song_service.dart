@@ -8,10 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 class SongService {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  
 
   Future<bool> checkServerAvailability() async {
     final uri = Uri.http(api_url, "/songs/all");

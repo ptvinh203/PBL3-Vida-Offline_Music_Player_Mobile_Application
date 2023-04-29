@@ -1,15 +1,18 @@
+import 'dart:io';
+
 import 'package:Vida/services/song_service.dart';
 import 'package:async/async.dart';
+import 'package:dart_tags/dart_tags.dart';
 
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 
+import 'package:permission_handler/permission_handler.dart';
 import 'package:Vida/models/song_model_download.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:http/http.dart';
+
 import 'package:ionicons/ionicons.dart';
 
-import 'dart:io';
 import '../consts/colors.dart';
 import '../widget/custom_icon_button.dart';
 
@@ -22,70 +25,14 @@ class DownloadPage extends StatefulWidget {
 
 class _DownloadPageState extends State<DownloadPage> {
   double? _progress;
-  static var httpClient = new HttpClient();
+
+  //static var httpClient = new HttpClient();
   List<SongModelDownload> songModelDownloadList = [];
   SongService service = SongService();
   var connectionChecked = false;
   CancelableOperation? cancelOperator = null;
   Future refresh() async {
     setState(() {});
-  }
-
-  void downloadSong(SongModelDownload songmd) async {
-    if (songmd.isDownloaded == true) {
-      var snackBar = SnackBar(
-        backgroundColor: blackBG,
-        content: Center(
-            child: Text(
-          'This song already exist',
-          style: TextStyle(color: littleWhite),
-        )),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return;
-    } else {
-      setState(() {
-        songmd.setIsDownloaded();
-      });
-
-      FileDownloader.downloadFile(
-          url: songmd.linkDownload.toString(),
-          onProgress: (name, progress) {
-            var snackBar = SnackBar(
-              backgroundColor: blackBG,
-              content: Text(
-                'DOWNLOADING',
-                style: TextStyle(color: littleWhite),
-              ),
-              duration: Duration(seconds: 1),
-            );
-            setState(() {
-              _progress = progress;
-              songmd.setIsDownloaded();
-            });
-          },
-          onDownloadError: (String error) {
-            print('DOWNLOAD ERROR: $error');
-          },
-          onDownloadCompleted: (value) {
-            print('path  $value ');
-
-            var snackBar = SnackBar(
-              backgroundColor: blackBG,
-              content: Center(
-                  child: Text(
-                'DOWNLOADED',
-                style: TextStyle(color: littleWhite),
-              )),
-              duration: Duration(seconds: 2),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            setState(() {
-              _progress = null;
-              songmd.setIsDownloaded();
-            });
-          });
-    }
   }
 
   void GetAll() {
@@ -237,7 +184,50 @@ class _DownloadPageState extends State<DownloadPage> {
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(100),
                                   onTap: () async {
-                                    downloadSong(songModelDownloadList[index]);
+                                    
+                                    Map<Permission, PermissionStatus> statuses =
+                                        await [
+                                      Permission.storage,
+                                      //add more permission to request here.
+                                    ].request();
+
+                                    if (statuses[Permission.storage]!
+                                        .isGranted) {
+                                      var dir = await DownloadsPathProvider
+                                          .downloadsDirectory;
+                                      if (dir != null) {
+                                        String saveName =
+                                            "${songModelDownloadList[index].title} - ${songModelDownloadList[index].artist} ";
+                                        String savePath =
+                                            dir.path + "/${saveName}.mp3";
+                                        print(savePath);
+                                        
+
+                                        //output:  /storage/emulated/0/Download/banner.png
+
+                                        try {
+                                          await Dio().download(
+                                              "http://192.168.5.144:8080/file/downloadFile/97",
+                                              savePath, onReceiveProgress:
+                                                  (received, total) {
+                                            if (total != -1) {
+                                              print((received / total * 100)
+                                                      .toStringAsFixed(0) +
+                                                  "%");
+                                              //you can build progressbar feature too
+                                            }
+                                          });
+                                          
+                                          print(
+                                              "File is saved to download folder.");
+                                        } on DioError catch (e) {
+                                          print(e.message);
+                                        }
+                                      }
+                                    } else {
+                                      print("No permission to read and write.");
+                                    }
+                                    
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
