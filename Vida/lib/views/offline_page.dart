@@ -153,7 +153,7 @@ class _OfflinePageState extends State<OfflinePage> {
                                   borderRadius: BorderRadius.circular(13.0)),
                               tileColor: blackTextFild,
                               title:
-                                  Text("${snapshot.data![index].title}",
+                                  Text(snapshot.data![index].title,
                                       style: ourStyle(
                                         color: white,
                                         fontWeight: FontWeight.bold,
