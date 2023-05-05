@@ -1,4 +1,4 @@
-package HttpRequest.implement;
+package httprequest.implement;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
-import HttpRequest.IArtistResponse;
+import httprequest.IArtistResponse;
 import models.AlbumModel;
 import models.ArtistModel;
 import models.SongModel;

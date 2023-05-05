@@ -1,53 +1,53 @@
-package views;
+package views.song;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeListener;
 
 import lombok.Getter;
 import lombok.Setter;
-import views.panels.ArtistEditPanel;
-import views.panels.ArtistViewAllPanel;
+import views.artist.panels.SongUploadPanel;
+import views.artist.panels.SongViewAllPanel;
+
 
 @Setter@Getter
-public class ArtistView extends JFrame {
+public class SongView extends JFrame {
     private JPanel headerPanel, pn1;
     private JTabbedPane tabbedPane;
     private JButton btnHomePage;
-
-    private final ArtistEditPanel artistEditPanel = ArtistEditPanel.getInstance();
-    private final ArtistViewAllPanel artistViewAllPanel = ArtistViewAllPanel.getInstance();
-
+    
+    private SongUploadPanel songUploadPanel;
+    private SongViewAllPanel songViewAllPanel;
     private void init() {
-        tabbedPane = new JTabbedPane();  
-        tabbedPane.setPreferredSize(new Dimension(500, 800));
-        tabbedPane.addTab("Edit Artist", artistEditPanel);
+        songUploadPanel = new SongUploadPanel();
+        songViewAllPanel = new SongViewAllPanel();
+        
+        tabbedPane = new JTabbedPane();
+        tabbedPane.addTab("Edit Song", songUploadPanel);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-        tabbedPane.addTab("All Artists", artistViewAllPanel);
+        tabbedPane.addTab("All Songs", songViewAllPanel);
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
         btnHomePage = new JButton("HOME");
+
         pn1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         pn1.add(btnHomePage);
         headerPanel = new JPanel(new BorderLayout(0, 1));
         headerPanel.add(pn1, BorderLayout.NORTH);
         headerPanel.add(tabbedPane, BorderLayout.CENTER);
     }
-    private ArtistView() {
+    private SongView() {
         init();
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        this.setBounds(100, 100, 1000, 600);
-        this.setTitle("Artist Management");
+        this.setBounds(100, 100, 700, 600);
+        this.setTitle("Song Management");
         this.setLocationRelativeTo(null);
         this.setContentPane(headerPanel);
     }
@@ -55,14 +55,8 @@ public class ArtistView extends JFrame {
     public void addActionListener(ActionListener actionListener) {
         btnHomePage.addActionListener(actionListener);
     }
-    public void addChangeListenerForTabbedPane(ChangeListener changeListener) {
-        this.tabbedPane.addChangeListener(changeListener);
-    }
-    public void showMessageBox(String message) {
-        JOptionPane.showMessageDialog(this, message, "ERROR", JOptionPane.ERROR_MESSAGE);
-    }
 
-    public static ArtistView getInstance() {
-        return new ArtistView();
+    public static SongView getInstance() {
+        return new SongView();
     }
 }

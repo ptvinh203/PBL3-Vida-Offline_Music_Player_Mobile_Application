@@ -1,4 +1,4 @@
-package HttpRequest.implement;
+package httprequest.implement;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -14,7 +14,7 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
-import HttpRequest.IMyFileResponse;
+import httprequest.IMyFileResponse;
 
 public class MyFileResponseImpl implements IMyFileResponse{
     private final String URL_STR = "http://localhost:8080/file";

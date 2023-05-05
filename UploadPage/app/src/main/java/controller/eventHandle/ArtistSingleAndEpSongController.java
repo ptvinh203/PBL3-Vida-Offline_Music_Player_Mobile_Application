@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import models.SongModel;
-import views.ArtistSingleAndEpSongView;
+import views.artist.ArtistSingleAndEpSongView;
 
 public class ArtistSingleAndEpSongController implements ActionListener{
     private ArtistSingleAndEpSongView artistSingleAndEpSongView = ArtistSingleAndEpSongView.getInstance();

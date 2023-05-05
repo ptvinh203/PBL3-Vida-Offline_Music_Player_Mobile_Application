@@ -1,4 +1,4 @@
-package views;
+package views.artist;
 
 import java.awt.BorderLayout;
 import java.awt.Choice;

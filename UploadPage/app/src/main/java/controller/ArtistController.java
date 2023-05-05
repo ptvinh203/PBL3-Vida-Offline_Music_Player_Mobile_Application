@@ -11,14 +11,14 @@ import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import HttpRequest.IArtistResponse;
-import HttpRequest.IMyFileResponse;
-import HttpRequest.implement.ArtistResponseImpl;
-import HttpRequest.implement.MyFileResponseImpl;
 import controller.eventHandle.ArtistAlbumController;
 import controller.eventHandle.ArtistSingleAndEpSongController;
+import httprequest.IArtistResponse;
+import httprequest.IMyFileResponse;
+import httprequest.implement.ArtistResponseImpl;
+import httprequest.implement.MyFileResponseImpl;
 import models.ArtistModel;
-import views.ArtistView;
+import views.artist.ArtistView;
 
 public class ArtistController implements ActionListener, ChangeListener , ItemListener{
     private ArtistView artistView = ArtistView.getInstance();

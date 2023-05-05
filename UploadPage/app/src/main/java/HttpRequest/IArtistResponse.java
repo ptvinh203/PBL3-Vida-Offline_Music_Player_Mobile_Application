@@ -1,4 +1,4 @@
-package HttpRequest;
+package httprequest;
 
 import models.ArtistModel;
 

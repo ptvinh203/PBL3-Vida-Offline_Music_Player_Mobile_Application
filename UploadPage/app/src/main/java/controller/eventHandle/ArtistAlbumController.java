@@ -4,10 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import HttpRequest.IAlbumResponse;
-import HttpRequest.implement.AlbumResponseImpl;
+import httprequest.IAlbumResponse;
+import httprequest.implement.AlbumResponseImpl;
 import models.AlbumModel;
-import views.ArtistAlbumView;
+import views.artist.ArtistAlbumView;
 
 public class ArtistAlbumController implements ActionListener{
     private ArtistAlbumView artistAlbumView = ArtistAlbumView.getInstance();
