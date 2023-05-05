@@ -16,12 +16,12 @@ public class TrieController {
     @Autowired
     private TrieService trieService;
 
-    @GetMapping("/artist") 
+    @GetMapping("/artist/{prefix}") 
     public ResponseEntity<List<String>> artistSearch(@RequestParam String prefix ) {
         return ResponseEntity.ok(trieService.search(prefix, true));            
     }
 
-    @GetMapping("/song") 
+    @GetMapping("/song/{prefix}") 
     public ResponseEntity<List<String>> songSearch(@RequestParam String prefix ) {
         return ResponseEntity.ok(trieService.search(prefix, false));  
     }

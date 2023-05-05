@@ -11,6 +11,7 @@ import jakarta.annotation.Nonnull;
 
 
 public interface SongService extends GenericService<Song, SongModel>{
+    SongModel findSongByName(String songName);
     List<String> getSongNameList();
     Boolean updateArtist(Integer artistId, Integer songId, Boolean checkAdd);
     Boolean updateAlbum(Integer albumId, Integer songId, Boolean checkAdd);

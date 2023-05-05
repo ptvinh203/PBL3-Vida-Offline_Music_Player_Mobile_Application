@@ -243,6 +243,16 @@ public class SongServiceImpl implements SongService{
         return null;
     }
 
+    @Override
+    public SongModel findSongByName(String songName) {
+        for (Song song : songRepository.findAll()) {
+            if (song.getSongName().compareTo(songName) == 0) {
+                return new SongModel(song);
+            }
+        }
+        return null;
+    }
+
 
 
     

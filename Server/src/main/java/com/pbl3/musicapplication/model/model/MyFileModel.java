@@ -1,7 +1,5 @@
 package com.pbl3.musicapplication.model.model;
 
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.pbl3.musicapplication.model.entity.MyFile;
 
 import lombok.AllArgsConstructor;
@@ -14,6 +12,10 @@ import lombok.Setter;
 @Setter@Getter
 @Builder
 public class MyFileModel {
+    private static final String SERVER_IP = "192.168.5.199";
+    private static final String SERVER_PORT = "8080";
+    private static final String URL_API = "https//" + SERVER_IP + ":" + SERVER_PORT + "/file/downloadFile/";
+
     private String fileName;
     private String fileType;
     private String fileDownloadUri;
@@ -23,10 +25,7 @@ public class MyFileModel {
         this.fileName = entity.getFileName();
         this.fileType = entity.getFileType();
 
-        String downloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                            .path("/file/downloadFile/")
-                            .path(entity.getFileId().toString())
-                            .toUriString();
+        String downloadUri = URL_API + entity.getFileId();
         this.fileDownloadUri = downloadUri;
 
         this.fileSize = entity.getFileData().length;

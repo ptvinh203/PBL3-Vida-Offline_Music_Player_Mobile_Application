@@ -52,6 +52,10 @@ public class SongController {
     public ResponseEntity<ArtistModel> getArtistOfSong(@PathVariable Integer id) {
         return ResponseEntity.ok(songService.getArtistSong(id));
     }
+    @GetMapping("/{songName}")
+    public ResponseEntity<SongModel> getSongByName(@PathVariable String songName) {
+        return ResponseEntity.ok(songService.findSongByName(songName));
+    }
 
     @PostMapping("/artist/{artistId}")
     public ResponseEntity<SongModel> createByArtist(@PathVariable Integer artistId, @RequestBody SongModel songModel) {
