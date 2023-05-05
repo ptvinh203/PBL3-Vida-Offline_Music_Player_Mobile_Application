@@ -24,7 +24,7 @@ public class User {
     @Setter(AccessLevel.PRIVATE)
     private Integer userId;
 
-    // @Column(name = "USERNAME", unique = true)
+    @Column(unique = true)
     private String username;
     private String password;
 

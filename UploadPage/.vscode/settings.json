@@ -1,10 +1,4 @@
 {
-    "java.project.sourcePaths": ["src"],
-    "java.project.outputPath": "bin",
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "D:/ExtraLibrary/json-java/json-20230227.jar",
-        "D:/ExtraLibrary/lombok/lombok.jar",
-        "D:/ExtraLibrary/Gson-java/gson-2.10.1.jar"
-    ]
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
