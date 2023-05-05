@@ -5,7 +5,7 @@ class SongModelDownload {
   late String artist;
   late String title;
   late String imgurl;
-  String? linkDownload;
+  String linkDownload = "";
   bool isDownloaded = false;
   SongModelDownload({
     this.id = 0,
@@ -22,8 +22,8 @@ class SongModelDownload {
     this.title = json["songName"] ?? "undefined";
     this.imgurl = json["backgroundImageFileUrl"] ??
         "https://pbs.twimg.com/media/FKNlhKZUcAEd7FY?format=jpg&name=4096x4096";
-    this.linkDownload = json["musicFileUrl"] ??
-        "https://109a15170.vws.vegacdn.vn/klQA04kyjHDH5VmBLWARoA/1682719414/media1/song/web1/30/249450/249450.mp3?d=1&v=3&title=Buong-Doi-Tay-Nhau-Ra-Son-Tung-M-TP.mp3&fbclid=IwAR0tLJptzNk09mrVO3s5GyrFYLZ0TIgtSMrIZ-lts_QLnker5lIJvAsLssM";
+    this.linkDownload =
+        json["musicFileUrl"] ?? "https://nghenhac123.com/download/ENwwBWpgDXnz";
   }
 
   int getId() => this.id;
