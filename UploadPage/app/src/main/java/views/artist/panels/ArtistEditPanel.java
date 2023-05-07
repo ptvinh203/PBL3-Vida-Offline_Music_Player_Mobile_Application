@@ -22,8 +22,9 @@ import lombok.Getter;
 import lombok.Setter;
 import models.ArtistModel;
 
-@Setter@Getter
-public class ArtistEditPanel extends JPanel{
+@Setter
+@Getter
+public class ArtistEditPanel extends JPanel {
     private JPanel headerPanel, bodyPanel, chooseFilePanel;
     private ButtonGroup btnGroupOption;
     private JRadioButton rdbtnCreate, rdbtnUpdate, rdbtnDelete;
@@ -34,17 +35,16 @@ public class ArtistEditPanel extends JPanel{
     private JButton btnOK, btnChooseFile;
     private JFileChooser fileChooser;
 
-
     private void init() {
         headerPanel = new JPanel(new GridLayout(1, 4, 10, 10));
-        bodyPanel = new JPanel(new GridLayout(3, 3, 70, 100));
+        bodyPanel = new JPanel(new GridLayout(3, 2, 70, 100));
         chooseFilePanel = new JPanel(new BorderLayout(1, 1));
 
         lbChooseOption = new JLabel("Choose option: ", SwingConstants.CENTER);
         lbChooseOption.setFont(new Font("Verdana", Font.BOLD, 12));
 
         rdbtnCreate = new JRadioButton("Create", true);
-        rdbtnUpdate = new JRadioButton("Update",false);
+        rdbtnUpdate = new JRadioButton("Update", false);
         rdbtnDelete = new JRadioButton("Delete", false);
         btnGroupOption = new ButtonGroup();
         btnGroupOption.add(rdbtnCreate);
@@ -89,6 +89,7 @@ public class ArtistEditPanel extends JPanel{
 
         fileChooser = new JFileChooser(new File("."));
     }
+
     private ArtistEditPanel() {
         super(new BorderLayout(5, 35));
         init();
@@ -106,15 +107,13 @@ public class ArtistEditPanel extends JPanel{
             bodyPanel.remove(3);
             bodyPanel.add(txtName, 3);
             txtName.setEnabled(true);
-        }
-        else if (rdbtnUpdate.isSelected()) {
+        } else if (rdbtnUpdate.isSelected()) {
             txtId.setText("");
             txtArtistImage.setText("");
             bodyPanel.remove(3);
             bodyPanel.add(choiceName, 3);
             choiceName.setEnabled(true);
-        }
-        else {
+        } else {
             txtId.setText("");
             txtArtistImage.setText("");
             bodyPanel.remove(3);
@@ -122,16 +121,19 @@ public class ArtistEditPanel extends JPanel{
             choiceName.setEnabled(true);
         }
     }
+
     public void setChoiceArtistName(List<ArtistModel> listArtistModels) {
         choiceName.removeAll();
         for (ArtistModel artistModel : listArtistModels) {
             choiceName.add(artistModel.getArtistName());
         }
     }
+
     public void setDefaultInformation(ArtistModel artistModel) {
         txtId.setText(String.valueOf(artistModel.getArtistId()));
         txtArtistImage.setText(artistModel.getArtistImageUrl());
     }
+
     public void addActionListener(ActionListener actionListener) {
         rdbtnCreate.addActionListener(actionListener);
         rdbtnUpdate.addActionListener(actionListener);
@@ -139,20 +141,25 @@ public class ArtistEditPanel extends JPanel{
         btnOK.addActionListener(actionListener);
         btnChooseFile.addActionListener(actionListener);
     }
+
     public void addItemChangeListener(ItemListener itemListener) {
         choiceName.addItemListener(itemListener);
     }
+
     public ArtistModel createArtistModel() {
         return ArtistModel.builder().artistName(txtName.getText()).build();
     }
-    public ArtistModel updatArtistModel() {
+
+    public ArtistModel updateArtistModel() {
         return ArtistModel.builder().artistId(Integer.parseInt(txtId.getText()))
-                                    .artistName(choiceName.getItem(choiceName.getSelectedIndex()))
-                                    .build();
+                .artistName(choiceName.getItem(choiceName.getSelectedIndex()))
+                .build();
     }
+
     public int deleteArtistModel() {
         return Integer.parseInt(txtId.getText());
     }
+
     public static ArtistEditPanel getInstance() {
         return new ArtistEditPanel();
     }

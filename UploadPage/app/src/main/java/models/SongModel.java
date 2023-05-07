@@ -14,6 +14,8 @@ import lombok.Setter;
 public class SongModel {
     private int songId;
     private String songName;
+    private String artist;
+    private String album;
     private String musicFileUrl;
     private String backgroundImageFileUrl;
 }
