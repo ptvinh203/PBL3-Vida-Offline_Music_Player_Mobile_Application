@@ -47,4 +47,17 @@ class SongService {
       return [];
     }
   }
+
+  Future<List<String>> _fetchSuggestions(String searchValue) async {
+    final uri = Uri.http(api_url, "/search/");
+    
+
+    return .where((element) {
+      return element.toLowerCase().contains(searchValue.toLowerCase());
+    }).toList();
+  }
+
+
+
+
 }

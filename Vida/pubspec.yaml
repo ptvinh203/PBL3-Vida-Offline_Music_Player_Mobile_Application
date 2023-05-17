@@ -26,6 +26,7 @@ dependencies:
   downloads_path_provider_28: ^0.1.2
   dio: ^5.1.1
   dart_tags: ^0.4.0
+  flutter_media_metadata: ^1.0.0+1
  
  
 

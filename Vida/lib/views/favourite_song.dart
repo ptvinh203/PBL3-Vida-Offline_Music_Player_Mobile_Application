@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dart_tags/dart_tags.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
@@ -6,7 +10,7 @@ import 'package:Vida/consts/colors.dart';
 import 'package:Vida/consts/text_style.dart';
 import 'package:Vida/controllers/player_controller.dart';
 import 'package:Vida/views/player.dart';
-
+import 'offline_page.dart';
 import '../widget/custom_icon_button.dart';
 import '../widget/loved_icon.dart';
 
@@ -46,6 +50,50 @@ class _FavouriteState extends State<Favourite> {
             padding: const EdgeInsets.only(left: 15),
           ));
     return widgets;
+  }
+  
+    Future<String> getArtistName(SongModel songmd) async {
+    print(songmd.data);
+    final file = File(songmd.data);
+    var tagString;
+    final tagProcessor = TagProcessor();
+    return file.readAsBytes().then((bytes) {
+      final futureBytes = Future.value(bytes);
+      return tagProcessor.getTagsFromByteArray(futureBytes).then((tags) {
+        tagString = tags.elementAt(0).tags["artist"];
+        return utf8.decode(tagString.toString().runes.toList());
+      });
+    });
+    //var tags = await ;
+
+    //print("000000000000000000000000000000000000");
+    //print(tags);
+    //print("doc metadata bang thu vien moi: " +
+    //    tagString.toString()); // doc metadata bang thu vien moi
+    //print("doc metadata bang thu vien cu: " +
+    //    songmd.artist.toString()); // doc bang thu vien cu
+    //print("000000000000000000000000000000000000");
+
+    //return tagString.toString();
+  }
+
+  Future<List<SongModelExtended>> __future() async {
+    var songs = await controller.audioQuery.querySongs(
+        ignoreCase: true,
+        orderType: OrderType.ASC_OR_SMALLER,
+        sortType: null,
+        uriType: UriType.EXTERNAL);
+    List<Future<SongModelExtended>> futures = [];
+    songs.forEach((s) {
+      futures
+          .add(getArtistName(s).then((value) => SongModelExtended(s, value)));
+    });
+    //for (int i = 0; i < songs.length; i++) {
+    //  var s = songs[i];
+    //  String aName = await getArtistName(s);
+    //  nSongs.add(SongModelExtended(s, aName));
+    //}
+    return Future.wait(futures);
   }
 
   @override
@@ -97,12 +145,8 @@ class _FavouriteState extends State<Favourite> {
         color: white,
         strokeWidth: 4,
         displacement: 50,
-        child: FutureBuilder<List<SongModel>>(
-            future: controller.audioQuery.querySongs(
-                ignoreCase: true,
-                orderType: OrderType.ASC_OR_SMALLER,
-                sortType: null,
-                uriType: UriType.EXTERNAL),
+        child: FutureBuilder<List<SongModelExtended>>(
+            future: __future(),
             builder: (BuildContext context, snapshot) {
               //String searchValue = '';
               //controller.isLoveds = List.generate(
@@ -115,7 +159,7 @@ class _FavouriteState extends State<Favourite> {
               if (snapshot.data == null) {
                 return const Center(
                     child: CircularProgressIndicator(
-                  backgroundColor: Colors.amberAccent,
+                  backgroundColor: Colors.deepPurpleAccent,
                 ));
               } else if (snapshot.data!.isEmpty) {
                 print(
@@ -130,7 +174,7 @@ class _FavouriteState extends State<Favourite> {
                 for (int i = 0; i < controller.isLoveds.length; i++) {
                   if (controller.isLoveds[i].isTrue) {
                     ids.add(i);
-                    songs.add(snapshot.data![i]);
+                    songs.add(snapshot.data![i].songModel);
                   }
                 }
                 return Padding(
@@ -149,11 +193,11 @@ class _FavouriteState extends State<Favourite> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(13.0)),
                               tileColor: blackTextFild,
-                              title: Text(snapshot.data![songIndex].title,
+                              title: Text(snapshot.data![songIndex].songModel.title,
                                   style: ourStyle(
                                       fontWeight: FontWeight.bold, size: 15.0)),
                               subtitle: Text(
-                                  "${snapshot.data![songIndex].artist}",
+                                  "${snapshot.data![songIndex].artistName ?? snapshot.data![index].songModel.artist!}",
                                   style: ourStyle(size: 15.0)),
                               leading: Container(
                                 padding: const EdgeInsets.all(1.0),
@@ -163,7 +207,7 @@ class _FavouriteState extends State<Favourite> {
                                 child: QueryArtworkWidget(
                                   artworkQuality: FilterQuality.high,
                                   keepOldArtwork: true,
-                                  id: snapshot.data![songIndex].id,
+                                  id: snapshot.data![songIndex].songModel.id,
                                   type: ArtworkType.AUDIO,
                                   nullArtworkWidget: const Icon(
                                     Icons.music_note,
@@ -187,7 +231,7 @@ class _FavouriteState extends State<Favourite> {
                                   transition: Transition.downToUp,
                                 );
                                 controller.playSong(
-                                    snapshot.data![songIndex].uri, index);
+                                    snapshot.data![songIndex].songModel.uri, index);
                               },
                             ),
                           ),

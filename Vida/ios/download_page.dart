@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:Vida/services/config.dart';
 import 'package:Vida/services/song_service.dart';
 import 'package:async/async.dart';
-import 'package:dart_tags/dart_tags.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -184,7 +184,6 @@ class _DownloadPageState extends State<DownloadPage> {
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(100),
                                   onTap: () async {
-                                    
                                     Map<Permission, PermissionStatus> statuses =
                                         await [
                                       Permission.storage,
@@ -197,17 +196,18 @@ class _DownloadPageState extends State<DownloadPage> {
                                           .downloadsDirectory;
                                       if (dir != null) {
                                         String saveName =
-                                            "${songModelDownloadList[index].title} - ${songModelDownloadList[index].artist} ";
+                                            "${songModelDownloadList[index].title}";
                                         String savePath =
                                             dir.path + "/${saveName}.mp3";
                                         print(savePath);
-                                        
 
                                         //output:  /storage/emulated/0/Download/banner.png
 
                                         try {
                                           await Dio().download(
-                                              "http://192.168.5.144:8080/file/downloadFile/97",
+                                              "http://" +
+                                                  api_url +
+                                                  "/file/downloadFile/97",
                                               savePath, onReceiveProgress:
                                                   (received, total) {
                                             if (total != -1) {
@@ -217,7 +217,7 @@ class _DownloadPageState extends State<DownloadPage> {
                                               //you can build progressbar feature too
                                             }
                                           });
-                                          
+
                                           print(
                                               "File is saved to download folder.");
                                         } on DioError catch (e) {
@@ -227,7 +227,6 @@ class _DownloadPageState extends State<DownloadPage> {
                                     } else {
                                       print("No permission to read and write.");
                                     }
-                                    
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),

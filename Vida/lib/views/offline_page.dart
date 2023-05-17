@@ -1,6 +1,5 @@
-
+import 'dart:convert';
 import 'dart:io';
-
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +12,13 @@ import 'package:Vida/views/player.dart';
 import 'package:Vida/widget/loved_icon.dart';
 import '../widget/custom_icon_button.dart';
 import 'package:dart_tags/dart_tags.dart';
+
+class SongModelExtended {
+  SongModel songModel;
+  String artistName;
+
+  SongModelExtended(this.songModel, this.artistName);
+}
 
 class OfflinePage extends StatefulWidget {
   OfflinePage({super.key});
@@ -58,6 +64,49 @@ class _OfflinePageState extends State<OfflinePage> {
   //  final tags = tagProcessor.getTagsFromByteArray(file.readAsBytes()).then((value) => null);
   //  return tags[0].toString();
   //}
+  Future<String> getArtistName(SongModel songmd) async {
+    print(songmd.data);
+    final file = File(songmd.data);
+    var tagString;
+    final tagProcessor = TagProcessor();
+    return file.readAsBytes().then((bytes) {
+      final futureBytes = Future.value(bytes);
+      return tagProcessor.getTagsFromByteArray(futureBytes).then((tags) {
+        tagString = tags.elementAt(0).tags["artist"];
+        return utf8.decode(tagString.toString().runes.toList());
+      });
+    });
+    //var tags = await ;
+
+    //print("000000000000000000000000000000000000");
+    //print(tags);
+    //print("doc metadata bang thu vien moi: " +
+    //    tagString.toString()); // doc metadata bang thu vien moi
+    //print("doc metadata bang thu vien cu: " +
+    //    songmd.artist.toString()); // doc bang thu vien cu
+    //print("000000000000000000000000000000000000");
+
+    //return tagString.toString();
+  }
+
+  Future<List<SongModelExtended>> __future() async {
+    var songs = await controller.audioQuery.querySongs(
+        ignoreCase: true,
+        orderType: OrderType.ASC_OR_SMALLER,
+        sortType: null,
+        uriType: UriType.EXTERNAL);
+    List<Future<SongModelExtended>> futures = [];
+    songs.forEach((s) {
+      futures
+          .add(getArtistName(s).then((value) => SongModelExtended(s, value)));
+    });
+    //for (int i = 0; i < songs.length; i++) {
+    //  var s = songs[i];
+    //  String aName = await getArtistName(s);
+    //  nSongs.add(SongModelExtended(s, aName));
+    //}
+    return Future.wait(futures);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,12 +157,8 @@ class _OfflinePageState extends State<OfflinePage> {
         color: white,
         strokeWidth: 4,
         displacement: 50,
-        child: FutureBuilder<List<SongModel>>(
-            future: controller.audioQuery.querySongs(
-                ignoreCase: true,
-                orderType: OrderType.ASC_OR_SMALLER,
-                sortType: null,
-                uriType: UriType.EXTERNAL),
+        child: FutureBuilder<List<SongModelExtended>>(
+            future: __future(),
             builder: (BuildContext context, snapshot) {
               //String searchValue = '';
               if (controller.isLoveds.isEmpty)
@@ -121,12 +166,12 @@ class _OfflinePageState extends State<OfflinePage> {
                     snapshot.data?.length ?? 0, (index) => RxBool(false));
               //<RxBool>[snapshot.data?.length];
               List<String> listTitle = List.generate(snapshot.data?.length ?? 0,
-                  (index) => snapshot.data![index].title);
+                  (index) => snapshot.data![index].songModel.title);
               print("Debug list view");
               if (snapshot.data == null) {
                 return const Center(
                     child: CircularProgressIndicator(
-                  backgroundColor: Colors.amberAccent,
+                  backgroundColor: Colors.deepPurpleAccent,
                 ));
               } else if (snapshot.data!.isEmpty) {
                 print(
@@ -148,74 +193,81 @@ class _OfflinePageState extends State<OfflinePage> {
                         return Container(
                           margin: const EdgeInsets.only(bottom: 8),
                           child: Obx(
-                            () => ListTile(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(13.0)),
-                              tileColor: blackTextFild,
-                              title:
-                                  Text(snapshot.data![index].title,
-                                      style: ourStyle(
-                                        color: white,
-                                        fontWeight: FontWeight.bold,
-                                        size: 15.0,
-                                      )),
-                              subtitle: Text(
-                                  "${snapshot.data![index].artist}",
-                                  style:
-                                      ourStyle(size: 15.0, color: littleWhite)),
-                              leading: Container(
-                                padding: const EdgeInsets.all(1.0),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: purpButton),
-                                child: QueryArtworkWidget(
-                                  artworkQuality: FilterQuality.high,
-                                  quality: 100,
-                                  keepOldArtwork: true,
-                                  id: snapshot.data![index].id,
-                                  type: ArtworkType.AUDIO,
-                                  nullArtworkWidget: const Icon(
-                                    Icons.music_note,
-                                    color: whiteColor,
-                                    size: 32,
+                            () {
+                              return ListTile(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(13.0)),
+                                tileColor: blackTextFild,
+                                title:
+                                    Text(snapshot.data![index].songModel.title,
+                                        style: ourStyle(
+                                          color: white,
+                                          fontWeight: FontWeight.bold,
+                                          size: 15.0,
+                                        )),
+                                subtitle: Text(snapshot.data![index].artistName ?? snapshot.data![index].songModel.artist!,
+                                    style: ourStyle(
+                                        size: 15.0, color: littleWhite)),
+                                leading: Container(
+                                  padding: const EdgeInsets.all(1.0),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: purpButton),
+                                  child: QueryArtworkWidget(
+                                    artworkQuality: FilterQuality.high,
+                                    quality: 100,
+                                    keepOldArtwork: true,
+                                    id: snapshot.data![index].songModel.id,
+                                    type: ArtworkType.AUDIO,
+                                    nullArtworkWidget: const Icon(
+                                      Icons.music_note,
+                                      color: whiteColor,
+                                      size: 32,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              trailing: SizedBox(
-                                width: 86,
-                                child: Row(
-                                  children: buildTrailing(
-                                      index,
-                                      controller.playIndex.value == index &&
-                                          controller.isPlaying.value),
+                                trailing: SizedBox(
+                                  width: 86,
+                                  child: Row(
+                                    children: buildTrailing(
+                                        index,
+                                        controller.playIndex.value == index &&
+                                            controller.isPlaying.value),
+                                  ),
                                 ),
-                              ),
-                              onTap: () async {
-                                Get.to(
-                                  () => Player(songList: snapshot.data!),
-                                  transition: Transition.downToUp,
-                                );
-                                print(
-                                    "_________________________________________________________________________________________________________");
-                                final file = File(snapshot.data![index].data);
+                                onTap: () async {
+                                  Get.to(
+                                    () => Player(
+                                        songList: snapshot.data!
+                                            .map((e) => e.songModel)
+                                            .toList()),
+                                    transition: Transition.downToUp,
+                                  );
+                                  print(
+                                      "_________________________________________________________________________________________________________");
+                                  final file = File(
+                                      snapshot.data![index].songModel.data);
 
-                                final tagProcessor = TagProcessor();
-                                final bytes = file.readAsBytesSync().toList();
-                                final futureBytes = Future.value(bytes);
-                                final tags = await tagProcessor
-                                    .getTagsFromByteArray(futureBytes);
-                                print(tags);
-                                // print tag title here please
-                                var tagString =
-                                    tags.elementAt(0).tags["artist"];
-                                print(tagString);
+                                  final tagProcessor = TagProcessor();
+                                  final bytes = file.readAsBytesSync().toList();
+                                  final futureBytes = Future.value(bytes);
+                                  final tags = await tagProcessor
+                                      .getTagsFromByteArray(futureBytes);
+                                  var tagString =
+                                      tags.elementAt(0).tags["artist"];
+                                  print(tagString);
 
-                                print(
-                                    "__________________________________________________________________________");
-                                controller.playSong(
-                                    snapshot.data![index].uri, index);
-                              },
-                            ),
+                                  print(tags);
+                                  // print tag title here please
+
+                                  print(
+                                      "__________________________________________________________________________");
+                                  controller.playSong(
+                                      snapshot.data![index].songModel.uri,
+                                      index);
+                                },
+                              );
+                            },
                           ),
                         );
                       }),
