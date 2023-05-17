@@ -9,7 +9,7 @@ public class App {
 
     public static void main(String[] args) {
         HomePageController homePageController = new HomePageController();
-        homePageController.showGUI(true);
+        homePageController.showGUI();
 
     }
 }

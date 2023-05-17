@@ -8,21 +8,31 @@ import view.HomePageView;
 public class HomePageController implements ActionListener {
     private final HomePageView homePageView;
 
+    private ArtistController artistController;
+    private SongController songController;
+    private AlbumController albumController;
+
     public HomePageController() {
         homePageView = HomePageView.getInstance();
+        homePageView.addActionListener(this);
 
+        artistController = new ArtistController();
+        songController = new SongController();
+        albumController = new AlbumController();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        if (e.getSource() == homePageView.btnSong) {
+            songController.showGUI();
+        } else if (e.getSource() == homePageView.btnAlbum) {
+            albumController.showGUI();
+        } else {
+            artistController.showGUI();
+        }
     }
 
-    public void showGUI(boolean check) {
-        if (check)
-            homePageView.setVisible(true);
-        else
-            homePageView.dispose();
+    public void showGUI() {
+        homePageView.setVisible(true);
     }
 }

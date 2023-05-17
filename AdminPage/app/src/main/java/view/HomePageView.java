@@ -85,8 +85,10 @@ public class HomePageView extends JFrame implements MouseListener {
         setTitle("Admin Page");
     }
 
-    public void addActionListener(ActionListener ActionListener) {
-
+    public void addActionListener(ActionListener actionListener) {
+        btnAlbum.addActionListener(actionListener);
+        btnSong.addActionListener(actionListener);
+        btnArtist.addActionListener(actionListener);
     }
 
     public void addMouseListener(MouseListener mouseListener) {
