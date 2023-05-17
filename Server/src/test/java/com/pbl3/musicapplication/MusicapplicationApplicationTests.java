@@ -13,7 +13,6 @@ class MusicapplicationApplicationTests {
 
 	@Autowired
 	private TrieService trieService;
-	
 
 	@Test
 	void contextLoads() {
@@ -21,18 +20,8 @@ class MusicapplicationApplicationTests {
 
 	@Test
 	public void testTrieService() throws IOException {
-		// trieService.insert("Pham Thanh Vinh", true);
-		// trieService.insert("Pham Duy Tin", true);
-		// trieService.insert("Nguyen Hong Chuong", true);
-		// trieService.insert("Huynh Hai Dang", true);
+		trieService.insert("Anh đã ổn hơn", false);
 
-
-
-		// trieService.delete("Huynh Hai Dang", true);
-
-		for (String x : trieService.showAll(true)) {
-			System.out.println(x);
-		}
 	}
 
 }
