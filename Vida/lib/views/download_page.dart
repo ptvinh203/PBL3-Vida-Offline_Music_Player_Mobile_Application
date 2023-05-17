@@ -13,8 +13,8 @@ import 'package:Vida/models/song_model_download.dart';
 
 import 'package:ionicons/ionicons.dart';
 
-import '../consts/colors.dart';
-import '../widget/custom_icon_button.dart';
+import '../../consts/colors.dart';
+import '../../widget/custom_icon_button.dart';
 
 class DownloadPage extends StatefulWidget {
   DownloadPage({super.key});
