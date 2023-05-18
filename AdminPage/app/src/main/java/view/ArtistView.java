@@ -6,10 +6,16 @@ import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.List;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+
+import models.ArtistModel;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -56,10 +62,7 @@ public class ArtistView extends JFrame {
 
         contentPane.add(pnHeader);
 
-        String[][] data = new String[1][3];
-        data[0][0] = "1";
-        data[0][1] = "2";
-        data[0][2] = "3";
+        String[][] data = new String[0][];
         String[] columnsName = { "ID", "Name", "ImageUrl" };
         artistTable = new JTable(data, columnsName);
         artistTable.setBorder(new LineBorder(Color.BLACK, 1));
@@ -142,6 +145,20 @@ public class ArtistView extends JFrame {
         btnDelete.addActionListener(actionListener);
         btnShowAlbum.addActionListener(actionListener);
         btnShowSong.addActionListener(actionListener);
+    }
+
+    public void setArtistTable(List<ArtistModel> listArtistModel) {
+        String[][] data = new String[listArtistModel.size()][];
+        String[] columnsName = { "ID", "Name", "ImageUrl" };
+        TableModel tableModel = new DefaultTableModel(data, columnsName);
+        int i = 0;
+        for (ArtistModel artistModel : listArtistModel) {
+            tableModel.setValueAt(String.valueOf(artistModel.getArtistId()), i, 0);
+            tableModel.setValueAt(artistModel.getArtistName(), i, 1);
+            tableModel.setValueAt(artistModel.getArtistImageUrl(), i, 2);
+            i++;
+        }
+        artistTable.setModel(tableModel);
     }
 
     public void addMouseListener(MouseListener mouseListener) {

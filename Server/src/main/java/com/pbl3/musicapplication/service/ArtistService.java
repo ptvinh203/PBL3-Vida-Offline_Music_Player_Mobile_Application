@@ -7,12 +7,18 @@ import com.pbl3.musicapplication.model.model.ArtistModel;
 
 import jakarta.annotation.Nonnull;
 
-
-public interface ArtistService extends GenericService<Artist, ArtistModel>{
+public interface ArtistService extends GenericService<Artist, ArtistModel> {
     List<String> getArtistNameList();
+
     Boolean updateAlbums(Integer artistId);
+
     Boolean updateSingleAndEpSongs(Integer artistId);
+
     ArtistModel findAlbum(@Nonnull Integer albumId);
+
     ArtistModel findSingleAndEpSong(@Nonnull Integer songId);
+
     ArtistModel setArtistImage(@Nonnull Integer artistId, @Nonnull Integer artistImageFileId);
+
+    void deleteAlbum(Integer artistId);
 }

@@ -24,7 +24,7 @@ import com.pbl3.musicapplication.service.SongService;
 import jakarta.annotation.Nonnull;
 
 @Service
-public class ArtistServiceImpl implements ArtistService{
+public class ArtistServiceImpl implements ArtistService {
     @Autowired
     private ArtistRepository artistRepository;
 
@@ -46,7 +46,8 @@ public class ArtistServiceImpl implements ArtistService{
     @Override
     public Artist create(@Nonnull ArtistModel artistModel) {
         Artist artist = new Artist(artistModel);
-        if (!artist.isValid()) return null;
+        if (!artist.isValid())
+            return null;
 
         if (artistModel.getAlbums() != null) {
             List<Album> lAlbums = new ArrayList<>();
@@ -54,14 +55,15 @@ public class ArtistServiceImpl implements ArtistService{
                 Album album;
                 if (albumModel.getAlbumId() == null) {
                     album = albumService.create(albumModel);
-                }
-                else {
+                } else {
                     album = albumRepository.findById(albumModel.getAlbumId()).orElse(null);
                     if (album == null) {
                         album = albumService.create(albumModel);
                     }
                 }
-                if (album != null) lAlbums.add(album);
+                if (album != null) {
+                    lAlbums.add(album);
+                }
             }
             artist.setAlbums(lAlbums);
         }
@@ -72,8 +74,7 @@ public class ArtistServiceImpl implements ArtistService{
                 Song song;
                 if (songModel.getSongId() == null) {
                     song = songService.create(songModel);
-                }
-                else {
+                } else {
                     song = songRepository.findById(songModel.getSongId()).orElse(null);
                     if (song == null) {
                         song = songService.create(songModel);
@@ -84,7 +85,18 @@ public class ArtistServiceImpl implements ArtistService{
             }
             artist.setSingleAndEpSongs(lSongs);
         }
-        return artistRepository.save(artist);
+
+        Artist result = artistRepository.save(artist);
+
+        updateAlbums(result.getArtistId());
+        updateSingleAndEpSongs(result.getArtistId());
+
+        List<Album> lAlbums = result.getAlbums();
+        for (Album album : lAlbums) {
+            albumService.updateSongs(album.getAlbumId(), true);
+        }
+
+        return result;
     }
 
     @Override
@@ -92,8 +104,9 @@ public class ArtistServiceImpl implements ArtistService{
         Artist fromDB = artistRepository.findById(id).orElse(null);
         if (fromDB != null) {
             fromDB.setArtistName(artistModel.getArtistName());
-            
-            if (!fromDB.isValid()) return null;
+
+            if (!fromDB.isValid())
+                return null;
 
             if (artistModel.getAlbums() != null) {
                 List<Album> lAlbums = new ArrayList<>();
@@ -101,8 +114,7 @@ public class ArtistServiceImpl implements ArtistService{
                     Album album;
                     if (albumModel.getAlbumId() == null) {
                         album = albumService.create(albumModel);
-                    }
-                    else {
+                    } else {
                         album = albumRepository.findById(albumModel.getAlbumId()).orElse(null);
                         if (album == null) {
                             album = albumService.create(albumModel);
@@ -118,8 +130,7 @@ public class ArtistServiceImpl implements ArtistService{
                     Song song;
                     if (songModel.getSongId() == null) {
                         song = songService.create(songModel);
-                    }
-                    else {
+                    } else {
                         song = songRepository.findById(songModel.getSongId()).orElse(null);
                         if (song == null) {
                             song = songService.create(songModel);
@@ -155,15 +166,16 @@ public class ArtistServiceImpl implements ArtistService{
         if (artist != null && artist.getSingleAndEpSongs() != null) {
             List<Song> lSongs = artist.getSingleAndEpSongs();
             for (Song song : lSongs) {
-                songService.setAlbum(song.getSongId(), artistId);
+                songService.setArtist(song.getSongId(), artistId);
             }
             return true;
         }
         return false;
-    } 
+    }
+
     @Override
     public void deleteById(Integer id) {
-        artistRepository.deleteById(id);;
+        artistRepository.deleteById(id);
     }
 
     @Override
@@ -171,11 +183,11 @@ public class ArtistServiceImpl implements ArtistService{
         artistRepository.deleteAll();
     }
 
-
     @Override
     public ArtistModel findById(Integer id) {
         Artist fromDB = artistRepository.findById(id).orElse(null);
-        if (fromDB == null) return null;
+        if (fromDB == null)
+            return null;
 
         ArtistModel artistModel = new ArtistModel(fromDB);
         return artistModel;
@@ -245,5 +257,17 @@ public class ArtistServiceImpl implements ArtistService{
             return new ArtistModel(artistRepository.save(artist));
         }
         return null;
+    }
+
+    @Override
+    public void deleteAlbum(Integer artistId) {
+        Artist artist = artistRepository.findById(artistId).orElse(null);
+        if (artist != null) {
+            if (artist.getAlbums() != null && artist.getAlbums().size() != 0) {
+                for (Album album : artist.getAlbums()) {
+                    albumRepository.deleteById(album.getAlbumId());
+                }
+            }
+        }
     }
 }

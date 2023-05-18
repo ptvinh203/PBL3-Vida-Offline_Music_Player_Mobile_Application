@@ -25,22 +25,24 @@ import com.pbl3.musicapplication.service.ArtistService;
 public class ArtistController {
     @Autowired
     private ArtistService artistService;
-    @Autowired 
+    @Autowired
     private TrieService trieService;
 
     @GetMapping("/{id}")
     public ResponseEntity<ArtistModel> findById(@PathVariable Integer id) {
         return ResponseEntity.ok(artistService.findById(id));
     }
+
     @GetMapping("/all")
     public ResponseEntity<List<ArtistModel>> findAll() {
         return ResponseEntity.ok(artistService.findAll());
     }
+
     @GetMapping("/all/name")
     public ResponseEntity<List<String>> getArtistNameList() {
         return ResponseEntity.ok(artistService.getArtistNameList());
     }
-    
+
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     public ResponseEntity<ArtistModel> create(@RequestBody ArtistModel artistModel) {
         Artist artist = artistService.create(artistModel);
@@ -48,12 +50,13 @@ public class ArtistController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        artistService.updateAlbums(artist.getArtistId());
-        artistService.updateSingleAndEpSongs(artist.getArtistId());
+        // artistService.updateAlbums(artist.getArtistId());
+        // artistService.updateSingleAndEpSongs(artist.getArtistId());
 
         try {
             trieService.insert(artist.getArtistName(), true);
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
 
         return ResponseEntity.ok(new ArtistModel(artist));
     }
@@ -64,11 +67,11 @@ public class ArtistController {
         if (artistModel == null)
             return new ResponseEntity<>("Not found object", HttpStatus.NO_CONTENT);
         artistService.deleteById(id);
-            
         try {
             trieService.delete(artistModel.getArtistName(), true);
-        } catch (IOException e) { }
-        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT); 
+        } catch (IOException e) {
+        }
+        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
@@ -80,5 +83,4 @@ public class ArtistController {
         return new ResponseEntity<>(new ArtistModel(artist), HttpStatus.NO_CONTENT);
     }
 
-    
 }

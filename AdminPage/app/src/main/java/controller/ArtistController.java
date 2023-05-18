@@ -2,7 +2,9 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
+import models.ArtistModel;
 import view.ArtistView;
 
 public class ArtistController implements ActionListener {
@@ -19,7 +21,8 @@ public class ArtistController implements ActionListener {
         throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
 
-    public void showGUI() {
+    public void showGUI(List<ArtistModel> listArtistModels) {
+        artistView.setArtistTable(listArtistModels);
         artistView.setVisible(true);
     }
 

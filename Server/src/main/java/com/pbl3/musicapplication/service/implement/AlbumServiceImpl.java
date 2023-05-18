@@ -21,12 +21,12 @@ import com.pbl3.musicapplication.service.SongService;
 import jakarta.annotation.Nonnull;
 
 @Service
-public class AlbumServiceImpl implements AlbumService{
+public class AlbumServiceImpl implements AlbumService {
 
-    @Autowired 
+    @Autowired
     private AlbumRepository albumRepository;
 
-    @Autowired 
+    @Autowired
     private SongRepository songRepository;
 
     @Autowired
@@ -38,7 +38,8 @@ public class AlbumServiceImpl implements AlbumService{
     @Override
     public Album create(@Nonnull AlbumModel albumModel) {
         Album album = new Album(albumModel);
-        if (!album.isValid()) return null;
+        if (!album.isValid())
+            return null;
 
         if (albumModel.getSongsAlbum() != null) {
             List<Song> lSongs = new ArrayList<>();
@@ -46,8 +47,7 @@ public class AlbumServiceImpl implements AlbumService{
                 Song song;
                 if (songModel.getSongId() == null) {
                     song = songService.create(songModel);
-                }
-                else {
+                } else {
                     song = songRepository.findById(songModel.getSongId()).orElse(null);
                     if (song == null) {
                         song = songService.create(songModel);
@@ -57,7 +57,8 @@ public class AlbumServiceImpl implements AlbumService{
             }
             album.setSongsAlbum(lSongs);
         }
-        return albumRepository.save(album);
+        Album result = albumRepository.save(album);
+        return result;
     }
 
     @Override
@@ -65,16 +66,16 @@ public class AlbumServiceImpl implements AlbumService{
         Album fromDB = albumRepository.findById(id).orElse(null);
         if (fromDB != null) {
             fromDB.setAlbumName(albumModel.getAlbumName());
-            if (!fromDB.isValid()) return null;
-            
+            if (!fromDB.isValid())
+                return null;
+
             if (albumModel.getSongsAlbum() != null) {
                 List<Song> lSongs = new ArrayList<>();
                 for (SongModel songModel : albumModel.getSongsAlbum()) {
                     Song song;
                     if (songModel.getSongId() == null) {
                         song = songService.create(songModel);
-                    }
-                    else {
+                    } else {
                         song = songRepository.findById(songModel.getSongId()).orElse(null);
                         if (song == null) {
                             song = songService.create(songModel);
@@ -84,11 +85,12 @@ public class AlbumServiceImpl implements AlbumService{
                 }
                 fromDB.setSongsAlbum(lSongs);
             }
-    
+
             return albumRepository.save(fromDB);
         }
         return null;
     }
+
     @Override
     public AlbumModel setArtist(Integer albumId, Integer artistId) {
         Artist artist = artistRepository.findById(artistId).orElse(null);
@@ -99,10 +101,12 @@ public class AlbumServiceImpl implements AlbumService{
         }
         return null;
     }
+
     @Override
     public void deleteById(Integer id) {
         albumRepository.deleteById(id);
     }
+
     @Override
     public void deleteAll() {
         albumRepository.deleteAll();
@@ -162,7 +166,8 @@ public class AlbumServiceImpl implements AlbumService{
             boolean contains = false;
             for (Album tmp : list) {
                 if (tmp.getAlbumId().compareTo(albumId) == 0) {
-                    if (!checkAdd) list.remove(tmp);
+                    if (!checkAdd)
+                        list.remove(tmp);
                     contains = true;
 
                     List<Song> lSongs = artist.getSingleAndEpSongs();
@@ -176,7 +181,8 @@ public class AlbumServiceImpl implements AlbumService{
                     break;
                 }
             }
-            if (!contains && checkAdd) list.add(album);
+            if (!contains && checkAdd)
+                list.add(album);
 
             artist.setAlbums(list);
             artistRepository.save(artist);
@@ -194,8 +200,8 @@ public class AlbumServiceImpl implements AlbumService{
                 if (checkAdd) {
                     songService.setAlbum(song.getSongId(), albumId);
                     songService.setArtist(song.getSongId(), album.getArtist().getArtistId());
-                }
-                else songService.removeAlbum(song.getSongId());
+                } else
+                    songService.removeAlbum(song.getSongId());
             }
             return true;
         }
@@ -212,5 +218,5 @@ public class AlbumServiceImpl implements AlbumService{
             }
         }
         return null;
-    }    
+    }
 }

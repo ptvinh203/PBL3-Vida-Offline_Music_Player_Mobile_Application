@@ -25,7 +25,8 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter@Getter
+@Setter
+@Getter
 @Builder
 @Entity
 public class Artist {
@@ -33,13 +34,13 @@ public class Artist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
     private Integer artistId;
-    
+
     private String artistName;
 
     @OneToOne(targetEntity = MyFile.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private MyFile artistImage;
 
-    @OneToMany(targetEntity = Album.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Album.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Album> albums;
 
     @ManyToMany(targetEntity = Song.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
@@ -47,15 +48,15 @@ public class Artist {
 
     public Artist(ArtistModel artistModel) {
         this.artistName = artistModel.getArtistName();
-        
+
         if (artistModel.getAlbums() != null) {
             List<Album> tmp = new ArrayList<>();
             for (AlbumModel albumModel : artistModel.getAlbums()) {
                 tmp.add(new Album(albumModel));
             }
-            
+
             this.albums = tmp;
-        } 
+        }
         if (artistModel.getSingleAndEpSongs() != null) {
             List<Song> tmp = new ArrayList<>();
             for (SongModel songModel : artistModel.getSingleAndEpSongs()) {
@@ -65,6 +66,7 @@ public class Artist {
             this.singleAndEpSongs = tmp;
         }
     }
+
     public boolean isValid() {
         return !(artistName == null || artistName.isEmpty());
     }

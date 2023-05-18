@@ -40,19 +40,23 @@ public class SongController {
     public ResponseEntity<SongModel> findById(@PathVariable Integer id) {
         return ResponseEntity.ok(songService.findById(id));
     }
+
     @GetMapping("/all")
     public ResponseEntity<List<SongModel>> findAll() {
         return ResponseEntity.ok(songService.findAll());
     }
+
     @GetMapping("/all/name")
     public ResponseEntity<List<String>> getSongNameList() {
         return ResponseEntity.ok(songService.getSongNameList());
     }
+
     @GetMapping("/{id}/artist")
     public ResponseEntity<ArtistModel> getArtistOfSong(@PathVariable Integer id) {
         return ResponseEntity.ok(songService.getArtistSong(id));
     }
-    @GetMapping("/{songName}")
+
+    @GetMapping("/search-by-name/{songName}")
     public ResponseEntity<SongModel> getSongByName(@PathVariable String songName) {
         return ResponseEntity.ok(songService.findSongByName(songName));
     }
@@ -69,11 +73,12 @@ public class SongController {
 
             try {
                 trieService.insert(song.getSongName(), false);
-            } catch (IOException e) {}
+            } catch (IOException e) {
+            }
 
             return ResponseEntity.ok(new SongModel(song));
-        }
-        else return ResponseEntity.badRequest().body(null);
+        } else
+            return ResponseEntity.badRequest().body(null);
     }
 
     @PostMapping("/album/{albumId}")
@@ -90,12 +95,12 @@ public class SongController {
 
             try {
                 trieService.insert(song.getSongName(), false);
-            } catch (IOException e) {}
+            } catch (IOException e) {
+            }
             return ResponseEntity.ok(new SongModel(song));
-        }
-        else return ResponseEntity.badRequest().body(null);
+        } else
+            return ResponseEntity.badRequest().body(null);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Integer id) {
@@ -105,18 +110,19 @@ public class SongController {
             return new ResponseEntity<>("Not found object", HttpStatus.NO_CONTENT);
 
         AlbumModel albumModel = songService.getAlbumSong(id);
-        if (albumModel == null) 
+        if (albumModel == null)
             songService.updateArtist(artistModel.getArtistId(), id, false);
         else {
             songService.updateAlbum(albumModel.getAlbumId(), id, false);
         }
         songService.updatePlaylist(id, false);
-        
+
         songService.deleteById(id);
 
         try {
             trieService.delete(songModel.getSongName(), false);
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
         return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
 

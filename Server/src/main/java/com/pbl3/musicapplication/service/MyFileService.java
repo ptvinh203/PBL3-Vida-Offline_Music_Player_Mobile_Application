@@ -9,9 +9,14 @@ import com.pbl3.musicapplication.model.model.MyFileModel;
 
 public interface MyFileService {
     MyFile storeFile(MultipartFile multipartFile);
+
     MyFile findById(Integer fileId) throws FileNotFoundException;
+
     void deleteById(Integer fileId);
+
     MyFile update(Integer fileId, MultipartFile multipartFile) throws FileNotFoundException, FileStorageException;
+
     MyFileModel updateArtist(Integer fileId, Integer artistId);
+
     MyFileModel updateSong(Integer fileId, Integer songId);
 }

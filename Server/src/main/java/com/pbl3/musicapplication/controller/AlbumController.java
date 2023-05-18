@@ -33,19 +33,21 @@ public class AlbumController {
     public ResponseEntity<AlbumModel> findById(@PathVariable Integer id) {
         return ResponseEntity.ok(albumService.findById(id));
     }
+
     @GetMapping("/{id}/all-songs")
     public ResponseEntity<List<SongModel>> getAllSongsList(@PathVariable Integer id) {
         return ResponseEntity.ok(albumService.getAllSongsList(id));
     }
+
     @GetMapping("/all")
     public ResponseEntity<List<AlbumModel>> findAll() {
         return ResponseEntity.ok(albumService.findAll());
     }
+
     @GetMapping("/all/name")
     public ResponseEntity<List<String>> getAlbumNameList() {
         return ResponseEntity.ok(albumService.getAlbumNameList());
     }
-
 
     @PostMapping("/{artistId}")
     public ResponseEntity<AlbumModel> create(@PathVariable Integer artistId, @RequestBody AlbumModel albumModel) {
@@ -54,13 +56,13 @@ public class AlbumController {
             if (album == null) {
                 return ResponseEntity.badRequest().body(null);
             }
-            
+
             albumService.updateArtist(artistId, album.getAlbumId(), true);
             albumService.updateSongs(album.getAlbumId(), true);
             albumService.setArtist(album.getAlbumId(), artistId);
             return ResponseEntity.ok(new AlbumModel(album));
-        }
-        else return ResponseEntity.badRequest().body(null);
+        } else
+            return ResponseEntity.badRequest().body(null);
     }
 
     @DeleteMapping("/{id}")

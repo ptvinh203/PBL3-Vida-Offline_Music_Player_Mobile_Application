@@ -6,10 +6,16 @@ import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.List;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+
+import models.SongModel;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -56,13 +62,7 @@ public class SongView extends JFrame {
 
         contentPane.add(pnHeader);
 
-        String[][] data = new String[1][6];
-        data[0][0] = "1";
-        data[0][1] = "2";
-        data[0][2] = "3";
-        data[0][3] = "4";
-        data[0][4] = "5";
-        data[0][5] = "6";
+        String[][] data = new String[0][];
         String[] columnsName = { "ID", "Name", "Artist", "Album", "MusicURL", "ArtworkURL" };
         artistTable = new JTable(data, columnsName);
         artistTable.setBorder(new LineBorder(Color.BLACK, 1));
@@ -136,6 +136,23 @@ public class SongView extends JFrame {
         btnAdd.addActionListener(actionListener);
         btnEdit.addActionListener(actionListener);
         btnDelete.addActionListener(actionListener);
+    }
+
+    public void setSongTable(List<SongModel> listSongModels) {
+        String[][] data = new String[listSongModels.size()][];
+        String[] columnsName = { "ID", "Name", "Artist", "Album", "MusicURL", "ArtworkURL" };
+        TableModel tableModel = new DefaultTableModel(data, columnsName);
+        int i = 0;
+        for (SongModel songModel : listSongModels) {
+            tableModel.setValueAt(String.valueOf(songModel.getSongId()), i, 0);
+            tableModel.setValueAt(songModel.getSongName(), i, 1);
+            tableModel.setValueAt(songModel.getArtist(), i, 2);
+            tableModel.setValueAt(songModel.getArtist(), i, 3);
+            tableModel.setValueAt(songModel.getMusicFileUrl(), i, 4);
+            tableModel.setValueAt(songModel.getBackgroundImageFileUrl(), i, 5);
+            i++;
+        }
+        artistTable.setModel(tableModel);
     }
 
     public void addMouseListener(MouseListener mouseListener) {
