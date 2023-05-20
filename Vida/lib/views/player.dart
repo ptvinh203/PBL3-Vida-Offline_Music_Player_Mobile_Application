@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dart_tags/dart_tags.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
@@ -6,10 +10,30 @@ import 'package:Vida/consts/colors.dart';
 import 'package:Vida/consts/text_style.dart';
 import 'package:Vida/controllers/player_controller.dart';
 
-class Player extends StatelessWidget {
+
+class Player extends StatefulWidget {
   final List<SongModel> songList;
 
   const Player({super.key, required this.songList});
+
+  @override
+  State<Player> createState() => _PlayerState();
+}
+
+class _PlayerState extends State<Player> {
+  Future<String> getArtistName(SongModel songmd) async {
+    print(songmd.data);
+    final file = File(songmd.data);
+    var tagString;
+    final tagProcessor = TagProcessor();
+    return file.readAsBytes().then((bytes) {
+      final futureBytes = Future.value(bytes);
+      return tagProcessor.getTagsFromByteArray(futureBytes).then((tags) {
+        tagString = tags.elementAt(0).tags["artist"];
+        return utf8.decode(tagString.toString().runes.toList());
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +65,8 @@ class Player extends StatelessWidget {
                   width: 330,
                   alignment: Alignment.center,
                   child: QueryArtworkWidget(
-                    id: songList[controller.playIndex.value].id,
+                    id: widget
+                        .songList[controller.playIndex.value].id,
                     type: ArtworkType.AUDIO,
                     artworkQuality: FilterQuality.high,
                     artworkHeight: 350,
@@ -73,7 +98,9 @@ class Player extends StatelessWidget {
                 () => Column(
                   children: [
                     const SizedBox(height: 30),
-                    Text(songList[controller.playIndex.value].title,
+                    Text(
+                        widget.songList[controller.playIndex.value]
+                            .title,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
@@ -82,7 +109,10 @@ class Player extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             foreground: Paint()..shader = linearGradient)),
                     const SizedBox(height: 10),
-                    Text(songList[controller.playIndex.value].artist.toString(),
+                    Text(
+                        widget.songList[controller.playIndex.value]
+                                .artist
+                                .toString(),
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
@@ -144,11 +174,14 @@ class Player extends StatelessWidget {
                         IconButton(
                             onPressed: () {
                               controller.playSong(
-                                  songList[(controller.playIndex.value - 1) %
-                                          songList.length]
+                                  widget
+                                      .songList[
+                                          (controller.playIndex.value - 1) %
+                                              widget.songList.length]
+                                      
                                       .uri,
                                   (controller.playIndex.value - 1) %
-                                      songList.length);
+                                      widget.songList.length);
                             },
                             icon: Icon(Icons.skip_previous,
                                 size: 40, color: bar)),
@@ -183,11 +216,14 @@ class Player extends StatelessWidget {
                         IconButton(
                             onPressed: () {
                               controller.playSong(
-                                  songList[(controller.playIndex.value + 1) %
-                                          songList.length]
+                                  widget
+                                      .songList[
+                                          (controller.playIndex.value + 1) %
+                                              widget.songList.length]
+                                
                                       .uri,
                                   (controller.playIndex.value + 1) %
-                                      songList.length);
+                                      widget.songList.length);
                             },
                             icon: Icon(
                               Icons.skip_next,

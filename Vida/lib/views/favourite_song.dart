@@ -10,9 +10,10 @@ import 'package:Vida/consts/colors.dart';
 import 'package:Vida/consts/text_style.dart';
 import 'package:Vida/controllers/player_controller.dart';
 import 'package:Vida/views/player.dart';
-import 'offline_page.dart';
+import 'offline_page.dart' as offl;
 import '../widget/custom_icon_button.dart';
 import '../widget/loved_icon.dart';
+import 'offline_page.dart';
 
 class Favourite extends StatefulWidget {
   Favourite({super.key});
@@ -28,8 +29,7 @@ class _FavouriteState extends State<Favourite> {
   }
 
   List<Widget> buildTrailing(int index, bool isPlaying) {
-    print("Building favourite page");
-    LovedIcon icon = LovedIcon(isLoved: controller.isLoveds[index]);
+    print("Building favourite page");    LovedIcon icon = LovedIcon(isLoved: controller.isLoveds[index]);
     var widgets = <Widget>[];
     widgets.add(
       IconButton(

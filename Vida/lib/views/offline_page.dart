@@ -69,6 +69,7 @@ class _OfflinePageState extends State<OfflinePage> {
     final file = File(songmd.data);
     var tagString;
     final tagProcessor = TagProcessor();
+    //tagProcessor.putTagsToByteArray(bytes)
     return file.readAsBytes().then((bytes) {
       final futureBytes = Future.value(bytes);
       return tagProcessor.getTagsFromByteArray(futureBytes).then((tags) {
@@ -205,7 +206,9 @@ class _OfflinePageState extends State<OfflinePage> {
                                           fontWeight: FontWeight.bold,
                                           size: 15.0,
                                         )),
-                                subtitle: Text(snapshot.data![index].artistName ?? snapshot.data![index].songModel.artist!,
+                                subtitle: Text(
+                                    snapshot.data![index].artistName ??
+                                        snapshot.data![index].songModel.artist!,
                                     style: ourStyle(
                                         size: 15.0, color: littleWhite)),
                                 leading: Container(
@@ -239,7 +242,7 @@ class _OfflinePageState extends State<OfflinePage> {
                                   Get.to(
                                     () => Player(
                                         songList: snapshot.data!
-                                            .map((e) => e.songModel)
+                                            .map<SongModel>((e) => e.songModel)
                                             .toList()),
                                     transition: Transition.downToUp,
                                   );
