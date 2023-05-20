@@ -14,6 +14,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
+import lombok.Getter;
+import lombok.Setter;
 import models.AlbumModel;
 
 import java.awt.BorderLayout;
@@ -29,19 +31,21 @@ public class AlbumView extends JFrame {
     private JPanel contentPane;
     private JPanel pnBody;
     private JLabel lbTitle;
-    private JTable artistTable;
+    private JLabel lbAllAlbum;
 
-    private JTextField txtSearch;
+    public JTextField txtSearch;
+    public JTable albumTable;
     public JButton btnShowSong, btnAdd, btnEdit, btnDelete;;
+
+    @Setter
+    @Getter
+    private Integer artistId;
 
     private static AlbumView instance;
 
     private static final Color COLOR_1 = new Color(12, 19, 79);
-    // private static final Color COLOR_2 = new Color(29, 38, 125);
     private static final Color COLOR_3 = new Color(92, 70, 156);
     private static final Color COLOR_4 = new Color(212, 173, 252);
-    private static final Color COLOR_LITTLE_WHILE = new Color(255, 255, 255, 180);
-    private JLabel lbAllAlbum;
 
     private void init() {
         contentPane = new JPanel(null);
@@ -65,19 +69,20 @@ public class AlbumView extends JFrame {
 
         String[][] data = new String[0][];
         String[] columnsName = { "ID", "Name", "The number of songs" };
-        artistTable = new JTable(data, columnsName);
-        artistTable.setBorder(new LineBorder(Color.BLACK, 1));
-        artistTable.setBackground(COLOR_LITTLE_WHILE);
-        artistTable.setShowGrid(true);
-        artistTable.setSelectionBackground(Color.LIGHT_GRAY);
-        artistTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        artistTable.setFont(new Font("Verdana", Font.PLAIN, 14));
+        albumTable = new JTable(data, columnsName);
+        albumTable.setBorder(new LineBorder(Color.BLACK, 1));
+        albumTable.setBackground(COLOR_4);
+        albumTable.setShowGrid(true);
+        albumTable.setSelectionBackground(Color.LIGHT_GRAY);
+        albumTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        albumTable.setFont(new Font("Verdana", Font.PLAIN, 14));
+        albumTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-        JScrollPane jScrollPane = new JScrollPane(artistTable);
+        JScrollPane jScrollPane = new JScrollPane(albumTable);
         jScrollPane.getViewport().setBackground(COLOR_4);
         jScrollPane.setBorder(new LineBorder(Color.BLACK, 2));
 
-        JTableHeader tableHeader = artistTable.getTableHeader();
+        JTableHeader tableHeader = albumTable.getTableHeader();
         tableHeader.setFont(new Font("Verdana", Font.BOLD, 14));
 
         pnBody = new JPanel();
@@ -122,6 +127,12 @@ public class AlbumView extends JFrame {
         contentPane.add(txtSearch);
         txtSearch.setColumns(1);
 
+        lbAllAlbum = new JLabel("All album");
+        lbAllAlbum.setFont(new Font("Verdana", Font.ITALIC, 14));
+        lbAllAlbum.setHorizontalAlignment(SwingConstants.CENTER);
+        lbAllAlbum.setBounds(295, 190, 139, 28);
+        contentPane.add(lbAllAlbum);
+
     }
 
     private AlbumView() {
@@ -130,13 +141,6 @@ public class AlbumView extends JFrame {
         setBounds(0, 0, 1102, 719);
         setLocationRelativeTo(null);
         setContentPane(contentPane);
-
-        lbAllAlbum = new JLabel("All album");
-        lbAllAlbum.setFont(new Font("Verdana", Font.ITALIC, 14));
-        lbAllAlbum.setHorizontalAlignment(SwingConstants.CENTER);
-        lbAllAlbum.setBounds(295, 190, 139, 28);
-        contentPane.add(lbAllAlbum);
-
         setTitle("Admin Page");
     }
 
@@ -161,7 +165,46 @@ public class AlbumView extends JFrame {
             tableModel.setValueAt(albumModel.getSongsAlbum().size(), i, 2);
             i++;
         }
-        artistTable.setModel(tableModel);
+        albumTable.setModel(tableModel);
+    }
+
+    public void reset() {
+        lbTitle.setText("------------- ALBUM MANAGEMENT -------------");
+        lbAllAlbum.setText("All album");
+        pnBody.setBounds(0, 228, 1088, 454);
+        setBounds(0, 0, 1102, 719);
+        setLocationRelativeTo(null);
+
+        btnAdd.setEnabled(true);
+        btnDelete.setEnabled(true);
+        btnEdit.setEnabled(true);
+        btnShowSong.setEnabled(true);
+    }
+
+    public void artistAlbumView(String artistName, int width, int height) {
+        lbTitle.setText("------------- ALBUM OF ARTIST MANAGEMENT -------------");
+        lbAllAlbum.setText("All album of " + artistName);
+        pnBody.setBounds(0, 228, 1088, 454 - (719 - height));
+        setBounds(0, 0, width, height);
+        setLocationRelativeTo(null);
+        btnAdd.setEnabled(false);
+        btnEdit.setEnabled(false);
+        btnDelete.setEnabled(false);
+    }
+
+    public void chooseAlbumMode() {
+        btnAdd.setEnabled(false);
+        btnDelete.setEnabled(false);
+        btnEdit.setEnabled(false);
+        btnShowSong.setEnabled(false);
+    }
+
+    public boolean isChooseAlbumMode() {
+        return !btnAdd.isEnabled();
+    }
+
+    public boolean isArtistAlbumView() {
+        return lbTitle.getText().contains("ARTIST");
     }
 
     public static AlbumView getInstance() {

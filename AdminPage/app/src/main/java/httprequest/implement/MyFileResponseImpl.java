@@ -68,7 +68,7 @@ public class MyFileResponseImpl implements IMyFileResponse {
             response = byteArrayOutputStream.toString(Charset.forName("UTF-8"));
             connection.disconnect();
         } else
-            throw new Exception("Server returned non-OK status: " + responseCode);
+            throw new Exception("FILE: Server returned non-OK status: " + responseCode);
 
         return response;
     }
@@ -121,7 +121,7 @@ public class MyFileResponseImpl implements IMyFileResponse {
             response = byteArrayOutputStream.toString(Charset.forName("UTF-8"));
             connection.disconnect();
         } else
-            throw new Exception("Server returned non-OK status: " + responseCode);
+            throw new Exception("FILE: Server returned non-OK status: " + responseCode);
 
         return response;
     }

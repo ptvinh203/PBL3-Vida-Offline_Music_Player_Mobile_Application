@@ -14,8 +14,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.AccessLevel;
 
-@NoArgsConstructor@AllArgsConstructor
-@Setter@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 @Builder
 @Entity
 public class User {

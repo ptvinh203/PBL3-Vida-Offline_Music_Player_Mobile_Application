@@ -11,14 +11,18 @@ import httprequest.ISongResponse;
 import httprequest.implement.AlbumResponseImpl;
 import httprequest.implement.ArtistResponseImpl;
 import httprequest.implement.SongResponseImpl;
+import lombok.Getter;
 import view.HomePageView;
 
 public class HomePageController implements ActionListener {
     private final HomePageView homePageView;
 
-    private ArtistController artistController;
-    private SongController songController;
-    private AlbumController albumController;
+    @Getter
+    private static final ArtistController artistController = new ArtistController();
+    @Getter
+    private static final SongController songController = new SongController();
+    @Getter
+    private static final AlbumController albumController = new AlbumController();
 
     private IArtistResponse iArtistResponse;
     private ISongResponse iSongResponse;
@@ -27,10 +31,6 @@ public class HomePageController implements ActionListener {
     public HomePageController() {
         homePageView = HomePageView.getInstance();
         homePageView.addActionListener(this);
-
-        artistController = new ArtistController();
-        songController = new SongController();
-        albumController = new AlbumController();
 
         iArtistResponse = new ArtistResponseImpl();
         iSongResponse = new SongResponseImpl();

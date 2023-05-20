@@ -91,11 +91,12 @@ public class ArtistServiceImpl implements ArtistService {
         updateAlbums(result.getArtistId());
         updateSingleAndEpSongs(result.getArtistId());
 
-        List<Album> lAlbums = result.getAlbums();
-        for (Album album : lAlbums) {
-            albumService.updateSongs(album.getAlbumId(), true);
+        if (result.getAlbums() != null) {
+            List<Album> lAlbums = result.getAlbums();
+            for (Album album : lAlbums) {
+                albumService.updateSongs(album.getAlbumId(), true);
+            }
         }
-
         return result;
     }
 
@@ -269,5 +270,15 @@ public class ArtistServiceImpl implements ArtistService {
                 }
             }
         }
+    }
+
+    @Override
+    public ArtistModel findByName(String artistName) {
+        for (Artist artist : artistRepository.findAll()) {
+            if (artist.getArtistName().compareToIgnoreCase(artistName) == 0) {
+                return new ArtistModel(artist);
+            }
+        }
+        return null;
     }
 }

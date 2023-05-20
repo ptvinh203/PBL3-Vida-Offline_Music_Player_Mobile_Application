@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.SwingConstants;
@@ -29,18 +28,16 @@ public class ArtistView extends JFrame {
     private JPanel contentPane;
     private JPanel pnBody;
     private JLabel lbTitle;
-    private JTable artistTable;
 
-    private JTextField txtSearch;
+    public JTextField txtSearch;
+    public JTable artistTable;
     public JButton btnShowSong, btnShowAlbum, btnAdd, btnEdit, btnDelete;;
 
     private static ArtistView instance;
 
     private static final Color COLOR_1 = new Color(12, 19, 79);
-    // private static final Color COLOR_2 = new Color(29, 38, 125);
     private static final Color COLOR_3 = new Color(92, 70, 156);
     private static final Color COLOR_4 = new Color(212, 173, 252);
-    private static final Color COLOR_LITTLE_WHILE = new Color(255, 255, 255, 180);
 
     private void init() {
         contentPane = new JPanel(null);
@@ -66,11 +63,12 @@ public class ArtistView extends JFrame {
         String[] columnsName = { "ID", "Name", "ImageUrl" };
         artistTable = new JTable(data, columnsName);
         artistTable.setBorder(new LineBorder(Color.BLACK, 1));
-        artistTable.setBackground(COLOR_LITTLE_WHILE);
+        artistTable.setBackground(COLOR_4);
         artistTable.setShowGrid(true);
         artistTable.setSelectionBackground(Color.LIGHT_GRAY);
         artistTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         artistTable.setFont(new Font("Verdana", Font.PLAIN, 14));
+        artistTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
         JScrollPane jScrollPane = new JScrollPane(artistTable);
         jScrollPane.getViewport().setBackground(COLOR_4);
@@ -161,7 +159,24 @@ public class ArtistView extends JFrame {
         artistTable.setModel(tableModel);
     }
 
-    public void addMouseListener(MouseListener mouseListener) {
+    public void reset() {
+        btnAdd.setEnabled(true);
+        btnDelete.setEnabled(true);
+        btnEdit.setEnabled(true);
+        btnShowAlbum.setEnabled(true);
+        btnShowSong.setEnabled(true);
+    }
+
+    public void chooseArtistMode() {
+        btnAdd.setEnabled(false);
+        btnDelete.setEnabled(false);
+        btnEdit.setEnabled(false);
+        btnShowAlbum.setEnabled(false);
+        btnShowSong.setEnabled(false);
+    }
+
+    public boolean isChooseArtistMode() {
+        return !btnAdd.isEnabled();
     }
 
     public static ArtistView getInstance() {
