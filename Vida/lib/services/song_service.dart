@@ -48,14 +48,14 @@ class SongService {
     }
   }
 
-  Future<List<String>> _fetchSuggestions(String searchValue) async {
-    final uri = Uri.http(api_url, "/search/");
+  //Future<List<String>> _fetchSuggestions(String searchValue) async {
+  //  final uri = Uri.http(api_url, "/search/");
     
 
-    return .where((element) {
-      return element.toLowerCase().contains(searchValue.toLowerCase());
-    }).toList();
-  }
+  //  return .where((element) {
+  //    return element.toLowerCase().contains(searchValue.toLowerCase());
+  //  }).toList();
+  //}
 
 
 

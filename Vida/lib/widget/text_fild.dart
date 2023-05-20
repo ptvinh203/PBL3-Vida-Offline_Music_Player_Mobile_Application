@@ -35,6 +35,7 @@ Widget textFild({
               hintText: hintTxt,
               hintStyle: hintStyle,
             ),
+            
             style: headline2,
           ),
         ),
