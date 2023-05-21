@@ -169,15 +169,6 @@ public class ArtistView extends JFrame {
     }
 
     public void chooseSongArtistMode() {
-        lbTitle.setText("------------- CHOOSE ALBUM'S ARTIST -------------");
-        btnAdd.setEnabled(false);
-        btnDelete.setEnabled(false);
-        btnEdit.setEnabled(false);
-        btnShowAlbum.setEnabled(false);
-        btnShowSong.setEnabled(false);
-    }
-
-    public void chooseAlbumArtistMode() {
         lbTitle.setText("------------- CHOOSE SONG'S ARTIST -------------");
         btnAdd.setEnabled(false);
         btnDelete.setEnabled(false);
@@ -186,12 +177,21 @@ public class ArtistView extends JFrame {
         btnShowSong.setEnabled(false);
     }
 
+    public void chooseAlbumArtistMode() {
+        lbTitle.setText("------------- CHOOSE ALBUM'S ARTIST -------------");
+        btnAdd.setEnabled(false);
+        btnDelete.setEnabled(false);
+        btnEdit.setEnabled(false);
+        btnShowAlbum.setEnabled(false);
+        btnShowSong.setEnabled(false);
+    }
+
     public boolean isChooseSongArtistMode() {
-        return lbTitle.getText().contains("ALBUM");
+        return lbTitle.getText().contains("SONG");
     }
 
     public boolean isChooseAlbumArtistMode() {
-        return lbTitle.getText().contains("SONG");
+        return lbTitle.getText().contains("ALBUM");
     }
 
     public static ArtistView getInstance() {

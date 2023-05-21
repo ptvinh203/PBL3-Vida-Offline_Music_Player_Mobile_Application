@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import lombok.Getter;
+import models.AlbumModel;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,6 +21,9 @@ public class AlbumEditView extends JFrame {
     private JPanel contentPane;
     private JLabel lbTitle;;
     private JTextField txtName;
+    private JLabel lbId;
+    private JTextField txtId;
+    @Getter
     private JTextField txtArtist;
 
     private static AlbumEditView instance;
@@ -28,10 +33,7 @@ public class AlbumEditView extends JFrame {
     private static final Color COLOR_3 = new Color(92, 70, 156);
     private static final Color COLOR_LITTLE_WHILE = new Color(255, 255, 255, 200);
 
-    public JButton btnChooseArtist;
-    public JButton btnCreate;
-    private JLabel lbId;
-    private JTextField txtId;
+    public JButton btnUpdate;
 
     private void init() {
         contentPane = new JPanel(null);
@@ -59,13 +61,13 @@ public class AlbumEditView extends JFrame {
         txtName.setBackground(Color.WHITE);
         contentPane.add(txtName);
 
-        btnCreate = new JButton("CREATE");
-        btnCreate.setFont(new Font("Verdana", Font.BOLD, 20));
-        btnCreate.setBounds(10, 309, 578, 44);
-        btnCreate.setBorder(new LineBorder(COLOR_1, 3));
-        btnCreate.setBackground(COLOR_1_180);
-        btnCreate.setForeground(COLOR_LITTLE_WHILE);
-        contentPane.add(btnCreate);
+        btnUpdate = new JButton("UPDATE");
+        btnUpdate.setFont(new Font("Verdana", Font.BOLD, 20));
+        btnUpdate.setBounds(10, 309, 578, 44);
+        btnUpdate.setBorder(new LineBorder(COLOR_1, 3));
+        btnUpdate.setBackground(COLOR_1_180);
+        btnUpdate.setForeground(COLOR_LITTLE_WHILE);
+        contentPane.add(btnUpdate);
 
         JLabel lbArtist = new JLabel("Artist:");
         lbArtist.setForeground(new Color(255, 255, 255, 200));
@@ -80,31 +82,15 @@ public class AlbumEditView extends JFrame {
         txtArtist.setBorder(new LineBorder(COLOR_1, 2));
         txtArtist.setBackground(Color.WHITE);
         txtArtist.setBounds(170, 240, 418, 58);
+        txtArtist.setEditable(false);
         contentPane.add(txtArtist);
 
-        btnChooseArtist = new JButton("ARTIST");
-        btnChooseArtist.setForeground(new Color(255, 255, 255, 200));
-        btnChooseArtist.setFont(new Font("Verdana", Font.BOLD, 10));
-        btnChooseArtist.setBorder(new LineBorder(COLOR_1, 3));
-        btnChooseArtist.setBackground(new Color(12, 19, 79, 180));
-        btnChooseArtist.setBounds(503, 73, 85, 21);
-        contentPane.add(btnChooseArtist);
-
-    }
-
-    private AlbumEditView() {
-        init();
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setBounds(0, 0, 612, 400);
-        setLocationRelativeTo(null);
-        setContentPane(contentPane);
-        
         lbId = new JLabel("Id:");
         lbId.setForeground(new Color(255, 255, 255, 200));
         lbId.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 18));
         lbId.setBounds(10, 104, 150, 58);
         contentPane.add(lbId);
-        
+
         txtId = new JTextField();
         txtId.setEditable(false);
         txtId.setFont(new Font("Verdana", Font.PLAIN, 12));
@@ -113,29 +99,38 @@ public class AlbumEditView extends JFrame {
         txtId.setBackground(Color.WHITE);
         txtId.setBounds(170, 104, 418, 58);
         contentPane.add(txtId);
+    }
+
+    private AlbumEditView() {
+        init();
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setBounds(0, 0, 612, 400);
+        setLocationRelativeTo(null);
+        setContentPane(contentPane);
+
         setAlwaysOnTop(true);
         setTitle("Admin Page");
     }
 
     public void addActionListener(ActionListener actionListener) {
-        btnCreate.addActionListener(actionListener);
-        btnReset.addActionListener(actionListener);
-        btnChooseArtist.addActionListener(actionListener);
+        btnUpdate.addActionListener(actionListener);
     }
 
-    public void reset() {
-        txtName.setText("");
-        txtArtist.setText("");
+    public void setDefaultInfo(AlbumModel albumModel) {
+        txtId.setText(String.valueOf(albumModel.getAlbumId()));
+        txtName.setText(albumModel.getAlbumName());
     }
 
-//    public AlbumModel getAlbumModel() throws Exception {
-//        if (txtName.getText() == null || txtName.getText().isEmpty()) {
-//            throw new Exception("Please fill full information!");
-//        }
-//        AlbumModel albumModel = new AlbumModel();
-//        albumModel.setAlbumName(txtName.getText().trim());
-//        return albumModel;
-//    }
+    public AlbumModel getAlbumModel() throws Exception {
+        if (txtName.getText() == null || txtName.getText().isEmpty() || txtId.getText() == null
+                || txtId.getText().isEmpty()) {
+            throw new Exception("Please fill full information!");
+        }
+        AlbumModel albumModel = new AlbumModel();
+        albumModel.setAlbumId(Integer.parseInt(txtId.getText()));
+        albumModel.setAlbumName(txtName.getText().trim());
+        return albumModel;
+    }
 
     public static AlbumEditView getInstance() {
         if (instance == null) {
