@@ -24,13 +24,13 @@ import com.pbl3.musicapplication.service.SongService;
 import jakarta.annotation.Nonnull;
 
 @Service
-public class SongServiceImpl implements SongService{
+public class SongServiceImpl implements SongService {
     @Autowired
     private SongRepository songRepository;
 
     @Autowired
     private ArtistRepository artistRepository;
-    
+
     @Autowired
     private AlbumRepository albumRepository;
 
@@ -39,7 +39,7 @@ public class SongServiceImpl implements SongService{
 
     @Autowired
     private PlaylistRepository playlistRepository;
-    
+
     @Override
     public Song create(@Nonnull SongModel songModel) {
         Song song = new Song(songModel);
@@ -53,13 +53,14 @@ public class SongServiceImpl implements SongService{
         Song fromDB = songRepository.findById(id).orElse(null);
         if (fromDB != null) {
             fromDB.setSongName(songModel.getSongName());
-            fromDB.setDownloadDate(songModel.getDownloadDate());
-    
-            if (fromDB.isValid()) return songRepository.save(fromDB);
+
+            if (fromDB.isValid())
+                return songRepository.save(fromDB);
         }
         return null;
     }
-    @Override 
+
+    @Override
     public SongModel setArtist(Integer songId, Integer artistId) {
         Artist artist = artistRepository.findById(artistId).orElse(null);
         Song song = songRepository.findById(songId).orElse(null);
@@ -69,7 +70,8 @@ public class SongServiceImpl implements SongService{
         }
         return null;
     }
-    @Override 
+
+    @Override
     public SongModel setAlbum(Integer songId, Integer albumId) {
         Album album = albumRepository.findById(albumId).orElse(null);
         Song song = songRepository.findById(songId).orElse(null);
@@ -79,6 +81,7 @@ public class SongServiceImpl implements SongService{
         }
         return null;
     }
+
     @Override
     public SongModel setSongFile(Integer songId, Integer fileId) {
         Song song = songRepository.findById(songId).orElse(null);
@@ -87,21 +90,21 @@ public class SongServiceImpl implements SongService{
             String[] arr = myFile.getFileType().split("/");
             if (arr[0].compareToIgnoreCase("audio") == 0) {
                 song.setMusicFile(myFile);
-            }
-            else if (arr[0].compareToIgnoreCase("image") == 0) {
+            } else if (arr[0].compareToIgnoreCase("image") == 0) {
                 song.setBackgroundImageFile(myFile);
             }
             return new SongModel(songRepository.save(song));
         }
         return null;
     }
+
     @Override
     public SongModel removeAlbum(Integer songId) {
         Song song = songRepository.findById(songId).orElse(null);
         if (song != null) {
             song.setAlbum(null);
             return new SongModel(songRepository.save(song));
-        }   
+        }
         return null;
     }
 
@@ -109,6 +112,7 @@ public class SongServiceImpl implements SongService{
     public void deleteById(Integer id) {
         songRepository.deleteById(id);
     }
+
     @Override
     public void deleteAll() {
         songRepository.deleteAll();
@@ -117,7 +121,8 @@ public class SongServiceImpl implements SongService{
     @Override
     public SongModel findById(Integer id) {
         Song fromDB = songRepository.findById(id).orElse(null);
-        if (fromDB == null) return null;
+        if (fromDB == null)
+            return null;
 
         return new SongModel(fromDB);
     }
@@ -130,8 +135,6 @@ public class SongServiceImpl implements SongService{
         }
         return songNameList;
     }
-
-    
 
     @Override
     public List<SongModel> findAll() {
@@ -155,14 +158,15 @@ public class SongServiceImpl implements SongService{
             List<Song> list = artist.getSingleAndEpSongs();
             boolean contains = false;
             for (Song tmp : list) {
-                if (tmp.getSongId().compareTo(songId) == 0){
-                    if (!checkAdd) list.remove(tmp);
+                if (tmp.getSongId().compareTo(songId) == 0) {
+                    if (!checkAdd)
+                        list.remove(tmp);
                     contains = true;
                     break;
                 }
             }
-            if (!contains && checkAdd) list.add(song);
-
+            if (!contains && checkAdd)
+                list.add(song);
 
             artist.setSingleAndEpSongs(list);
             artistRepository.save(artist);
@@ -180,12 +184,14 @@ public class SongServiceImpl implements SongService{
             boolean contains = false;
             for (Song tmp : list) {
                 if (tmp.getSongId().compareTo(songId) == 0) {
-                    if (!checkAdd) list.remove(tmp);
+                    if (!checkAdd)
+                        list.remove(tmp);
                     contains = true;
                     break;
                 }
             }
-            if (!contains && checkAdd) list.add(song);
+            if (!contains && checkAdd)
+                list.add(song);
 
             album.setSongsAlbum(list);
             albumRepository.save(album);
@@ -193,6 +199,7 @@ public class SongServiceImpl implements SongService{
         }
         return false;
     }
+
     @Override
     public Boolean updatePlaylist(Integer songId, Boolean checkAdd) {
         Song song = songRepository.findById(songId).orElse(null);
@@ -202,14 +209,15 @@ public class SongServiceImpl implements SongService{
                 boolean contains = false;
                 for (Song tmp : listSong) {
                     if (tmp.getSongId().compareTo(songId) == 0) {
-                        if (!checkAdd) listSong.remove(tmp);
+                        if (!checkAdd)
+                            listSong.remove(tmp);
                         contains = true;
                         break;
                     }
                 }
-                if (!contains && checkAdd) listSong.add(song);
+                if (!contains && checkAdd)
+                    listSong.add(song);
 
-                
                 playlist.setSongsPlaylist(listSong);
                 playlistRepository.save(playlist);
             }
@@ -217,7 +225,7 @@ public class SongServiceImpl implements SongService{
             return null;
         }
         return false;
-    } 
+    }
 
     @Override
     public ArtistModel getArtistSong(Integer songId) {
@@ -253,8 +261,4 @@ public class SongServiceImpl implements SongService{
         return null;
     }
 
-
-
-    
-    
 }

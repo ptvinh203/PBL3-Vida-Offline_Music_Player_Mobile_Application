@@ -52,14 +52,6 @@ public class ArtistResponseImpl implements IArtistResponse {
         return result;
     }
 
-    public static String jsonStringArtistModel(ArtistModel artistModel) {
-
-        StringBuffer jsonString = new StringBuffer();
-        jsonString.append("{\"artistName\":" + "\"" + artistModel.getArtistName() + "\"");
-
-        return jsonString.toString();
-    }
-
     @Override
     public ArtistModel findById(int id) throws Exception {
         URL url = new URL(URL_STR + "/" + id);
@@ -83,7 +75,7 @@ public class ArtistResponseImpl implements IArtistResponse {
             JSONObject jsonObject = new JSONObject(response.toString());
             return parseArtistModel(jsonObject);
         } else {
-            throw new Exception("Can't get data from server!");
+            throw new Exception("ARTIST: Can't get data from server!");
         }
     }
 
@@ -115,7 +107,7 @@ public class ArtistResponseImpl implements IArtistResponse {
             }
             return result;
         } else {
-            throw new Exception("Can't get data from server!");
+            throw new Exception("ARTIST: Can't get data from server!");
         }
     }
 
@@ -150,7 +142,7 @@ public class ArtistResponseImpl implements IArtistResponse {
 
             connection.disconnect();
         } else {
-            throw new Exception("Server returned non-OK status: " + responseCode);
+            throw new Exception("ARTIST: Server returned non-OK status: " + responseCode);
         }
         return parseArtistModel(new JSONObject(response.toString()));
     }
@@ -176,7 +168,7 @@ public class ArtistResponseImpl implements IArtistResponse {
     }
 
     @Override
-    public String update(int id, ArtistModel data) throws Exception {
+    public boolean update(int id, ArtistModel data) throws Exception {
         URL url = new URL(URL_STR + "/" + id);
 
         connection = (HttpURLConnection) url.openConnection();
@@ -195,9 +187,9 @@ public class ArtistResponseImpl implements IArtistResponse {
 
         int responseCode = connection.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
-            return "Updated";
+            return true;
         }
-        return "Can't update";
+        return false;
     }
 
 }

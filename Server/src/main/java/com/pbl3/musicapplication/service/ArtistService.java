@@ -8,6 +8,8 @@ import com.pbl3.musicapplication.model.model.ArtistModel;
 import jakarta.annotation.Nonnull;
 
 public interface ArtistService extends GenericService<Artist, ArtistModel> {
+    ArtistModel findByName(String artistName);
+
     List<String> getArtistNameList();
 
     Boolean updateAlbums(Integer artistId);

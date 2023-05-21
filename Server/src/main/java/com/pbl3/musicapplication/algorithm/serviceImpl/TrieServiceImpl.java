@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import com.pbl3.musicapplication.algorithm.Trie;
 import com.pbl3.musicapplication.algorithm.TrieNode;
 import com.pbl3.musicapplication.algorithm.TrieService;
+import com.pbl3.musicapplication.model.model.ArtistModel;
 import com.pbl3.musicapplication.model.model.SongModel;
+import com.pbl3.musicapplication.service.ArtistService;
 import com.pbl3.musicapplication.service.SongService;
 
 @Service
@@ -27,6 +29,8 @@ public class TrieServiceImpl implements TrieService {
 
     @Autowired
     private SongService songService;
+    @Autowired
+    private ArtistService artistService;
 
     public TrieServiceImpl() {
         try {
@@ -66,7 +70,16 @@ public class TrieServiceImpl implements TrieService {
     @Override
     public List<?> search(String prefix, boolean isArtist) {
         if (isArtist) {
-            return artistTrie.autocomplete(prefix);
+            List<String> listArtistName = artistTrie.autocomplete(prefix);
+            List<ArtistModel> result = new ArrayList<>();
+            for (String artistName : listArtistName) {
+                ArtistModel artistModel = artistService.findByName(artistName);
+                if (artistModel != null) {
+                    result.add(artistModel);
+                }
+            }
+            return result;
+
         } else {
             List<String> listSongName = songTrie.autocomplete(prefix);
             List<SongModel> result = new ArrayList<>();

@@ -7,9 +7,7 @@ public interface IHttpResponse<T> {
 
     List<T> findAll() throws Exception;
 
-    T create(T data) throws Exception;
-
     void deleteById(Integer id) throws Exception;
 
-    String update(int id, T data) throws Exception;
+    boolean update(int id, T data) throws Exception;
 }

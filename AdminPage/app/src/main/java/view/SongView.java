@@ -5,11 +5,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
@@ -29,18 +29,17 @@ public class SongView extends JFrame {
     private JPanel contentPane;
     private JPanel pnBody;
     private JLabel lbTitle;
-    private JTable artistTable;
-
+    private JLabel lbAllSong;
     private JTextField txtSearch;
+
+    public JTable songTable;
     public JButton btnAdd, btnEdit, btnDelete;;
 
     private static SongView instance;
 
     private static final Color COLOR_1 = new Color(12, 19, 79);
-    // private static final Color COLOR_2 = new Color(29, 38, 125);
     private static final Color COLOR_3 = new Color(92, 70, 156);
     private static final Color COLOR_4 = new Color(212, 173, 252);
-    private static final Color COLOR_LITTLE_WHILE = new Color(255, 255, 255, 180);
 
     private void init() {
         contentPane = new JPanel(null);
@@ -63,20 +62,22 @@ public class SongView extends JFrame {
         contentPane.add(pnHeader);
 
         String[][] data = new String[0][];
-        String[] columnsName = { "ID", "Name", "Artist", "Album", "MusicURL", "ArtworkURL" };
-        artistTable = new JTable(data, columnsName);
-        artistTable.setBorder(new LineBorder(Color.BLACK, 1));
-        artistTable.setBackground(COLOR_LITTLE_WHILE);
-        artistTable.setShowGrid(true);
-        artistTable.setSelectionBackground(Color.LIGHT_GRAY);
-        artistTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        artistTable.setFont(new Font("Verdana", Font.PLAIN, 14));
+        String[] columnsName = { "ID", "Name", "Artist", "MusicURL", "ArtworkURL" };
+        songTable = new JTable(data, columnsName);
+        songTable.setBorder(new LineBorder(Color.BLACK, 1));
+        songTable.setBackground(COLOR_4);
+        songTable.setShowGrid(true);
+        songTable.setSelectionBackground(Color.LIGHT_GRAY);
+        songTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        songTable.setFont(new Font("Verdana", Font.PLAIN, 14));
+        songTable.setForeground(Color.BLACK);
+        songTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-        JScrollPane jScrollPane = new JScrollPane(artistTable);
+        JScrollPane jScrollPane = new JScrollPane(songTable);
         jScrollPane.getViewport().setBackground(COLOR_4);
         jScrollPane.setBorder(new LineBorder(Color.BLACK, 2));
 
-        JTableHeader tableHeader = artistTable.getTableHeader();
+        JTableHeader tableHeader = songTable.getTableHeader();
         tableHeader.setFont(new Font("Verdana", Font.BOLD, 14));
 
         pnBody = new JPanel();
@@ -115,7 +116,7 @@ public class SongView extends JFrame {
         contentPane.add(txtSearch);
         txtSearch.setColumns(1);
 
-        JLabel lbAllSong = new JLabel("All song");
+        lbAllSong = new JLabel("All song");
         lbAllSong.setFont(new Font("Verdana", Font.ITALIC, 18));
         lbAllSong.setHorizontalAlignment(SwingConstants.CENTER);
         lbAllSong.setBounds(295, 190, 227, 28);
@@ -138,24 +139,58 @@ public class SongView extends JFrame {
         btnDelete.addActionListener(actionListener);
     }
 
+    public void addDocumentListener(DocumentListener documentListener) {
+        txtSearch.getDocument().addDocumentListener(documentListener);
+    }
+
     public void setSongTable(List<SongModel> listSongModels) {
         String[][] data = new String[listSongModels.size()][];
-        String[] columnsName = { "ID", "Name", "Artist", "Album", "MusicURL", "ArtworkURL" };
+        String[] columnsName = { "ID", "Name", "Artist", "MusicURL", "ArtworkURL" };
         TableModel tableModel = new DefaultTableModel(data, columnsName);
         int i = 0;
         for (SongModel songModel : listSongModels) {
             tableModel.setValueAt(String.valueOf(songModel.getSongId()), i, 0);
             tableModel.setValueAt(songModel.getSongName(), i, 1);
-            tableModel.setValueAt(songModel.getArtist(), i, 2);
-            tableModel.setValueAt(songModel.getArtist(), i, 3);
-            tableModel.setValueAt(songModel.getMusicFileUrl(), i, 4);
-            tableModel.setValueAt(songModel.getBackgroundImageFileUrl(), i, 5);
+            tableModel.setValueAt(songModel.getArtistName(), i, 2);
+            tableModel.setValueAt(songModel.getMusicFileUrl(), i, 3);
+            tableModel.setValueAt(songModel.getBackgroundImageFileUrl(), i, 4);
             i++;
         }
-        artistTable.setModel(tableModel);
+        songTable.setModel(tableModel);
     }
 
-    public void addMouseListener(MouseListener mouseListener) {
+    public void reset() {
+        lbTitle.setText("------------------ SONG MANAGEMENT ------------------");
+        lbAllSong.setText("All song");
+        pnBody.setBounds(0, 228, 1088, 454);
+        setBounds(0, 0, 1102, 719);
+        setLocationRelativeTo(null);
+        btnAdd.setEnabled(true);
+        btnEdit.setEnabled(true);
+        btnDelete.setEnabled(true);
+    }
+
+    public void changeSongView(String name, int width, int height, boolean isArtistSongView) {
+        if (isArtistSongView) {
+            lbTitle.setText("------------------ SINGLE AND EP SONG OF ARTIST MANAGEMENT ------------------");
+        } else {
+            lbTitle.setText("------------------ SONG OF ALBUM MANAGEMENT ------------------");
+        }
+        lbAllSong.setText("All song of " + name);
+        pnBody.setBounds(0, 228, 1088, 454 - (719 - height));
+        setBounds(0, 0, width, height);
+        setLocationRelativeTo(null);
+        btnAdd.setEnabled(false);
+        btnEdit.setEnabled(false);
+        btnDelete.setEnabled(false);
+    }
+
+    public boolean isArtistSongView() {
+        return lbTitle.getText().contains("ARTIST");
+    }
+
+    public boolean isAlbumSongView() {
+        return lbTitle.getText().contains("ALBUM");
     }
 
     public static SongView getInstance() {

@@ -23,14 +23,15 @@ dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
 
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation 'com.google.code.gson:gson:2.7'
+
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation 'org.json:json:20090211'
+
     compileOnly 'org.projectlombok:lombok:1.18.26'
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
-
-
-    implementation group: 'org.json', name: 'json', version: '20090211'
-    implementation group: 'com.google.code.gson', name: 'gson',  version: '2.7'
 }
-
 
 application {
     // Define the main class for the application.
