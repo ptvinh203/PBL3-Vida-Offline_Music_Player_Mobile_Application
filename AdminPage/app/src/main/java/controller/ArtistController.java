@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import adminpage.App;
+import controller.add.AlbumAddController;
 import controller.add.ArtistAddController;
 import controller.add.SongAddController;
 import controller.edit.ArtistEditController;
@@ -29,6 +31,8 @@ public class ArtistController implements ActionListener, WindowListener {
     private AlbumController albumController;
     @Setter
     private SongAddController songAddController;
+    @Setter
+    private AlbumAddController albumAddController;
 
     @Getter
     private static final ArtistAddController artistAddController = new ArtistAddController();
@@ -56,7 +60,8 @@ public class ArtistController implements ActionListener, WindowListener {
                         .findById(Integer.parseInt(artistView.artistTable.getValueAt(row, 0).toString().trim()));
 
                 setAlbumController(HomePageController.getAlbumController());
-                artistView.setVisible(false);
+
+                artistView.setEnabled(false);
                 albumController.setArtistId(artistModel.getArtistId());
                 albumController.artistAlbumView(artistModel.getArtistName(), 1102, 519);
                 albumController.showGUI(artistModel.getAlbums());
@@ -78,7 +83,8 @@ public class ArtistController implements ActionListener, WindowListener {
                         .findById(Integer.parseInt(artistView.artistTable.getValueAt(row, 0).toString().trim()));
 
                 setSongController(HomePageController.getSongController());
-                artistView.setVisible(false);
+
+                artistView.setEnabled(false);
                 songController.changeSongView(artistModel.getArtistName(), 1102, 519, true);
                 songController.showGUI(artistModel.getSingleAndEpSongs());
             } catch (NumberFormatException e1) {
@@ -98,7 +104,7 @@ public class ArtistController implements ActionListener, WindowListener {
                 ArtistModel artistModel = iArtistResponse
                         .findById((Integer.parseInt(artistView.artistTable.getValueAt(row, 0).toString().trim())));
 
-                artistView.setVisible(false);
+                artistView.setEnabled(false);
                 artistEditController.showGUI(artistModel);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(artistView, e.getMessage(), "Invalid format artist's ID",
@@ -148,13 +154,21 @@ public class ArtistController implements ActionListener, WindowListener {
         } else if (e.getSource() == artistView.btnShowSong) {
             showSingleAndEpSong();
         } else if (e.getSource() == artistView.btnAdd) {
-            artistView.setVisible(false);
+            artistView.setEnabled(false);
             artistAddController.showGUI();
         } else if (e.getSource() == artistView.btnEdit) {
             editArtist();
         } else if (e.getSource() == artistView.btnDelete) {
             deleteArtist();
         }
+    }
+
+    public void setEnabled(boolean enabled) {
+        artistView.setEnabled(enabled);
+    }
+
+    public void setArtistTable(List<ArtistModel> lArtistModels) {
+        artistView.setArtistTable(lArtistModels);
     }
 
     public void showGUI() {
@@ -175,8 +189,12 @@ public class ArtistController implements ActionListener, WindowListener {
         }
     }
 
-    public void chooseArtistMode() {
-        artistView.chooseArtistMode();
+    public void chooseSongArtistMode() {
+        artistView.chooseSongArtistMode();
+    }
+
+    public void chooseAlbumArtistMode() {
+        artistView.chooseAlbumArtistMode();
     }
 
     public int getArtistId() {
@@ -195,11 +213,18 @@ public class ArtistController implements ActionListener, WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        if (artistView.isChooseArtistMode()) {
+        if (artistView.isChooseSongArtistMode()) {
             artistView.reset();
             setSongAddController(SongController.getSongAddController());
             songAddController.setArtistId(getArtistId());
             songAddController.showGUI();
+        } else if (artistView.isChooseAlbumArtistMode()) {
+            artistView.reset();
+            setAlbumAddController(AlbumController.getAlbumAddController());
+            albumAddController.setArtistId(getArtistId());
+            albumAddController.showGUI();
+        } else {
+            App.homePageController.showGUI();
         }
     }
 

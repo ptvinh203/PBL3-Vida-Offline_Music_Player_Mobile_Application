@@ -6,9 +6,9 @@ package adminpage;
 import controller.HomePageController;
 
 public class App {
+    public static HomePageController homePageController = new HomePageController();
 
     public static void main(String[] args) {
-        HomePageController homePageController = new HomePageController();
         homePageController.showGUI();
     }
 }

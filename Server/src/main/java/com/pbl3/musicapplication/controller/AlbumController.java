@@ -49,7 +49,7 @@ public class AlbumController {
         return ResponseEntity.ok(albumService.getAlbumNameList());
     }
 
-    @PostMapping("/{artistId}")
+    @PostMapping(value = "/{artistId}", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     public ResponseEntity<AlbumModel> create(@PathVariable Integer artistId, @RequestBody AlbumModel albumModel) {
         if (artistService.findById(artistId) != null) {
             Album album = albumService.create(albumModel);

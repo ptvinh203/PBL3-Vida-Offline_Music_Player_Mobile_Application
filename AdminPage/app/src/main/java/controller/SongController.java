@@ -4,17 +4,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import adminpage.App;
 import controller.add.SongAddController;
 import controller.edit.SongEditController;
+import httprequest.IAlbumResponse;
 import httprequest.IArtistResponse;
 import httprequest.IMyFileResponse;
 import httprequest.ISongResponse;
+import httprequest.implement.AlbumResponseImpl;
 import httprequest.implement.ArtistResponseImpl;
 import httprequest.implement.MyFileResponseImpl;
 import httprequest.implement.SongResponseImpl;
@@ -42,6 +46,8 @@ public class SongController implements ActionListener, WindowListener, DocumentL
     private ISongResponse iSongResponse;
     @Setter
     private IMyFileResponse iMyFileResponse;
+    @Setter
+    private IAlbumResponse iAlbumResponse;
 
     public SongController() {
         songView = SongView.getInstance();
@@ -91,7 +97,7 @@ public class SongController implements ActionListener, WindowListener, DocumentL
                 SongModel songModel = iSongResponse
                         .findById((Integer.parseInt(songView.songTable.getValueAt(row, 0).toString().trim())));
 
-                songView.setVisible(false);
+                songView.setEnabled(false);
                 songEditController.showGUI(songModel);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(songView, e.getMessage(), "Invalid format song's ID",
@@ -103,15 +109,24 @@ public class SongController implements ActionListener, WindowListener, DocumentL
         }
     }
 
+    public void setEnabled(boolean enabled) {
+        songView.setEnabled(enabled);
+    }
+
+    public void setSongTable(List<SongModel> listSongModels) {
+        songView.setSongTable(listSongModels);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == songView.btnAdd) {
-            songView.setVisible(false);
+            songView.setEnabled(false);
             songAddController.showGUI();
         } else if (e.getSource() == songView.btnEdit) {
             editSong();
         } else if (e.getSource() == songView.btnDelete) {
             deleteSong();
+
         }
     }
 
@@ -136,7 +151,8 @@ public class SongController implements ActionListener, WindowListener, DocumentL
             setArtistController(HomePageController.getArtistController());
             setIArtistResponse(new ArtistResponseImpl());
             try {
-                artistController.showGUI(iArtistResponse.findAll());
+                artistController.setEnabled(true);
+                artistController.setArtistTable(iArtistResponse.findAll());
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -144,8 +160,16 @@ public class SongController implements ActionListener, WindowListener, DocumentL
         } else if (songView.isAlbumSongView()) {
             reset();
 
-            setAlbumController(HomePageController.getAlbumController());
-            albumController.showGUI();
+            try {
+                setAlbumController(HomePageController.getAlbumController());
+                setIAlbumResponse(new AlbumResponseImpl());
+                albumController.setEnabled(true);
+                albumController.showGUI(iAlbumResponse.findAll());
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        } else {
+            App.homePageController.showGUI();
         }
     }
 
@@ -175,16 +199,17 @@ public class SongController implements ActionListener, WindowListener, DocumentL
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        System.out.println("insertUpdate");
+
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        System.out.println("removeUpdate");
+
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
         System.out.println("changedUpdate");
+        System.out.println(new String(songView.txtSearch.getText().getBytes(Charset.forName("UTF-8"))));
     }
 }

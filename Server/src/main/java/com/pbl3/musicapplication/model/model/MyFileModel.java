@@ -1,6 +1,7 @@
 package com.pbl3.musicapplication.model.model;
 
 import com.pbl3.musicapplication.model.entity.MyFile;
+import com.pbl3.musicapplication.model.model.config.Config_IP;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,9 +15,9 @@ import lombok.Setter;
 @Getter
 @Builder
 public class MyFileModel {
-    private static final String SERVER_IP = "172.20.10.5";
+    private static final String SERVER_IP = Config_IP.SERVER_IP;
     private static final String SERVER_PORT = "8080";
-    private static final String URL_API = "https//" + SERVER_IP + ":" + SERVER_PORT + "/file/downloadFile/";
+    private static final String URL_API = "http://" + SERVER_IP + ":" + SERVER_PORT + "/file/downloadFile/";
 
     private String fileName;
     private String fileType;

@@ -28,7 +28,6 @@ import com.pbl3.musicapplication.service.ArtistService;
 import com.pbl3.musicapplication.service.MyFileService;
 import com.pbl3.musicapplication.service.SongService;
 
-
 @RestController
 @RequestMapping("/file")
 public class MyFileController {
@@ -43,26 +42,26 @@ public class MyFileController {
 
     @PostMapping("/uploadFile/artist/{artistId}")
     public ResponseEntity<MyFileModel> uploadArtistFile(
-        @PathVariable Integer artistId, @RequestParam("file") MultipartFile multipartFile) {
-        
+            @PathVariable Integer artistId, @RequestParam("file") MultipartFile multipartFile) {
+
         if (artistService.findById(artistId) != null) {
             MyFile myFile = myFileService.storeFile(multipartFile);
             artistService.setArtistImage(artistId, myFile.getFileId());
             return ResponseEntity.ok(new MyFileModel(myFile));
-        }
-        else return ResponseEntity.badRequest().body(null);
+        } else
+            return ResponseEntity.badRequest().body(null);
     }
 
     @PostMapping("/uploadFile/song/{songId}")
-    public ResponseEntity<MyFileModel> uploadSongFile (
-        @PathVariable Integer songId, @RequestParam("file") MultipartFile multipartFile) {
+    public ResponseEntity<MyFileModel> uploadSongFile(
+            @PathVariable Integer songId, @RequestParam("file") MultipartFile multipartFile) {
 
         if (songService.findById(songId) != null) {
             MyFile myFile = myFileService.storeFile(multipartFile);
             songService.setSongFile(songId, myFile.getFileId());
             return ResponseEntity.ok(new MyFileModel(myFile));
-        }
-        else return ResponseEntity.badRequest().body(null);
+        } else
+            return ResponseEntity.badRequest().body(null);
     }
 
     @GetMapping("/downloadFile/{fileId}")
@@ -71,12 +70,13 @@ public class MyFileController {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.parseMediaType(myFile.getFileType()));
-        httpHeaders.setContentDisposition(ContentDisposition.builder("attachment").filename(myFile.getFileName(), StandardCharsets.UTF_8).build());
+        httpHeaders.setContentDisposition(ContentDisposition.builder("attachment")
+                .filename(myFile.getFileName(), StandardCharsets.UTF_8).build());
 
         return ResponseEntity.ok()
-            // .contentType(MediaType.parseMediaType(myFile.getFileType()))
-            .headers(httpHeaders)
-            .body(new ByteArrayResource(myFile.getFileData()));
+                // .contentType(MediaType.parseMediaType(myFile.getFileType()))
+                .headers(httpHeaders)
+                .body(new ByteArrayResource(myFile.getFileData()));
     }
 
     @DeleteMapping("/{fileId}")
@@ -84,19 +84,18 @@ public class MyFileController {
         if (myFileService.findById(fileId) == null)
             return new ResponseEntity<>("Not found object", HttpStatus.NO_CONTENT);
         myFileService.deleteById(fileId);
-        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT); 
+        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{fileId}")
-    public ResponseEntity<MyFileModel> updateFile(@PathVariable Integer fileId, @RequestParam("file") MultipartFile multipartFile) {
+    public ResponseEntity<MyFileModel> updateFile(@PathVariable Integer fileId,
+            @RequestParam("file") MultipartFile multipartFile) {
         try {
             MyFile myFile = myFileService.update(fileId, multipartFile);
             return ResponseEntity.ok(new MyFileModel(myFile));
-        }
-        catch (FileNotFoundException nfException) {
+        } catch (FileNotFoundException nfException) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        catch (FileStorageException sException) {
+        } catch (FileStorageException sException) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }

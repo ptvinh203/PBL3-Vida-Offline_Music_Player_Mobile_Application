@@ -16,12 +16,13 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 
 import httprequest.IArtistResponse;
+import httprequest.config.Config_URL;
 import models.AlbumModel;
 import models.ArtistModel;
 import models.SongModel;
 
 public class ArtistResponseImpl implements IArtistResponse {
-    private final String URL_STR = "http://localhost:8080/artists";
+    private final String URL_STR = Config_URL.SERVER_IP + "/artists";
     private HttpURLConnection connection;
 
     public static ArtistModel parseArtistModel(JSONObject jsonObject) throws JSONException {

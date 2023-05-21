@@ -174,6 +174,7 @@ public class AlbumView extends JFrame {
         pnBody.setBounds(0, 228, 1088, 454);
         setBounds(0, 0, 1102, 719);
         setLocationRelativeTo(null);
+        setAlwaysOnTop(false);
 
         btnAdd.setEnabled(true);
         btnDelete.setEnabled(true);
@@ -185,11 +186,12 @@ public class AlbumView extends JFrame {
         lbTitle.setText("------------- ALBUM OF ARTIST MANAGEMENT -------------");
         lbAllAlbum.setText("All album of " + artistName);
         pnBody.setBounds(0, 228, 1088, 454 - (719 - height));
-        setBounds(0, 0, width, height);
-        setLocationRelativeTo(null);
         btnAdd.setEnabled(false);
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);
+        setBounds(0, 0, width, height);
+        setLocationRelativeTo(null);
+        setAlwaysOnTop(true);
     }
 
     public void chooseAlbumMode() {

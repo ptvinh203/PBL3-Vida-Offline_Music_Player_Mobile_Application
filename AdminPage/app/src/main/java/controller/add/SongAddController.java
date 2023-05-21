@@ -57,11 +57,10 @@ public class SongAddController implements ActionListener, WindowListener {
     }
 
     public void showGUI() {
-        albumId = -1;
-        artistId = -1;
-        songAddView.reset();
+        // songAddView.reset();
         setIAlbumResponse(new AlbumResponseImpl());
         setIArtistResponse(new ArtistResponseImpl());
+
         try {
             if (albumId != -1) {
                 AlbumModel albumModel = iAlbumResponse.findById(albumId);
@@ -101,7 +100,8 @@ public class SongAddController implements ActionListener, WindowListener {
 
                 songAddView.dispose();
                 setSongController(HomePageController.getSongController());
-                songController.showGUI(iSongResponse.findAll());
+                songController.setEnabled(true);
+                songController.setSongTable(iSongResponse.findAll());
             } else {
                 throw new Exception("Create-new-song: unsuccessfully!");
             }
@@ -134,7 +134,7 @@ public class SongAddController implements ActionListener, WindowListener {
             setIArtistResponse(new ArtistResponseImpl());
             try {
                 songAddView.dispose();
-                artistController.chooseArtistMode();
+                artistController.chooseSongArtistMode();
                 artistController.showGUI(iArtistResponse.findAll());
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -164,7 +164,8 @@ public class SongAddController implements ActionListener, WindowListener {
         setSongController(HomePageController.getSongController());
         setISongResponse(new SongResponseImpl());
         try {
-            songController.showGUI(iSongResponse.findAll());
+            songController.setEnabled(true);
+            songController.setSongTable(iSongResponse.findAll());
         } catch (Exception e1) {
             e1.printStackTrace();
         }

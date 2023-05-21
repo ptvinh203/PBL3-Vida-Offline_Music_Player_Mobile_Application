@@ -30,8 +30,8 @@ public class SongView extends JFrame {
     private JPanel pnBody;
     private JLabel lbTitle;
     private JLabel lbAllSong;
-    private JTextField txtSearch;
 
+    public JTextField txtSearch;
     public JTable songTable;
     public JButton btnAdd, btnEdit, btnDelete;;
 
@@ -165,6 +165,7 @@ public class SongView extends JFrame {
         pnBody.setBounds(0, 228, 1088, 454);
         setBounds(0, 0, 1102, 719);
         setLocationRelativeTo(null);
+        setAlwaysOnTop(false);
         btnAdd.setEnabled(true);
         btnEdit.setEnabled(true);
         btnDelete.setEnabled(true);
@@ -180,6 +181,7 @@ public class SongView extends JFrame {
         pnBody.setBounds(0, 228, 1088, 454 - (719 - height));
         setBounds(0, 0, width, height);
         setLocationRelativeTo(null);
+        setAlwaysOnTop(true);
         btnAdd.setEnabled(false);
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);

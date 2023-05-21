@@ -8,11 +8,15 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import adminpage.App;
+import controller.add.AlbumAddController;
 import controller.add.SongAddController;
+import controller.edit.AlbumEditController;
 import httprequest.IAlbumResponse;
 import httprequest.IArtistResponse;
 import httprequest.implement.AlbumResponseImpl;
 import httprequest.implement.ArtistResponseImpl;
+import lombok.Getter;
 import lombok.Setter;
 import models.AlbumModel;
 import view.AlbumView;
@@ -26,6 +30,11 @@ public class AlbumController implements ActionListener, WindowListener {
     private SongController songController;
     @Setter
     private SongAddController songAddController;
+
+    @Getter
+    private static final AlbumAddController albumAddController = new AlbumAddController();
+    @Getter
+    private static final AlbumEditController albumEditController = new AlbumEditController();
 
     @Setter
     private IArtistResponse iArtistResponse;
@@ -48,9 +57,58 @@ public class AlbumController implements ActionListener, WindowListener {
                         .findById(Integer.parseInt(albumView.albumTable.getValueAt(row, 0).toString().trim()));
 
                 setSongController(HomePageController.getSongController());
-                albumView.setVisible(false);
+
+                albumView.setEnabled(false);
                 songController.changeSongView(albumModel.getAlbumName(), 1102, 519, false);
                 songController.showGUI(albumModel.getSongsAlbum());
+            } catch (NumberFormatException e1) {
+                JOptionPane.showMessageDialog(albumView, e1.getMessage(), "Invalid format album's ID",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e1) {
+                JOptionPane.showMessageDialog(albumView, e1.getMessage(), "Not found object",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void editAlbum() {
+        int row = albumView.albumTable.getSelectedRow();
+        if (row != -1) {
+            try {
+                AlbumModel albumModel = iAlbumResponse
+                        .findById((Integer.parseInt(albumView.albumTable.getValueAt(row, 0).toString().trim())));
+
+                albumView.setEnabled(false);
+                albumEditController.showGUI(albumModel);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(albumView, e.getMessage(), "Invalid format artist's ID",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(albumView, e.getMessage(), "Not found object",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void delete() {
+        int row = albumView.albumTable.getSelectedRow();
+        if (row != -1) {
+            try {
+                int option = JOptionPane.showConfirmDialog(albumView, "Are you sure?", "DELETE OBJECT",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (option == 0) {
+                    AlbumModel albumModel = iAlbumResponse
+                            .findById(Integer.parseInt(albumView.albumTable.getValueAt(row, 0).toString().trim()));
+
+                    try {
+                        setIAlbumResponse(new AlbumResponseImpl());
+
+                        iAlbumResponse.deleteById(albumModel.getAlbumId());
+                        albumView.setAlbumTable(iAlbumResponse.findAll());
+                    } catch (NumberFormatException e1) {
+                        throw new Exception("Invalid format album file's ID");
+                    }
+                }
             } catch (NumberFormatException e1) {
                 JOptionPane.showMessageDialog(albumView, e1.getMessage(), "Invalid format album's ID",
                         JOptionPane.ERROR_MESSAGE);
@@ -65,6 +123,13 @@ public class AlbumController implements ActionListener, WindowListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == albumView.btnShowSong) {
             showSong();
+        } else if (e.getSource() == albumView.btnAdd) {
+            albumView.setEnabled(false);
+            albumAddController.showGUI();
+        } else if (e.getSource() == albumView.btnEdit) {
+            editAlbum();
+        } else if (e.getSource() == albumView.btnDelete) {
+            delete();
         }
     }
 
@@ -85,12 +150,20 @@ public class AlbumController implements ActionListener, WindowListener {
         albumView.reset();
     }
 
+    public void setAlbumModel(List<AlbumModel> albumModels) {
+        albumView.setAlbumTable(albumModels);
+    }
+
     public void artistAlbumView(String artistName, int width, int height) {
         albumView.artistAlbumView(artistName, width, height);
     }
 
     public void chooseAlbumMode() {
         albumView.chooseAlbumMode();
+    }
+
+    public void setEnabled(boolean enabled) {
+        albumView.setEnabled(enabled);
     }
 
     public int getAlbumId() {
@@ -116,7 +189,8 @@ public class AlbumController implements ActionListener, WindowListener {
             setArtistController(HomePageController.getArtistController());
             setIArtistResponse(new ArtistResponseImpl());
             try {
-                artistController.showGUI(iArtistResponse.findAll());
+                artistController.setEnabled(true);
+                artistController.setArtistTable(iArtistResponse.findAll());
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -125,6 +199,8 @@ public class AlbumController implements ActionListener, WindowListener {
             setSongAddController(SongController.getSongAddController());
             songAddController.setAlbumId(getAlbumId());
             songAddController.showGUI();
+        } else {
+            App.homePageController.showGUI();
         }
     }
 

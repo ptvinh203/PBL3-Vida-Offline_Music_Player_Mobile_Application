@@ -42,6 +42,7 @@ public class HomePageController implements ActionListener {
         if (e.getSource() == homePageView.btnSong) {
             try {
                 songController.showGUI(iSongResponse.findAll());
+                homePageView.setVisible(false);
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage(), "Song Response Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -49,6 +50,7 @@ public class HomePageController implements ActionListener {
         } else if (e.getSource() == homePageView.btnAlbum) {
             try {
                 albumController.showGUI(iAlbumResponse.findAll());
+                homePageView.setVisible(false);
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage(), "Album Response Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -56,6 +58,7 @@ public class HomePageController implements ActionListener {
         } else {
             try {
                 artistController.showGUI(iArtistResponse.findAll());
+                homePageView.setVisible(false);
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage(), "Artist Response Error",
                         JOptionPane.ERROR_MESSAGE);

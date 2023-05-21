@@ -61,7 +61,7 @@ public class SongController {
         return ResponseEntity.ok(songService.findSongByName(songName));
     }
 
-    @PostMapping("/artist/{artistId}")
+    @PostMapping(value = "/artist/{artistId}", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     public ResponseEntity<SongModel> createByArtist(@PathVariable Integer artistId, @RequestBody SongModel songModel) {
         if (artistService.findById(artistId) != null) {
             Song song = songService.create(songModel);
@@ -81,7 +81,7 @@ public class SongController {
             return ResponseEntity.badRequest().body(null);
     }
 
-    @PostMapping("/album/{albumId}")
+    @PostMapping(value = "/album/{albumId}", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     public ResponseEntity<SongModel> createByAlbum(@PathVariable Integer albumId, @RequestBody SongModel songModel) {
         if (albumService.findById(albumId) != null) {
             Song song = songService.create(songModel);
@@ -128,9 +128,23 @@ public class SongController {
 
     @PutMapping("/{id}")
     public ResponseEntity<SongModel> update(@PathVariable Integer id, @RequestBody SongModel songModel) {
+        SongModel song_old = songService.findById(id);
+        if (song_old == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        String songName_old = song_old.getSongName();
+
         Song song = songService.update(id, songModel);
         if (song == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        if (songName_old.compareTo(song.getSongName()) != 0) {
+            try {
+                trieService.delete(songName_old, false);
+                trieService.insert(song.getSongName(), false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return new ResponseEntity<>(new SongModel(song), HttpStatus.NO_CONTENT);
     }

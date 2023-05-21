@@ -72,7 +72,8 @@ public class SongEditController implements ActionListener, WindowListener {
                 }
                 songEditView.dispose();
                 setSongController(HomePageController.getSongController());
-                songController.showGUI(iSongResponse.findAll());
+                songController.setEnabled(true);
+                songController.setSongTable(iSongResponse.findAll());
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(songEditView, ex.getMessage(), "ERROR",
@@ -118,7 +119,8 @@ public class SongEditController implements ActionListener, WindowListener {
         setISongResponse(new SongResponseImpl());
         setSongController(HomePageController.getSongController());
         try {
-            songController.showGUI(iSongResponse.findAll());
+            songController.setEnabled(true);
+            songController.setSongTable(iSongResponse.findAll());
         } catch (Exception e1) {
             e1.printStackTrace();
         }

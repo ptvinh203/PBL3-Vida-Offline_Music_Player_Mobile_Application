@@ -161,15 +161,6 @@ public class SongEditView extends JFrame {
         lbArtworkFile.setBounds(10, 443, 150, 58);
         contentPane.add(lbArtworkFile);
 
-    }
-
-    private SongEditView() {
-        init();
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setBounds(0, 0, 612, 602);
-        setLocationRelativeTo(null);
-        setContentPane(contentPane);
-
         lbId = new JLabel("Id");
         lbId.setForeground(new Color(255, 255, 255, 200));
         lbId.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 18));
@@ -184,6 +175,16 @@ public class SongEditView extends JFrame {
         txtId.setBackground(Color.WHITE);
         txtId.setBounds(170, 103, 418, 58);
         contentPane.add(txtId);
+
+    }
+
+    private SongEditView() {
+        init();
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setBounds(0, 0, 612, 602);
+        setLocationRelativeTo(null);
+        setContentPane(contentPane);
+        setAlwaysOnTop(true);
         setTitle("Admin Page");
     }
 

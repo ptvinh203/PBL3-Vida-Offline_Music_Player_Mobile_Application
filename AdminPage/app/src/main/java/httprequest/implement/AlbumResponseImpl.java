@@ -16,11 +16,12 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 
 import httprequest.IAlbumResponse;
+import httprequest.config.Config_URL;
 import models.AlbumModel;
 import models.SongModel;
 
 public class AlbumResponseImpl implements IAlbumResponse {
-    private final String URL_STR = "http://localhost:8080/albums";
+    private final String URL_STR = Config_URL.SERVER_IP + "/albums";
     private HttpURLConnection connection;
 
     public static AlbumModel parseAlbumModel(JSONObject jsonObject) throws JSONException {

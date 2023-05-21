@@ -38,7 +38,7 @@ public class ArtistAddController implements ActionListener, WindowListener {
     public boolean checkValidArtist(ArtistModel artistModel) throws Exception {
         setIArtistResponse(new ArtistResponseImpl());
         for (ArtistModel artistModel2 : iArtistResponse.findAll()) {
-            if (artistModel.getArtistName().compareToIgnoreCase(artistModel2.getArtistName()) == 0) {
+            if (artistModel.getArtistName().compareTo(artistModel2.getArtistName()) == 0) {
                 return false;
             }
         }
@@ -69,7 +69,8 @@ public class ArtistAddController implements ActionListener, WindowListener {
 
                 artistAddView.dispose();
                 setArtistController(HomePageController.getArtistController());
-                artistController.showGUI(iArtistResponse.findAll());
+                artistController.setEnabled(true);
+                artistController.setArtistTable(iArtistResponse.findAll());
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(artistAddView, e1.getMessage(), "ERROR",
                         JOptionPane.ERROR_MESSAGE);
@@ -97,12 +98,11 @@ public class ArtistAddController implements ActionListener, WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-
         setIArtistResponse(new ArtistResponseImpl());
-
         setArtistController(HomePageController.getArtistController());
         try {
-            artistController.showGUI(iArtistResponse.findAll());
+            artistController.setEnabled(true);
+            artistController.setArtistTable(iArtistResponse.findAll());
         } catch (Exception e1) {
             e1.printStackTrace();
         }

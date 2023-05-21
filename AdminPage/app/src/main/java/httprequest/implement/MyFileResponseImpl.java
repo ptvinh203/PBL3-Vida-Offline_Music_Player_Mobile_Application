@@ -15,9 +15,10 @@ import java.nio.charset.Charset;
 import java.util.UUID;
 
 import httprequest.IMyFileResponse;
+import httprequest.config.Config_URL;
 
 public class MyFileResponseImpl implements IMyFileResponse {
-    private final String URL_STR = "http://localhost:8080/file";
+    private final String URL_STR = Config_URL.SERVER_IP + "/file";
     private HttpURLConnection connection;
 
     @Override

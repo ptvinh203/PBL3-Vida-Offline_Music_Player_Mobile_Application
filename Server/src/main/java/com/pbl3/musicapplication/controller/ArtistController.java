@@ -70,15 +70,31 @@ public class ArtistController {
         try {
             trieService.delete(artistModel.getArtistName(), true);
         } catch (IOException e) {
+            e.printStackTrace();
         }
         return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ArtistModel> update(@PathVariable Integer id, @RequestBody ArtistModel artistModel) {
+        ArtistModel artist_old = artistService.findById(id);
+        if (artist_old == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        String artistName_old = artist_old.getArtistName();
+
         Artist artist = artistService.update(id, artistModel);
         if (artist == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        if (artistName_old.compareTo(artist.getArtistName()) != 0) {
+            try {
+                trieService.delete(artistName_old, true);
+                trieService.insert(artist.getArtistName(), true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
         return new ResponseEntity<>(new ArtistModel(artist), HttpStatus.NO_CONTENT);
     }

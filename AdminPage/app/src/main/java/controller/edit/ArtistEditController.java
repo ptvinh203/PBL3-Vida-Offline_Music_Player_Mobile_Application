@@ -62,7 +62,8 @@ public class ArtistEditController implements ActionListener, WindowListener {
 
                 artistEditView.dispose();
                 setArtistController(HomePageController.getArtistController());
-                artistController.showGUI(iArtistResponse.findAll());
+                artistController.setEnabled(true);
+                artistController.setArtistTable(iArtistResponse.findAll());
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(artistEditView, ex.getMessage(), "ERROR",
@@ -97,7 +98,8 @@ public class ArtistEditController implements ActionListener, WindowListener {
         setIArtistResponse(new ArtistResponseImpl());
         setArtistController(HomePageController.getArtistController());
         try {
-            artistController.showGUI(iArtistResponse.findAll());
+            artistController.setEnabled(true);
+            artistController.setArtistTable(iArtistResponse.findAll());
         } catch (Exception e1) {
             e1.printStackTrace();
         }

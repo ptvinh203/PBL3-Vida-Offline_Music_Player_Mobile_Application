@@ -113,6 +113,7 @@ public class ArtistAddView extends JFrame {
         setBounds(0, 0, 612, 317);
         setLocationRelativeTo(null);
         setContentPane(contentPane);
+        setAlwaysOnTop(true);
         setTitle("Admin Page");
     }
 
