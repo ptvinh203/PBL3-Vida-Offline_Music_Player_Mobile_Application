@@ -15,6 +15,7 @@ import models.ArtistModel;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
@@ -121,6 +122,7 @@ public class ArtistEditView extends JFrame {
         setLocationRelativeTo(null);
         setContentPane(contentPane);
         setAlwaysOnTop(true);
+        setIconImage(new ImageIcon("assets/app_logo.png").getImage());
         setTitle("Admin Page");
     }
 

@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.JOptionPane;
 
@@ -14,7 +16,7 @@ import httprequest.implement.SongResponseImpl;
 import lombok.Getter;
 import view.HomePageView;
 
-public class HomePageController implements ActionListener {
+public class HomePageController implements ActionListener, ComponentListener {
     private final HomePageView homePageView;
 
     @Getter
@@ -68,5 +70,21 @@ public class HomePageController implements ActionListener {
 
     public void showGUI() {
         homePageView.setVisible(true);
+    }
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
     }
 }

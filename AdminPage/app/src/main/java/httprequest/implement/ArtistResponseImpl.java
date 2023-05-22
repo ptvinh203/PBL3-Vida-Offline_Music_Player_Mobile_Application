@@ -193,4 +193,10 @@ public class ArtistResponseImpl implements IArtistResponse {
         return false;
     }
 
+    @Override
+    public List<ArtistModel> search(String prefix) throws Exception {
+
+        return null;
+    }
+
 }

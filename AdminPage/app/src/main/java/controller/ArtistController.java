@@ -7,6 +7,8 @@ import java.awt.event.WindowListener;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import adminpage.App;
 import controller.add.AlbumAddController;
@@ -22,8 +24,13 @@ import lombok.Setter;
 import models.ArtistModel;
 import view.ArtistView;
 
-public class ArtistController implements ActionListener, WindowListener {
+public class ArtistController implements ActionListener, WindowListener, DocumentListener {
     private final ArtistView artistView;
+
+    @Getter
+    private static final ArtistAddController artistAddController = new ArtistAddController();
+    @Getter
+    private static final ArtistEditController artistEditController = new ArtistEditController();
 
     @Setter
     private SongController songController;
@@ -33,11 +40,6 @@ public class ArtistController implements ActionListener, WindowListener {
     private SongAddController songAddController;
     @Setter
     private AlbumAddController albumAddController;
-
-    @Getter
-    private static final ArtistAddController artistAddController = new ArtistAddController();
-    @Getter
-    private static final ArtistEditController artistEditController = new ArtistEditController();
 
     @Setter
     private IArtistResponse iArtistResponse;
@@ -147,22 +149,6 @@ public class ArtistController implements ActionListener, WindowListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == artistView.btnShowAlbum) {
-            showAlbum();
-        } else if (e.getSource() == artistView.btnShowSong) {
-            showSingleAndEpSong();
-        } else if (e.getSource() == artistView.btnAdd) {
-            artistView.setEnabled(false);
-            artistAddController.showGUI();
-        } else if (e.getSource() == artistView.btnEdit) {
-            editArtist();
-        } else if (e.getSource() == artistView.btnDelete) {
-            deleteArtist();
-        }
-    }
-
     public void setEnabled(boolean enabled) {
         artistView.setEnabled(enabled);
     }
@@ -178,15 +164,6 @@ public class ArtistController implements ActionListener, WindowListener {
     public void showGUI(List<ArtistModel> listArtistModels) {
         artistView.setArtistTable(listArtistModels);
         artistView.setVisible(true);
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-        try {
-            artistView.setArtistTable(iArtistResponse.findAll());
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
     }
 
     public void chooseSongArtistMode() {
@@ -209,6 +186,31 @@ public class ArtistController implements ActionListener, WindowListener {
             }
         }
         return -1;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == artistView.btnShowAlbum) {
+            showAlbum();
+        } else if (e.getSource() == artistView.btnShowSong) {
+            showSingleAndEpSong();
+        } else if (e.getSource() == artistView.btnAdd) {
+            artistView.setEnabled(false);
+            artistAddController.showGUI();
+        } else if (e.getSource() == artistView.btnEdit) {
+            editArtist();
+        } else if (e.getSource() == artistView.btnDelete) {
+            deleteArtist();
+        }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        try {
+            artistView.setArtistTable(iArtistResponse.findAll());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
 
     @Override
@@ -246,6 +248,30 @@ public class ArtistController implements ActionListener, WindowListener {
 
     @Override
     public void windowDeactivated(WindowEvent e) {
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        setIArtistResponse(new ArtistResponseImpl());
+        try {
+            artistView.setArtistTable(iArtistResponse.search(artistView.txtSearch.getText()));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        setIArtistResponse(new ArtistResponseImpl());
+        try {
+            artistView.setArtistTable(iArtistResponse.search(artistView.txtSearch.getText()));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
     }
 
 }

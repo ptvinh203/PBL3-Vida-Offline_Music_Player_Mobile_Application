@@ -38,6 +38,7 @@ class MusicapplicationApplicationTests {
 
 		// trieService.delete("song123", false);
 		// trieService.insert("song123456", false);
+		// trieService.delete("Anh đã ổn hơn", false);
 
 	}
 

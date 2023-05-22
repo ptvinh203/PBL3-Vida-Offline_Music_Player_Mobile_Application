@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
@@ -19,6 +20,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -133,7 +135,7 @@ public class ArtistView extends JFrame {
         setBounds(0, 0, 1102, 719);
         setLocationRelativeTo(null);
         setContentPane(contentPane);
-
+        setIconImage(new ImageIcon("assets/app_logo.png").getImage());
         setTitle("Admin Page");
     }
 
@@ -143,6 +145,10 @@ public class ArtistView extends JFrame {
         btnDelete.addActionListener(actionListener);
         btnShowAlbum.addActionListener(actionListener);
         btnShowSong.addActionListener(actionListener);
+    }
+
+    public void addDocumentListener(DocumentListener documentListener) {
+        txtSearch.getDocument().addDocumentListener(documentListener);
     }
 
     public void setArtistTable(List<ArtistModel> listArtistModel) {

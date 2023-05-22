@@ -14,6 +14,7 @@ import models.AlbumModel;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
@@ -107,7 +108,7 @@ public class AlbumEditView extends JFrame {
         setBounds(0, 0, 612, 400);
         setLocationRelativeTo(null);
         setContentPane(contentPane);
-
+        setIconImage(new ImageIcon("assets/app_logo.png").getImage());
         setAlwaysOnTop(true);
         setTitle("Admin Page");
     }

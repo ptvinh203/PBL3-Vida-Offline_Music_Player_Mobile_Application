@@ -20,6 +20,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -130,6 +131,7 @@ public class SongView extends JFrame {
         setBounds(0, 0, 1102, 719);
         setLocationRelativeTo(null);
         setContentPane(contentPane);
+        setIconImage(new ImageIcon("assets/app_logo.png").getImage());
         setTitle("Admin Page");
     }
 
