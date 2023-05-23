@@ -50,6 +50,7 @@ public class ArtistController implements ActionListener, WindowListener, Documen
         artistView = ArtistView.getInstance();
         artistView.addActionListener(this);
         artistView.addWindowListener(this);
+        artistView.addDocumentListener(this);
 
         iArtistResponse = new ArtistResponseImpl();
     }

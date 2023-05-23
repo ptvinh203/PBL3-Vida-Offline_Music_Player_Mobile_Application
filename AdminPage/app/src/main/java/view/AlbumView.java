@@ -126,7 +126,6 @@ public class AlbumView extends JFrame {
         txtSearch.setBorder(new LineBorder(COLOR_1, 2));
         txtSearch.setBounds(441, 190, 542, 28);
         contentPane.add(txtSearch);
-        txtSearch.setVisible(false);
         txtSearch.setColumns(1);
 
         lbAllAlbum = new JLabel("All album");

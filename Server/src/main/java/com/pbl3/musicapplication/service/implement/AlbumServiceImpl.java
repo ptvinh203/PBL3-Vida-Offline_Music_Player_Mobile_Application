@@ -219,4 +219,14 @@ public class AlbumServiceImpl implements AlbumService {
         }
         return null;
     }
+
+    @Override
+    public AlbumModel findAlbumByName(String albumName) {
+        for (Album album : albumRepository.findAll()) {
+            if (album.getAlbumName().compareTo(albumName) == 0) {
+                return new AlbumModel(album);
+            }
+        }
+        return null;
+    }
 }

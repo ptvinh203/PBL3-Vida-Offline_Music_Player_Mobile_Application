@@ -1,5 +1,6 @@
 package com.pbl3.musicapplication.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pbl3.musicapplication.algorithm.TrieService;
+import com.pbl3.musicapplication.algorithm.TrieType;
 import com.pbl3.musicapplication.model.entity.Album;
 import com.pbl3.musicapplication.model.model.AlbumModel;
 import com.pbl3.musicapplication.model.model.ArtistModel;
@@ -28,6 +31,8 @@ public class AlbumController {
     private AlbumService albumService;
     @Autowired
     private ArtistService artistService;
+    @Autowired
+    private TrieService trieService;
 
     @GetMapping("/{id}")
     public ResponseEntity<AlbumModel> findById(@PathVariable Integer id) {
@@ -60,6 +65,13 @@ public class AlbumController {
             albumService.updateArtist(artistId, album.getAlbumId(), true);
             albumService.updateSongs(album.getAlbumId(), true);
             albumService.setArtist(album.getAlbumId(), artistId);
+
+            try {
+                trieService.insert(album.getAlbumName(), TrieType.ALBUM);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             return ResponseEntity.ok(new AlbumModel(album));
         } else
             return ResponseEntity.badRequest().body(null);
@@ -76,14 +88,36 @@ public class AlbumController {
         albumService.updateArtist(artistModel.getArtistId(), id, false);
         albumService.updateSongs(id, false);
         albumService.deleteById(id);
+
+        try {
+            trieService.delete(albumModel.getAlbumName(), TrieType.ALBUM);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AlbumModel> update(@PathVariable Integer id, @RequestBody AlbumModel albumModel) {
+        AlbumModel album_old = albumService.findById(id);
+        if (album_old == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        String albumName_old = album_old.getAlbumName();
+
         Album album = albumService.update(id, albumModel);
         if (album == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        if (albumName_old.compareTo(album.getAlbumName()) != 0) {
+            try {
+                trieService.delete(albumName_old, TrieType.ALBUM);
+                trieService.insert(album.getAlbumName(), TrieType.ALBUM);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return new ResponseEntity<>(new AlbumModel(album), HttpStatus.NO_CONTENT);
     }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbl3.musicapplication.algorithm.TrieService;
+import com.pbl3.musicapplication.algorithm.TrieType;
 import com.pbl3.musicapplication.model.entity.Artist;
 import com.pbl3.musicapplication.model.model.ArtistModel;
 import com.pbl3.musicapplication.service.ArtistService;
@@ -54,8 +55,9 @@ public class ArtistController {
         // artistService.updateSingleAndEpSongs(artist.getArtistId());
 
         try {
-            trieService.insert(artist.getArtistName(), true);
+            trieService.insert(artist.getArtistName(), TrieType.ARTIST);
         } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return ResponseEntity.ok(new ArtistModel(artist));
@@ -68,7 +70,7 @@ public class ArtistController {
             return new ResponseEntity<>("Not found object", HttpStatus.NO_CONTENT);
         artistService.deleteById(id);
         try {
-            trieService.delete(artistModel.getArtistName(), true);
+            trieService.delete(artistModel.getArtistName(), TrieType.ARTIST);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,8 +91,8 @@ public class ArtistController {
         }
         if (artistName_old.compareTo(artist.getArtistName()) != 0) {
             try {
-                trieService.delete(artistName_old, true);
-                trieService.insert(artist.getArtistName(), true);
+                trieService.delete(artistName_old, TrieType.ARTIST);
+                trieService.insert(artist.getArtistName(), TrieType.ARTIST);
             } catch (IOException e) {
                 e.printStackTrace();
             }

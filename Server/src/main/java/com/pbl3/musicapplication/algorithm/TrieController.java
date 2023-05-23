@@ -18,21 +18,31 @@ public class TrieController {
 
     @GetMapping(value = "/artist/{prefix}")
     public ResponseEntity<List<?>> artistSearch(@PathVariable String prefix) {
-        return ResponseEntity.ok(trieService.search(prefix, true));
+        return ResponseEntity.ok(trieService.search(prefix, TrieType.ARTIST));
     }
 
     @GetMapping(value = "/song/{prefix}")
     public ResponseEntity<List<?>> songSearch(@PathVariable String prefix) {
-        return ResponseEntity.ok(trieService.search(prefix, false));
+        return ResponseEntity.ok(trieService.search(prefix, TrieType.SONG));
+    }
+
+    @GetMapping(value = "/album/{prefix}")
+    public ResponseEntity<List<?>> albumSearch(@PathVariable String prefix) {
+        return ResponseEntity.ok(trieService.search(prefix, TrieType.ALBUM));
     }
 
     @GetMapping("/artist/all")
     public ResponseEntity<List<String>> artistSearchAll() {
-        return ResponseEntity.ok(trieService.showAll(true));
+        return ResponseEntity.ok(trieService.showAll(TrieType.ARTIST));
     }
 
     @GetMapping("/song/all")
     public ResponseEntity<List<String>> songSearchAll() {
-        return ResponseEntity.ok(trieService.showAll(false));
+        return ResponseEntity.ok(trieService.showAll(TrieType.SONG));
+    }
+
+    @GetMapping("/album/all")
+    public ResponseEntity<List<String>> albumSearchAll() {
+        return ResponseEntity.ok(trieService.showAll(TrieType.ALBUM));
     }
 }
