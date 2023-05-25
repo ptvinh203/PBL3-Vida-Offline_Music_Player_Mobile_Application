@@ -1,6 +1,6 @@
 package httprequest.config;
 
 public class Config_URL {
-    private static final String IP = "172.20.10.5";
+    private static final String IP = "192.168.6.3";
     public static final String SERVER_IP = "http://" + IP + ":8080";
 }

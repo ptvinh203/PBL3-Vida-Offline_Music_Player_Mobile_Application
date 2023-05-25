@@ -10,6 +10,8 @@ import com.pbl3.musicapplication.model.model.SongModel;
 import jakarta.annotation.Nonnull;
 
 public interface AlbumService extends GenericService<Album, AlbumModel> {
+    AlbumModel findAlbumByName(String albumName);
+
     List<String> getAlbumNameList();
 
     List<SongModel> getAllSongsList(Integer id);

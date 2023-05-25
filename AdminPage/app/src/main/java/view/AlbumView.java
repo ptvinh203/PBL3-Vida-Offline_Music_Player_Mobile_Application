@@ -5,11 +5,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -141,6 +142,7 @@ public class AlbumView extends JFrame {
         setBounds(0, 0, 1102, 719);
         setLocationRelativeTo(null);
         setContentPane(contentPane);
+        setIconImage(new ImageIcon("assets/app_logo.png").getImage());
         setTitle("Admin Page");
     }
 
@@ -151,7 +153,8 @@ public class AlbumView extends JFrame {
         btnShowSong.addActionListener(actionListener);
     }
 
-    public void addMouseListener(MouseListener mouseListener) {
+    public void addDocumentListener(DocumentListener documentListener) {
+        txtSearch.getDocument().addDocumentListener(documentListener);
     }
 
     public void setAlbumTable(List<AlbumModel> listAlbumModel) {
@@ -195,6 +198,7 @@ public class AlbumView extends JFrame {
     }
 
     public void chooseAlbumMode() {
+        lbTitle.setText("------------- CHOOSE SONG'S ALBUM -------------");
         btnAdd.setEnabled(false);
         btnDelete.setEnabled(false);
         btnEdit.setEnabled(false);

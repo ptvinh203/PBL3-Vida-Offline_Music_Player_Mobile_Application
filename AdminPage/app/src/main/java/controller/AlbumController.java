@@ -7,6 +7,8 @@ import java.awt.event.WindowListener;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import adminpage.App;
 import controller.add.AlbumAddController;
@@ -21,7 +23,7 @@ import lombok.Setter;
 import models.AlbumModel;
 import view.AlbumView;
 
-public class AlbumController implements ActionListener, WindowListener {
+public class AlbumController implements ActionListener, WindowListener, DocumentListener {
     private final AlbumView albumView;
 
     @Setter
@@ -45,6 +47,7 @@ public class AlbumController implements ActionListener, WindowListener {
         albumView = AlbumView.getInstance();
         albumView.addActionListener(this);
         albumView.addWindowListener(this);
+        albumView.addDocumentListener(this);
 
         iAlbumResponse = new AlbumResponseImpl();
     }
@@ -234,5 +237,29 @@ public class AlbumController implements ActionListener, WindowListener {
 
     @Override
     public void windowDeactivated(WindowEvent e) {
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        setIAlbumResponse(new AlbumResponseImpl());
+        try {
+            albumView.setAlbumTable(iAlbumResponse.search(albumView.txtSearch.getText()));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        setIAlbumResponse(new AlbumResponseImpl());
+        try {
+            albumView.setAlbumTable(iAlbumResponse.search(albumView.txtSearch.getText()));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
     }
 }

@@ -4,17 +4,15 @@ import java.io.IOException;
 import java.util.List;
 
 public interface TrieService {
-    Trie buildArtistTrie() throws IOException, ClassNotFoundException;
+    Trie buildTrie(TrieType trieType) throws IOException, ClassNotFoundException;
 
-    Trie buildSongTrie() throws IOException, ClassNotFoundException;
+    void insert(String newName, TrieType trieType) throws IOException;
 
-    void insert(String newName, boolean isArtist) throws IOException;
+    void delete(String name, TrieType trieType) throws IOException;
 
-    void delete(String name, boolean isArtist) throws IOException;
+    List<?> search(String prefix, TrieType trieType);
 
-    List<?> search(String prefix, boolean isArtist);
+    void saveToFile(TrieType trieType) throws IOException;
 
-    void saveToFile(boolean isArtist) throws IOException;
-
-    List<String> showAll(boolean isArtist);
+    List<String> showAll(TrieType trieType);
 }

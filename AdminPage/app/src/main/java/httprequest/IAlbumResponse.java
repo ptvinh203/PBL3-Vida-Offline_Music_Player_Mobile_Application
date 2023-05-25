@@ -10,4 +10,5 @@ public interface IAlbumResponse extends IHttpResponse<AlbumModel> {
 
     List<SongModel> findAllSongByAlbumId(int albumId) throws Exception;
 
+    List<AlbumModel> search(String prefix) throws Exception;
 }

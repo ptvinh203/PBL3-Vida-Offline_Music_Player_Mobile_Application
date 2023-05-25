@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -117,19 +116,6 @@ public class SongController implements ActionListener, WindowListener, DocumentL
         songView.setSongTable(listSongModels);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == songView.btnAdd) {
-            songView.setEnabled(false);
-            songAddController.showGUI();
-        } else if (e.getSource() == songView.btnEdit) {
-            editSong();
-        } else if (e.getSource() == songView.btnDelete) {
-            deleteSong();
-
-        }
-    }
-
     public void reset() {
         songView.reset();
     }
@@ -141,6 +127,19 @@ public class SongController implements ActionListener, WindowListener, DocumentL
     public void showGUI(List<SongModel> listsSongModels) {
         songView.setSongTable(listsSongModels);
         songView.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == songView.btnAdd) {
+            songView.setEnabled(false);
+            songAddController.showGUI();
+        } else if (e.getSource() == songView.btnEdit) {
+            editSong();
+        } else if (e.getSource() == songView.btnDelete) {
+            deleteSong();
+
+        }
     }
 
     @Override
@@ -199,17 +198,25 @@ public class SongController implements ActionListener, WindowListener, DocumentL
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-
+        setISongResponse(new SongResponseImpl());
+        try {
+            songView.setSongTable(iSongResponse.search(songView.txtSearch.getText()));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-
+        setISongResponse(new SongResponseImpl());
+        try {
+            songView.setSongTable(iSongResponse.search(songView.txtSearch.getText()));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        System.out.println("changedUpdate");
-        System.out.println(new String(songView.txtSearch.getText().getBytes(Charset.forName("UTF-8"))));
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbl3.musicapplication.algorithm.TrieService;
+import com.pbl3.musicapplication.algorithm.TrieType;
 import com.pbl3.musicapplication.model.entity.Song;
 import com.pbl3.musicapplication.model.model.AlbumModel;
 import com.pbl3.musicapplication.model.model.ArtistModel;
@@ -72,8 +73,9 @@ public class SongController {
             songService.setArtist(song.getSongId(), artistId);
 
             try {
-                trieService.insert(song.getSongName(), false);
+                trieService.insert(song.getSongName(), TrieType.SONG);
             } catch (IOException e) {
+                e.printStackTrace();
             }
 
             return ResponseEntity.ok(new SongModel(song));
@@ -94,8 +96,9 @@ public class SongController {
             songService.setArtist(song.getSongId(), albumService.getArtistAlbum(albumId).getArtistId());
 
             try {
-                trieService.insert(song.getSongName(), false);
+                trieService.insert(song.getSongName(), TrieType.SONG);
             } catch (IOException e) {
+                e.printStackTrace();
             }
             return ResponseEntity.ok(new SongModel(song));
         } else
@@ -120,8 +123,9 @@ public class SongController {
         songService.deleteById(id);
 
         try {
-            trieService.delete(songModel.getSongName(), false);
+            trieService.delete(songModel.getSongName(), TrieType.SONG);
         } catch (IOException e) {
+            e.printStackTrace();
         }
         return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
@@ -140,8 +144,8 @@ public class SongController {
         }
         if (songName_old.compareTo(song.getSongName()) != 0) {
             try {
-                trieService.delete(songName_old, false);
-                trieService.insert(song.getSongName(), false);
+                trieService.delete(songName_old, TrieType.SONG);
+                trieService.insert(song.getSongName(), TrieType.SONG);
             } catch (IOException e) {
                 e.printStackTrace();
             }

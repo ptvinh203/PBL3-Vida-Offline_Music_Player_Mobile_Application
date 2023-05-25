@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -191,6 +192,50 @@ public class ArtistResponseImpl implements IArtistResponse {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<ArtistModel> search(String prefix) throws Exception {
+        String URL_CONNECTION;
+        if (prefix == null || prefix.isEmpty()) {
+            URL_CONNECTION = URL_STR + "/all";
+        } else {
+            StringBuffer prefixBuffer = new StringBuffer(prefix);
+
+            URL_CONNECTION = (Config_URL.SERVER_IP + "/search/artist/"
+                    + URLEncoder.encode(prefixBuffer.toString(), "UTF-8")).replaceAll("\\+", "%20");
+        }
+        URL url = new URL(URL_CONNECTION);
+
+        connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Content-Type", "text/html;charset=UTF-8");
+        connection.setRequestProperty("Accept-Charset", "UTF-8");
+        connection.setReadTimeout(5000);
+        connection.setConnectTimeout(5000);
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = reader.readLine()) != null) {
+                response.append(inputLine);
+            }
+            reader.close();
+
+            connection.disconnect();
+            List<ArtistModel> result = new ArrayList<>();
+            JSONArray jsonArray = new JSONArray(response.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                result.add(parseArtistModel(jsonArray.getJSONObject(i)));
+            }
+            return result;
+        } else {
+            throw new Exception("ARTIST-SEARCH: Can't get data from server!\nStatus code: "
+                    + responseCode);
+        }
     }
 
 }

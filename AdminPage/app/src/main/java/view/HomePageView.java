@@ -12,12 +12,14 @@ import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class HomePageView extends JFrame implements MouseListener {
-    private JPanel contentPane;
-    private JLabel lbTitle;
+    public JPanel contentPane, pnHeader;
+    public JLabel lbTitle;
     public JButton btnAlbum, btnSong, btnArtist;
 
     private static final Color COLOR_1 = new Color(12, 19, 79);
@@ -33,11 +35,10 @@ public class HomePageView extends JFrame implements MouseListener {
         contentPane.setBorder(new LineBorder(Color.BLACK));
         contentPane.setBackground(COLOR_4);
 
-        JPanel pnHeader = new JPanel();
+        pnHeader = new JPanel();
         pnHeader.setBounds(0, 0, 642, 180);
         pnHeader.setLayout(null);
         pnHeader.setBackground(COLOR_1);
-
         pnHeader.setBorder(new LineBorder(COLOR_2, 7));
 
         lbTitle = new JLabel("VIDA MUSIC APPLICATION'S ADMIN PAGE");
@@ -82,6 +83,41 @@ public class HomePageView extends JFrame implements MouseListener {
         setBounds(0, 0, 656, 449);
         setLocationRelativeTo(null);
         setContentPane(contentPane);
+        setIconImage(new ImageIcon("assets/app_logo.png").getImage());
+
+        // addComponentListener(new ComponentListener() {
+
+        // @Override
+        // public void componentResized(ComponentEvent e) {
+        // lbTitle.setBounds(0, 0, getWidth() - 14, (int) (getHeight() /
+        // 2.494444444444444));
+        // pnHeader.setBounds(0, 0, getWidth() - 14, (int) (getHeight() /
+        // 2.494444444444444));
+
+        // btnArtist.setBounds(10, pnHeader.getHeight() + 10, (int) (getWidth() / 3.28),
+        // (int) Math.ceil(getHeight() / 2.117924528301887));
+        // btnSong.setBounds(btnArtist.getX() + btnArtist.getWidth() + 10,
+        // btnArtist.getY(), btnArtist.getWidth(),
+        // btnArtist.getHeight());
+        // btnAlbum.setBounds(btnSong.getX() + btnSong.getWidth() + 10,
+        // btnArtist.getY(), btnArtist.getWidth(),
+        // btnArtist.getHeight());
+        // }
+
+        // @Override
+        // public void componentMoved(ComponentEvent e) {
+        // }
+
+        // @Override
+        // public void componentShown(ComponentEvent e) {
+        // }
+
+        // @Override
+        // public void componentHidden(ComponentEvent e) {
+        // }
+
+        // });
+
         setTitle("Admin Page");
     }
 
