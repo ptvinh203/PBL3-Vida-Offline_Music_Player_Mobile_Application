@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 import models.AlbumModel;
 import view.AlbumView;
+import view.ToastMessage;
 
 public class AlbumController implements ActionListener, WindowListener, DocumentListener {
     private final AlbumView albumView;
@@ -108,6 +109,11 @@ public class AlbumController implements ActionListener, WindowListener, Document
 
                         iAlbumResponse.deleteById(albumModel.getAlbumId());
                         albumView.setAlbumTable(iAlbumResponse.findAll());
+                        ToastMessage toastMessage = new ToastMessage(
+                                String.format("Delete album '%s' successfully!", albumModel.getAlbumName()));
+                        toastMessage.showToast(
+                                albumView.getX() + (albumView.getWidth() / 2) - (toastMessage.getWidth() / 4),
+                                albumView.getY() + albumView.getHeight() - 55);
                     } catch (NumberFormatException e1) {
                         throw new Exception("Invalid format album file's ID");
                     }
@@ -134,6 +140,22 @@ public class AlbumController implements ActionListener, WindowListener, Document
         } else if (e.getSource() == albumView.btnDelete) {
             delete();
         }
+    }
+
+    public void showUpdateToastMessage(int albumId) {
+        ToastMessage toastMessage = new ToastMessage(
+                String.format("Update album with '%s' successfully!",
+                        String.valueOf(albumId)));
+        toastMessage.showToast(
+                albumView.getX() + (albumView.getWidth() / 2) - (toastMessage.getWidth() / 4),
+                albumView.getY() + albumView.getHeight() - 55);
+    }
+
+    public void showCreateToastMessage() {
+        ToastMessage toastMessage = new ToastMessage("Create new album successfully!");
+        toastMessage.showToast(
+                albumView.getX() + (albumView.getWidth() / 2) - (toastMessage.getWidth() / 4),
+                albumView.getY() + albumView.getHeight() - 55);
     }
 
     public void showGUI() {

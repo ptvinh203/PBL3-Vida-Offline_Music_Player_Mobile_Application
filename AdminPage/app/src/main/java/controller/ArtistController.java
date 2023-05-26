@@ -23,6 +23,7 @@ import lombok.Getter;
 import lombok.Setter;
 import models.ArtistModel;
 import view.ArtistView;
+import view.ToastMessage;
 
 public class ArtistController implements ActionListener, WindowListener, DocumentListener {
     private final ArtistView artistView;
@@ -135,6 +136,12 @@ public class ArtistController implements ActionListener, WindowListener, Documen
 
                         iArtistResponse.deleteById(artistModel.getArtistId());
                         artistView.setArtistTable(iArtistResponse.findAll());
+                        ToastMessage toastMessage = new ToastMessage(
+                                String.format("Delete artist '%s' successfully!", artistModel.getArtistName()));
+                        toastMessage.showToast(
+                                artistView.getX() + (artistView.getWidth() / 2) - (toastMessage.getWidth() / 4),
+                                artistView.getY() + artistView.getHeight() - 55);
+
                     } catch (NumberFormatException e1) {
                         throw new Exception("Invalid format artist image file's ID");
                     }
@@ -148,6 +155,22 @@ public class ArtistController implements ActionListener, WindowListener, Documen
                         JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    public void showUpdateToastMessage(int artistId) {
+        ToastMessage toastMessage = new ToastMessage(
+                String.format("Update artist with '%s' successfully!",
+                        String.valueOf(artistId)));
+        toastMessage.showToast(
+                artistView.getX() + (artistView.getWidth() / 2) - (toastMessage.getWidth() / 4),
+                artistView.getY() + artistView.getHeight() - 55);
+    }
+
+    public void showCreateToastMessage() {
+        ToastMessage toastMessage = new ToastMessage("Create new artist successfully!");
+        toastMessage.showToast(
+                artistView.getX() + (artistView.getWidth() / 2) - (toastMessage.getWidth() / 4),
+                artistView.getY() + artistView.getHeight() - 55);
     }
 
     public void setEnabled(boolean enabled) {

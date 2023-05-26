@@ -25,6 +25,7 @@ import lombok.Getter;
 import lombok.Setter;
 import models.SongModel;
 import view.SongView;
+import view.ToastMessage;
 
 public class SongController implements ActionListener, WindowListener, DocumentListener {
     private final SongView songView;
@@ -74,6 +75,11 @@ public class SongController implements ActionListener, WindowListener, DocumentL
 
                         iSongResponse.deleteById(songModel.getSongId());
                         songView.setSongTable(iSongResponse.findAll());
+                        ToastMessage toastMessage = new ToastMessage(
+                                String.format("Delete song '%s' successfully!", songModel.getSongName()));
+                        toastMessage.showToast(
+                                songView.getX() + (songView.getWidth() / 2) - (toastMessage.getWidth() / 4),
+                                songView.getY() + songView.getHeight() - 55);
                     } catch (NumberFormatException e1) {
                         throw new Exception("Invalid format song file's ID");
                     }
@@ -106,6 +112,22 @@ public class SongController implements ActionListener, WindowListener, DocumentL
                         JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    public void showUpdateToastMessage(int songId) {
+        ToastMessage toastMessage = new ToastMessage(
+                String.format("Update song with '%s' successfully!",
+                        String.valueOf(songId)));
+        toastMessage.showToast(
+                songView.getX() + (songView.getWidth() / 2) - (toastMessage.getWidth() / 4),
+                songView.getY() + songView.getHeight() - 55);
+    }
+
+    public void showCreateToastMessage() {
+        ToastMessage toastMessage = new ToastMessage("Create new song successfully!");
+        toastMessage.showToast(
+                songView.getX() + (songView.getWidth() / 2) - (toastMessage.getWidth() / 4),
+                songView.getY() + songView.getHeight() - 55);
     }
 
     public void setEnabled(boolean enabled) {

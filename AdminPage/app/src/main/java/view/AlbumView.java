@@ -143,7 +143,8 @@ public class AlbumView extends JFrame {
         setLocationRelativeTo(null);
         setContentPane(contentPane);
         setIconImage(new ImageIcon("assets/app_logo.png").getImage());
-        setTitle("Admin Page");
+        setTitle("Album Management");
+        setResizable(false);
     }
 
     public void addActionListener(ActionListener actionListener) {

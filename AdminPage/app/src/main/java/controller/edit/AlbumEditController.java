@@ -54,6 +54,7 @@ public class AlbumEditController implements ActionListener, WindowListener {
                 iAlbumResponse.update(albumModel.getAlbumId(), albumModel);
                 albumController.setEnabled(true);
                 albumController.setAlbumModel(iAlbumResponse.findAll());
+                albumController.showUpdateToastMessage(albumModel.getAlbumId());
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(albumEditView, ex.getMessage(), "ERROR",

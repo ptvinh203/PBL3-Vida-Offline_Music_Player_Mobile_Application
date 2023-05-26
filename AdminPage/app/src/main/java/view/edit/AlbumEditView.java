@@ -110,7 +110,8 @@ public class AlbumEditView extends JFrame {
         setContentPane(contentPane);
         setIconImage(new ImageIcon("assets/app_logo.png").getImage());
         setAlwaysOnTop(true);
-        setTitle("Admin Page");
+        setTitle("Album Update");
+        setResizable(false);
     }
 
     public void addActionListener(ActionListener actionListener) {

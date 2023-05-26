@@ -95,6 +95,7 @@ public class AlbumAddController implements ActionListener, WindowListener {
                     setAlbumController(HomePageController.getAlbumController());
                     albumController.setEnabled(true);
                     albumController.setAlbumModel(iAlbumResponse.findAll());
+                    albumController.showCreateToastMessage();
                 } else {
                     throw new Exception("Create-new-album: unsuccessfully!");
                 }

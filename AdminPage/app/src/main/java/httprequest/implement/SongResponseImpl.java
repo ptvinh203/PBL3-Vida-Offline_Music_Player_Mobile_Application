@@ -45,8 +45,8 @@ public class SongResponseImpl implements ISongResponse {
 
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
-        connection.setConnectTimeout(5000);
-        connection.setReadTimeout(5000);
+        connection.setConnectTimeout(2000);
+        connection.setReadTimeout(2000);
 
         int responseCode = connection.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -72,8 +72,8 @@ public class SongResponseImpl implements ISongResponse {
 
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
-        connection.setReadTimeout(5000);
-        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(2000);
+        connection.setConnectTimeout(2000);
 
         int responseCode = connection.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -106,8 +106,8 @@ public class SongResponseImpl implements ISongResponse {
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
         connection.setRequestProperty("Accept", "application/json");
-        connection.setReadTimeout(5000);
-        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(2000);
+        connection.setConnectTimeout(2000);
 
         connection.setDoOutput(true);
         OutputStream outputStream = connection.getOutputStream();
@@ -140,8 +140,8 @@ public class SongResponseImpl implements ISongResponse {
 
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("DELETE");
-        connection.setReadTimeout(5000);
-        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(2000);
+        connection.setConnectTimeout(2000);
 
         StringBuffer response = new StringBuffer();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -162,8 +162,8 @@ public class SongResponseImpl implements ISongResponse {
         connection.setRequestMethod("PUT");
         connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
         connection.setRequestProperty("Accept", "application/json");
-        connection.setReadTimeout(5000);
-        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(2000);
+        connection.setConnectTimeout(2000);
 
         connection.setDoOutput(true);
         OutputStream outputStream = connection.getOutputStream();
@@ -196,8 +196,8 @@ public class SongResponseImpl implements ISongResponse {
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-Type", "text/html;charset=UTF-8");
         connection.setRequestProperty("Accept-Charset", "UTF-8");
-        connection.setReadTimeout(5000);
-        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(2000);
+        connection.setConnectTimeout(2000);
 
         int responseCode = connection.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
