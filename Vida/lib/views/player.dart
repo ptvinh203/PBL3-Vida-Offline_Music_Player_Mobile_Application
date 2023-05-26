@@ -10,7 +10,6 @@ import 'package:Vida/consts/colors.dart';
 import 'package:Vida/consts/text_style.dart';
 import 'package:Vida/controllers/player_controller.dart';
 
-
 class Player extends StatefulWidget {
   final List<SongModel> songList;
 
@@ -65,8 +64,7 @@ class _PlayerState extends State<Player> {
                   width: 330,
                   alignment: Alignment.center,
                   child: QueryArtworkWidget(
-                    id: widget
-                        .songList[controller.playIndex.value].id,
+                    id: widget.songList[controller.playIndex.value].id,
                     type: ArtworkType.AUDIO,
                     artworkQuality: FilterQuality.high,
                     artworkHeight: 350,
@@ -98,9 +96,7 @@ class _PlayerState extends State<Player> {
                 () => Column(
                   children: [
                     const SizedBox(height: 30),
-                    Text(
-                        widget.songList[controller.playIndex.value]
-                            .title,
+                    Text(widget.songList[controller.playIndex.value].title,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
@@ -109,18 +105,18 @@ class _PlayerState extends State<Player> {
                             fontWeight: FontWeight.bold,
                             foreground: Paint()..shader = linearGradient)),
                     const SizedBox(height: 10),
-                    Text(
-                        widget.songList[controller.playIndex.value]
-                                .artist
-                                .toString(),
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: ourStyle(
-                            size: 20,
-                            fontWeight: FontWeight.normal,
-                            color: bgDarkColor)),
-                    const SizedBox(height: 20),
+                    //Text(
+                    //    widget.songList[controller.playIndex.value]
+                    //            .artist
+                    //            .toString(),
+                    //    textAlign: TextAlign.center,
+                    //    overflow: TextOverflow.ellipsis,
+                    //    maxLines: 2,
+                    //    style: ourStyle(
+                    //        size: 20,
+                    //        fontWeight: FontWeight.normal,
+                    //        color: bgDarkColor)),
+                    const SizedBox(height: 40),
                     Obx(
                       () => Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
@@ -131,7 +127,7 @@ class _PlayerState extends State<Player> {
                             Expanded(
                                 child: Slider(
                                     value: controller.value.value,
-                                    inactiveColor: bgcolor,
+                                    inactiveColor: littleWhite,
                                     thumbColor: thumbColor,
                                     activeColor: flutterPurple,
                                     min: const Duration(seconds: 0)
@@ -178,7 +174,6 @@ class _PlayerState extends State<Player> {
                                       .songList[
                                           (controller.playIndex.value - 1) %
                                               widget.songList.length]
-                                      
                                       .uri,
                                   (controller.playIndex.value - 1) %
                                       widget.songList.length);
@@ -220,7 +215,6 @@ class _PlayerState extends State<Player> {
                                       .songList[
                                           (controller.playIndex.value + 1) %
                                               widget.songList.length]
-                                
                                       .uri,
                                   (controller.playIndex.value + 1) %
                                       widget.songList.length);

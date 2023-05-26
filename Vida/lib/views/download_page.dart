@@ -303,6 +303,9 @@ class _DownloadPageState extends State<DownloadPage> {
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         color: white),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 1,
                                                   ),
                                                   const Spacer(),
                                                   Text(
