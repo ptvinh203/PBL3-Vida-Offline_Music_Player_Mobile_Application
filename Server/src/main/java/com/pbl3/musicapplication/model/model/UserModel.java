@@ -8,8 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor@AllArgsConstructor
-@Setter@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 @Builder
 public class UserModel {
     private Integer userId;
@@ -20,4 +22,10 @@ public class UserModel {
         this.userId = entity.getUserId();
         this.username = entity.getUsername();
     }
+
+    @Override
+    public String toString() {
+        return "UserModel [userId=" + userId + ", username=" + username + ", authentication=" + authentication + "]";
+    }
+
 }

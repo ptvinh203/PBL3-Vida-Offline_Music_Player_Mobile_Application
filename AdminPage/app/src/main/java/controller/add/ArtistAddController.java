@@ -71,6 +71,7 @@ public class ArtistAddController implements ActionListener, WindowListener {
                 setArtistController(HomePageController.getArtistController());
                 artistController.setEnabled(true);
                 artistController.setArtistTable(iArtistResponse.findAll());
+                artistController.showCreateToastMessage();
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(artistAddView, e1.getMessage(), "ERROR",
                         JOptionPane.ERROR_MESSAGE);

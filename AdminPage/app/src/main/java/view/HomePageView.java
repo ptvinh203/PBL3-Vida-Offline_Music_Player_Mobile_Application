@@ -77,6 +77,10 @@ public class HomePageView extends JFrame implements MouseListener {
         addMouseListener(this);
     }
 
+    public void responsive(int width, int length) {
+
+    }
+
     private HomePageView() {
         init();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,41 +88,8 @@ public class HomePageView extends JFrame implements MouseListener {
         setLocationRelativeTo(null);
         setContentPane(contentPane);
         setIconImage(new ImageIcon("assets/app_logo.png").getImage());
-
-        // addComponentListener(new ComponentListener() {
-
-        // @Override
-        // public void componentResized(ComponentEvent e) {
-        // lbTitle.setBounds(0, 0, getWidth() - 14, (int) (getHeight() /
-        // 2.494444444444444));
-        // pnHeader.setBounds(0, 0, getWidth() - 14, (int) (getHeight() /
-        // 2.494444444444444));
-
-        // btnArtist.setBounds(10, pnHeader.getHeight() + 10, (int) (getWidth() / 3.28),
-        // (int) Math.ceil(getHeight() / 2.117924528301887));
-        // btnSong.setBounds(btnArtist.getX() + btnArtist.getWidth() + 10,
-        // btnArtist.getY(), btnArtist.getWidth(),
-        // btnArtist.getHeight());
-        // btnAlbum.setBounds(btnSong.getX() + btnSong.getWidth() + 10,
-        // btnArtist.getY(), btnArtist.getWidth(),
-        // btnArtist.getHeight());
-        // }
-
-        // @Override
-        // public void componentMoved(ComponentEvent e) {
-        // }
-
-        // @Override
-        // public void componentShown(ComponentEvent e) {
-        // }
-
-        // @Override
-        // public void componentHidden(ComponentEvent e) {
-        // }
-
-        // });
-
-        setTitle("Admin Page");
+        setTitle("HOME PAGE");
+        setResizable(false);
     }
 
     public void addActionListener(ActionListener actionListener) {

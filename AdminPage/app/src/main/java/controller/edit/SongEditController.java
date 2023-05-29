@@ -74,6 +74,7 @@ public class SongEditController implements ActionListener, WindowListener {
                 setSongController(HomePageController.getSongController());
                 songController.setEnabled(true);
                 songController.setSongTable(iSongResponse.findAll());
+                songController.showUpdateToastMessage(songModel.getSongId());
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(songEditView, ex.getMessage(), "ERROR",

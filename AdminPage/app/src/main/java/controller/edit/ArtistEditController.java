@@ -64,6 +64,7 @@ public class ArtistEditController implements ActionListener, WindowListener {
                 setArtistController(HomePageController.getArtistController());
                 artistController.setEnabled(true);
                 artistController.setArtistTable(iArtistResponse.findAll());
+                artistController.showUpdateToastMessage(artistModel.getArtistId());
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(artistEditView, ex.getMessage(), "ERROR",

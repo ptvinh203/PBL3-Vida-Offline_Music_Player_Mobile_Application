@@ -102,6 +102,7 @@ public class SongAddController implements ActionListener, WindowListener {
                 setSongController(HomePageController.getSongController());
                 songController.setEnabled(true);
                 songController.setSongTable(iSongResponse.findAll());
+                songController.showCreateToastMessage();
             } else {
                 throw new Exception("Create-new-song: unsuccessfully!");
             }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pbl3.musicapplication.model.model.UserRequest;
 import com.pbl3.musicapplication.model.model.UserModel;
 import com.pbl3.musicapplication.service.UserService;
 
@@ -27,32 +28,35 @@ public class UserController {
     public ResponseEntity<UserModel> findById(@PathVariable Integer userId) {
         return ResponseEntity.ok(userService.findById(userId));
     }
+
     @GetMapping("/all")
     public ResponseEntity<List<UserModel>> findAll() {
         return ResponseEntity.ok(userService.findAll());
     }
-    @GetMapping("/{password}/checkAuthentication")
-    public ResponseEntity<UserModel> checkAuthentication(@RequestBody UserModel userModel, @PathVariable String password) {
-        return ResponseEntity.ok(userService.checkAuthentication(userModel, password));
+
+    @PostMapping("/login")
+    public ResponseEntity<UserModel> checkAuthentication(@RequestBody UserRequest loginRequest) {
+        return ResponseEntity.ok(userService.login(loginRequest));
     }
 
-    @PostMapping(value =  "/{password}", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<UserModel> create(@RequestBody UserModel userModel, @PathVariable String password) {
-        UserModel create = userService.create(userModel, password);
+    @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
+    public ResponseEntity<UserModel> create(@RequestBody UserRequest userRequest) {
+        UserModel create = userService.create(userRequest);
         if (create != null) {
             return ResponseEntity.ok(create);
         }
+
         return ResponseEntity.badRequest().body(null);
     }
 
-    @DeleteMapping("/{userId}") 
+    @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteById(@PathVariable Integer userId) {
         UserModel userModel = userService.findById(userId);
         if (userModel == null)
             return new ResponseEntity<>("Not found object", HttpStatus.NO_CONTENT);
         userService.deleteById(userId);
-            
-        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT); 
+
+        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/changePassword/{password}")
@@ -60,7 +64,7 @@ public class UserController {
         UserModel update = userService.changePassword(userModel, password);
         if (update == null) {
             return ResponseEntity.badRequest().body(null);
-        } 
+        }
         return new ResponseEntity<>(update, HttpStatus.NO_CONTENT);
     }
 }

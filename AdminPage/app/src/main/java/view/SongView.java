@@ -132,7 +132,8 @@ public class SongView extends JFrame {
         setLocationRelativeTo(null);
         setContentPane(contentPane);
         setIconImage(new ImageIcon("assets/app_logo.png").getImage());
-        setTitle("Admin Page");
+        setTitle("Song Management");
+        setResizable(false);
     }
 
     public void addActionListener(ActionListener actionListener) {

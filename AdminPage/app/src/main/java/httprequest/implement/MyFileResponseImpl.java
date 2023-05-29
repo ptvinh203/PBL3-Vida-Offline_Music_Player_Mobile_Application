@@ -29,8 +29,8 @@ public class MyFileResponseImpl implements IMyFileResponse {
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-        connection.setReadTimeout(5000);
-        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(2000);
+        connection.setConnectTimeout(2000);
 
         connection.setDoOutput(true);
         OutputStream os = connection.getOutputStream();
@@ -82,8 +82,8 @@ public class MyFileResponseImpl implements IMyFileResponse {
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-        connection.setReadTimeout(5000);
-        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(2000);
+        connection.setConnectTimeout(2000);
 
         connection.setDoOutput(true);
         OutputStream os = connection.getOutputStream();
@@ -133,8 +133,8 @@ public class MyFileResponseImpl implements IMyFileResponse {
 
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("DELETE");
-        connection.setReadTimeout(5000);
-        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(2000);
+        connection.setConnectTimeout(2000);
 
         StringBuffer response = new StringBuffer();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
