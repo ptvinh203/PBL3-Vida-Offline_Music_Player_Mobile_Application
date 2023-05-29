@@ -1,3 +1,5 @@
+import 'package:Vida/models/login_request.dart';
+import 'package:Vida/services/user_service.dart';
 import 'package:Vida/views/offline_page.dart';
 import 'package:Vida/views/my_bottom_navigation_bar.dart';
 import 'package:Vida/views/profile_page.dart';
@@ -19,8 +21,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController phoneNum = TextEditingController();
-  TextEditingController userPass = TextEditingController();
+  final UserService service = UserService.instance;
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,12 +45,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SpaceVH(height: 60.0),
               textFild(
-                controller: phoneNum,
+                controller: username,
                 image: CupertinoIcons.person,
                 hintTxt: 'User name',
               ),
               textFild(
-                controller: userPass,
+                controller: password,
                 image: CupertinoIcons.lock,
                 isObs: true,
                 hintTxt: 'Password',
@@ -80,7 +83,18 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SpaceVH(height: 20.0),
                     Mainbutton(
-                      onTap: () {},
+                      onTap: () {
+                        service
+                            .login(LoginRequest.ByPassword(
+                                username.text, password.text))
+                            .then((value) {
+                          print(service.loggedInUser);
+                          MNavigator.instance.navigate(0);
+                        }).onError((error, stackTrace) {
+                          error.printError();
+                          stackTrace.printError();
+                        });
+                      },
                       text: 'Sign in with google',
                       image: 'google.png',
                       btnColor: white,

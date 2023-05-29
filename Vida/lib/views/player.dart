@@ -103,7 +103,8 @@ class _PlayerState extends State<Player> {
                         style: TextStyle(
                             fontSize: 25.0,
                             fontWeight: FontWeight.bold,
-                            foreground: Paint()..shader = linearGradient)),
+                            //foreground: Paint()..shader = linearGradient
+                            color: Colors.black)),
                     const SizedBox(height: 10),
                     //Text(
                     //    widget.songList[controller.playIndex.value]
@@ -127,9 +128,9 @@ class _PlayerState extends State<Player> {
                             Expanded(
                                 child: Slider(
                                     value: controller.value.value,
-                                    inactiveColor: littleWhite,
-                                    thumbColor: thumbColor,
-                                    activeColor: flutterPurple,
+                                    inactiveColor: littleBlack,
+                                    thumbColor: black,
+                                    activeColor: Colors.black45,
                                     min: const Duration(seconds: 0)
                                         .inSeconds
                                         .toDouble(),

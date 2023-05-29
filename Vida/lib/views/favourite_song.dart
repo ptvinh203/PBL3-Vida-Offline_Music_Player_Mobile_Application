@@ -29,7 +29,8 @@ class _FavouriteState extends State<Favourite> {
   }
 
   List<Widget> buildTrailing(int index, bool isPlaying) {
-    print("Building favourite page");    LovedIcon icon = LovedIcon(isLoved: controller.isLoveds[index]);
+    print("Building favourite page");
+    LovedIcon icon = LovedIcon(isLoved: controller.isLoveds[index]);
     var widgets = <Widget>[];
     widgets.add(
       IconButton(
@@ -51,8 +52,8 @@ class _FavouriteState extends State<Favourite> {
           ));
     return widgets;
   }
-  
-    Future<String> getArtistName(SongModel songmd) async {
+
+  Future<String> getArtistName(SongModel songmd) async {
     print(songmd.data);
     final file = File(songmd.data);
     var tagString;
@@ -102,6 +103,7 @@ class _FavouriteState extends State<Favourite> {
       backgroundColor: blackBG,
       appBar: AppBar(
         elevation: 0,
+        toolbarHeight: 100,
         backgroundColor: blackBG,
         foregroundColor: littleWhite,
         title: Column(
@@ -109,18 +111,19 @@ class _FavouriteState extends State<Favourite> {
           children: [
             const SizedBox(height: 5),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Ionicons.headset, color: purpButton, size: 40),
+                Icon(Ionicons.headset, color: purpButton, size: 60),
                 SizedBox(
                   width: 5,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 9),
+                  padding: const EdgeInsets.only(top: 12),
                   child: Text(
                     "Vida",
                     style: TextStyle(
                         color: flutterPurple,
-                        fontSize: 25,
+                        fontSize: 42,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Comfortaa'),
                   ),
@@ -129,15 +132,6 @@ class _FavouriteState extends State<Favourite> {
             ),
           ],
         ),
-        actions: [
-          CustomIconButton(
-            icon: Icon(
-              size: 25,
-              Icons.search,
-              color: flutterPurple,
-            ),
-          ),
-        ],
       ),
       body: RefreshIndicator(
         onRefresh: refresh,
@@ -193,7 +187,8 @@ class _FavouriteState extends State<Favourite> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(13.0)),
                               tileColor: blackTextFild,
-                              title: Text(snapshot.data![songIndex].songModel.title,
+                              title: Text(
+                                  snapshot.data![songIndex].songModel.title,
                                   style: ourStyle(
                                       fontWeight: FontWeight.bold, size: 15.0)),
                               subtitle: Text(
@@ -231,7 +226,8 @@ class _FavouriteState extends State<Favourite> {
                                   transition: Transition.downToUp,
                                 );
                                 controller.playSong(
-                                    snapshot.data![songIndex].songModel.uri, index);
+                                    snapshot.data![songIndex].songModel.uri,
+                                    index);
                               },
                             ),
                           ),

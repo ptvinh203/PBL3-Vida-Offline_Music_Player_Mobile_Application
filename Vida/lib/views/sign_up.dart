@@ -1,3 +1,6 @@
+import 'package:Vida/models/login_request.dart';
+import 'package:Vida/models/user_model.dart';
+import 'package:Vida/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,10 +19,9 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  TextEditingController userName = TextEditingController();
-  TextEditingController userPass = TextEditingController();
-  TextEditingController userEmail = TextEditingController();
-  TextEditingController userPh = TextEditingController();
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+  final UserService service = UserService.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,28 +50,16 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               SpaceVH(height: 60.0),
               textFild(
-                controller: userName,
+                controller: username,
                 image: CupertinoIcons.person,
                 keyBordType: TextInputType.name,
-                hintTxt: 'Full Name',
+                hintTxt: 'User Name',
               ),
               textFild(
-                controller: userEmail,
-                keyBordType: TextInputType.emailAddress,
-                image: CupertinoIcons.person,
-                hintTxt: 'Email',
-              ),
-              textFild(
-                controller: userPh,
-                image: CupertinoIcons.phone,
-                keyBordType: TextInputType.phone,
-                hintTxt: 'Số điện thoại',
-              ),
-              textFild(
-                controller: userPass,
+                controller: password,
                 isObs: true,
                 image: CupertinoIcons.lock,
-                hintTxt: 'Mật khẩu',
+                hintTxt: 'Password',
               ),
               SpaceVH(height: 80.0),
               Mainbutton(
@@ -80,7 +70,14 @@ class _SignUpPageState extends State<SignUpPage> {
               SpaceVH(height: 20.0),
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  LoginRequest userModel = LoginRequest(
+                      userName: username.text, password: password.text);
+                  service.register(userModel).then((value) {
+                    print("Registerd");
+                    Navigator.pop(context);
+                  }).onError((error, stackTrace) {
+                    print(error);
+                  });
                 },
                 child: RichText(
                   text: TextSpan(children: [

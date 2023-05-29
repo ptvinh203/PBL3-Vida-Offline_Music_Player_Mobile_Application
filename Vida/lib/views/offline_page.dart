@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
@@ -31,6 +30,46 @@ class _OfflinePageState extends State<OfflinePage> {
   var controller = Get.put(PlayerController());
   Future refresh() async {
     setState(() {});
+  }
+
+  Route<Object?> _dialogDoubleCheckBuilder(BuildContext context, File file) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Notification'),
+          content: const Text("Are you sure?"),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Delete'),
+              onPressed: () {
+                deleteFile(file).then((value) {
+                  Navigator.of(context).pop();
+                  setState(() {});
+                });
+                //service.update().then((value) {
+                //  Navigator.of(context).pop();
+                //  setState(() {});
+                //  this.widget.callback?.call();
+                //});
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   List<Widget> buildTrailing(int index, bool isPlaying) {
@@ -90,6 +129,13 @@ class _OfflinePageState extends State<OfflinePage> {
     //return tagString.toString();
   }
 
+  Future<void> deleteFile(File file) async {
+    return file.exists().then((exist) {
+      if (!exist) return Future.error("File not exists!");
+      return file.delete();
+    });
+  }
+
   Future<List<SongModelExtended>> __future() async {
     var songs = await controller.audioQuery.querySongs(
         ignoreCase: true,
@@ -115,6 +161,7 @@ class _OfflinePageState extends State<OfflinePage> {
       backgroundColor: blackBG,
       appBar: AppBar(
         elevation: 0,
+        toolbarHeight: 100,
         backgroundColor: blackBG,
         foregroundColor: littleWhite,
         title: Column(
@@ -122,18 +169,19 @@ class _OfflinePageState extends State<OfflinePage> {
           children: [
             const SizedBox(height: 5),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Ionicons.headset, color: purpButton, size: 40),
+                Icon(Ionicons.headset, color: purpButton, size: 60),
                 SizedBox(
                   width: 5,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 9),
+                  padding: const EdgeInsets.only(top: 12),
                   child: Text(
                     "Vida",
                     style: TextStyle(
                         color: flutterPurple,
-                        fontSize: 25,
+                        fontSize: 42,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Comfortaa'),
                   ),
@@ -142,15 +190,6 @@ class _OfflinePageState extends State<OfflinePage> {
             ),
           ],
         ),
-        actions: [
-          CustomIconButton(
-            icon: Icon(
-              size: 25,
-              Icons.search,
-              color: flutterPurple,
-            ),
-          ),
-        ],
       ),
       body: RefreshIndicator(
         onRefresh: refresh,
@@ -238,6 +277,18 @@ class _OfflinePageState extends State<OfflinePage> {
                                             controller.isPlaying.value),
                                   ),
                                 ),
+                                onLongPress: () async {
+                                  //String filePath =
+                                  //    snapshot.data![index].songModel.data;
+
+                                  //File file = File(filePath);
+                                  File file = File(
+                                      snapshot.data![index].songModel.data);
+                                  print("DELETING ${file}");
+                                  Navigator.of(context).push(
+                                    _dialogDoubleCheckBuilder(context, file),
+                                  );
+                                },
                                 onTap: () async {
                                   Get.to(
                                     () => Player(

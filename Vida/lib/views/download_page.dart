@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:Vida/services/config.dart';
 import 'package:Vida/services/song_service.dart';
 import 'package:async/async.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -15,6 +16,7 @@ import 'package:ionicons/ionicons.dart';
 
 import '../../consts/colors.dart';
 import '../../widget/custom_icon_button.dart';
+import '../consts/text_style_log.dart';
 
 class DownloadPage extends StatefulWidget {
   DownloadPage({super.key});
@@ -68,48 +70,119 @@ class _DownloadPageState extends State<DownloadPage> {
     super.initState();
   }
 
+  Route<Object?> _dialogDownloadingBuilder(BuildContext context) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Notification'),
+          content: Text("Downloading"),
+        );
+      },
+    );
+  }
+
+  Route<Object?> _dialogAlreadyExistBuilder(BuildContext context) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Notification'),
+          content: const Text("This song already exists"),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     cancelOperator?.cancel();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        toolbarHeight: 200,
         backgroundColor: blackBG,
         foregroundColor: littleWhite,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 5),
-            Row(
+            Column(
               children: [
-                Icon(Ionicons.headset, color: purpButton, size: 40),
-                SizedBox(
-                  width: 5,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Ionicons.headset, color: purpButton, size: 60),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: Text(
+                        "Vida",
+                        style: TextStyle(
+                            color: flutterPurple,
+                            fontSize: 42,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Comfortaa'),
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 9),
-                  child: Text(
-                    "Vida",
-                    style: TextStyle(
-                        color: flutterPurple,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Comfortaa'),
+                SizedBox(
+                  height: 46,
+                ),
+                Container(
+                  height: 55.0,
+                  padding: EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                    color: purpButton,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  width: 350.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: blackTextFild,
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        height: 55.0,
+                        width: 348.0,
+                        child: TextField(
+                          textAlignVertical: TextAlignVertical.center,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(top: 5),
+                            prefixIcon: Icon(Icons.search),
+                            prefixIconColor: purpButton,
+                            border: InputBorder.none,
+                            hintText: "Search song",
+                            hintStyle:
+                                TextStyle(fontSize: 16, color: littleWhite),
+                          ),
+                          style: TextStyle(fontSize: 16, color: white),
+                          onChanged: searchSong,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ],
         ),
-        actions: [
-          CustomIconButton(
-            icon: Icon(
-              size: 25,
-              Icons.search,
-              color: flutterPurple,
-            ),
-          ),
-        ],
       ),
       backgroundColor: blackBG,
       body: RefreshIndicator(
@@ -153,7 +226,7 @@ class _DownloadPageState extends State<DownloadPage> {
                                   width: 200,
                                   child: Column(
                                     children: [
-                                      SizedBox(height: 15),
+                                      SizedBox(height: 14),
                                       Text(
                                         'Lost connection to server.',
                                         style: TextStyle(
@@ -180,32 +253,6 @@ class _DownloadPageState extends State<DownloadPage> {
                   : [
                       Column(
                         children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
-                            child: TextField(
-                              controller: searchController,
-                              decoration: InputDecoration(
-                                  prefixIconColor: Colors.deepPurpleAccent,
-                                  prefixIcon: Icon(Icons.search),
-                                  hintText: "Search song title",
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(width: 2, color: purpButton),
-                                    borderRadius: BorderRadius.circular(
-                                        18), //<-- SEE HERE
-                                  ),
-                                  floatingLabelStyle:
-                                      TextStyle(color: littleWhite),
-                                  hintStyle: TextStyle(color: littleWhite),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.deepPurpleAccent),
-                                    borderRadius: BorderRadius.circular(18),
-                                  )),
-                              onChanged: searchSong,
-                            ),
-                          ),
                           Column(
                             children: List.generate(songs.length, (index) {
                               // 1 widget download
@@ -240,26 +287,41 @@ class _DownloadPageState extends State<DownloadPage> {
                                             print(savePath);
 
                                             //  /storage/emulated/0/Download/file.mp3
+                                            var fileExisted =
+                                                await File(savePath).exists();
+                                            if (fileExisted) {
+                                              Navigator.of(context).push(
+                                                  _dialogAlreadyExistBuilder(
+                                                      context));
+                                            } else {
+                                              try {
+                                                var popup =
+                                                    _dialogDownloadingBuilder(
+                                                        context);
+                                                Navigator.push(context, popup);
+                                                await Dio().download(
+                                                    //"http://" + api_url + "/file/downloadFile/97"
 
-                                            try {
-                                              await Dio().download(
-                                                  //"http://" + api_url + "/file/downloadFile/97"
+                                                    songs[index].linkDownload ??
+                                                        "http://${api_url}/songs/33",
+                                                    savePath, onReceiveProgress:
+                                                        (received, total) {
+                                                  if (total != -1) {
+                                                    print((received /
+                                                                total *
+                                                                100)
+                                                            .toStringAsFixed(
+                                                                0) +
+                                                        "%");
+                                                  }
+                                                });
+                                                Navigator.pop(context);
 
-                                                  songs[index].linkDownload ??
-                                                      "http://${api_url}/songs/33",
-                                                  savePath, onReceiveProgress:
-                                                      (received, total) {
-                                                if (total != -1) {
-                                                  print((received / total * 100)
-                                                          .toStringAsFixed(0) +
-                                                      "%");
-                                                }
-                                              });
-
-                                              print(
-                                                  "File is saved to download folder.");
-                                            } on DioError catch (e) {
-                                              print(e.message);
+                                                print(
+                                                    "File is saved to download folder.");
+                                              } on DioError catch (e) {
+                                                print(e.message);
+                                              }
                                             }
                                           }
                                         } else {
