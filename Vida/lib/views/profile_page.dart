@@ -1,11 +1,20 @@
 import 'package:Vida/consts/colors.dart';
+import 'package:Vida/services/user_service.dart';
+import 'package:Vida/views/my_bottom_navigation_bar.dart';
+import 'package:Vida/widget/main_button.dart';
 import 'package:Vida/widget/text_show.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  Function? logoutCallback;
+  ProfilePage({Key? key, this.logoutCallback}) : super(key: key);
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     //final controller = Get.put(ProfileController());
@@ -13,6 +22,7 @@ class ProfilePage extends StatelessWidget {
     TextEditingController userPass = TextEditingController();
     TextEditingController userEmail = TextEditingController();
     TextEditingController userPh = TextEditingController();
+    UserService service = UserService.instance;
     return Scaffold(
       backgroundColor: blackBG,
       appBar: AppBar(
@@ -69,21 +79,35 @@ class ProfilePage extends StatelessWidget {
                 child: Column(
                   children: [
                     textShow(
-                        txt: 'Huỳnh Hải Đăng',
+                        txt: service.loggedInUser!.userId.toString(),
                         controller: userName,
                         image: Icons.people),
 
                     const SizedBox(height: 5),
                     textShow(
-                        txt: 'hhdforwork@gmail.com',
+                        txt: service.loggedInUser!.username.toString(),
                         controller: userEmail,
                         image: Icons.email),
                     const SizedBox(height: 5),
                     textShow(
-                        txt: '+840787614533',
+                        txt: service.loggedInUser!.fullName.toString(),
                         controller: userPh,
                         image: Icons.phone),
-
+                    const SizedBox(height: 5),
+                    textShow(
+                        txt: service.loggedInUser!.phoneNumber.toString(),
+                        controller: userPh,
+                        image: Icons.phone),
+                    const SizedBox(height: 5),
+                    Mainbutton(
+                        onTap: () {
+                          setState(() {
+                            service.logout();
+                            this.widget.logoutCallback!();
+                          });
+                        },
+                        text: 'Log out',
+                        btnColor: purpButton),
                     const SizedBox(height: 240),
 
                     // -- Form Submit Button

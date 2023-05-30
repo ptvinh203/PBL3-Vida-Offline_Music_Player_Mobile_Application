@@ -24,8 +24,37 @@ class _LoginPageState extends State<LoginPage> {
   final UserService service = UserService.instance;
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
+  Route<Object?> _dialogLoginFailedBuilder(BuildContext context, String noti) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Notification'),
+          content: Text(noti),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (service.loggedInUser != null)
+      return ProfilePage(
+        logoutCallback: () {
+          setState(() {});
+        },
+      );
     return Scaffold(
       backgroundColor: blackBG,
       body: Padding(
@@ -56,19 +85,6 @@ class _LoginPageState extends State<LoginPage> {
                 hintTxt: 'Password',
               ),
               SpaceVH(height: 10.0),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 20.0),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Forgot Password?',
-                      style: headline3,
-                    ),
-                  ),
-                ),
-              ),
               SpaceVH(height: 100.0),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -76,30 +92,26 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Mainbutton(
                       onTap: () {
-                        Get.to(() => ProfilePage());
+                        LoginRequest userModel = LoginRequest(
+                            username: username.text, password: password.text);
+                        service.login(userModel).then((value) {
+                          service.loggedInUser = value;
+                          print(value.toJson());
+                          setState(() {});
+                          MNavigator.instance.navigate(3);
+                        }).onError((error, stackTrace) {
+                          print(error);
+                          print(stackTrace);
+                          Navigator.push(
+                              context,
+                              _dialogLoginFailedBuilder(
+                                  context, "Wrong username or password"));
+                        });
                       },
                       text: 'Sign in',
                       btnColor: purpButton,
                     ),
                     SpaceVH(height: 20.0),
-                    Mainbutton(
-                      onTap: () {
-                        service
-                            .login(LoginRequest.ByPassword(
-                                username.text, password.text))
-                            .then((value) {
-                          print(service.loggedInUser);
-                          MNavigator.instance.navigate(0);
-                        }).onError((error, stackTrace) {
-                          error.printError();
-                          stackTrace.printError();
-                        });
-                      },
-                      text: 'Sign in with google',
-                      image: 'google.png',
-                      btnColor: white,
-                      txtColor: blackBG,
-                    ),
                     SpaceVH(height: 20.0),
                     TextButton(
                       onPressed: () {
@@ -111,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: RichText(
                         text: TextSpan(children: [
                           TextSpan(
-                            text: 'Don\' have an account? ',
+                            text: 'Don\'t have an account? ',
                             style: headline.copyWith(
                               fontSize: 14.0,
                             ),

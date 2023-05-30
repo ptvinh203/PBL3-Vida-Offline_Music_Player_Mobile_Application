@@ -20,7 +20,8 @@ class SongModelExtended {
 }
 
 class OfflinePage extends StatefulWidget {
-  OfflinePage({super.key});
+  Function? reloadCallback;
+  OfflinePage({super.key, this.reloadCallback});
 
   @override
   State<OfflinePage> createState() => _OfflinePageState();
@@ -74,6 +75,7 @@ class _OfflinePageState extends State<OfflinePage> {
 
   List<Widget> buildTrailing(int index, bool isPlaying) {
     print("Building");
+    print(" +++" + index.toString());
     LovedIcon icon = LovedIcon(isLoved: controller.isLoveds[index]);
     var widgets = <Widget>[];
     widgets.add(isPlaying
@@ -143,6 +145,7 @@ class _OfflinePageState extends State<OfflinePage> {
         sortType: null,
         uriType: UriType.EXTERNAL);
     List<Future<SongModelExtended>> futures = [];
+    await Future.delayed(Duration(milliseconds: 600));
     songs.forEach((s) {
       futures
           .add(getArtistName(s).then((value) => SongModelExtended(s, value)));

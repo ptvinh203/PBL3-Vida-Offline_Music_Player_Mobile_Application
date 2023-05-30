@@ -42,7 +42,7 @@ class _PlayerState extends State<Player> {
       backgroundColor: flutterPurple,
       appBar: AppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
         child: Column(
           children: [
             Obx(
@@ -95,7 +95,7 @@ class _PlayerState extends State<Player> {
               child: Obx(
                 () => Column(
                   children: [
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 40),
                     Text(widget.songList[controller.playIndex.value].title,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
@@ -158,7 +158,7 @@ class _PlayerState extends State<Player> {
                       ),
                     ),
                     const SizedBox(
-                      height: 40,
+                      height: 65,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

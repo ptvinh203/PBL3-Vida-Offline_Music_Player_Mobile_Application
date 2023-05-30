@@ -1,3 +1,4 @@
+import 'package:Vida/services/user_service.dart';
 import 'package:Vida/views/download_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
@@ -11,7 +12,7 @@ class MNavigator {
   static MNavigator instance = MNavigator.__();
 
   var selectedIndex = 0.obs;
-
+  UserService service = UserService.instance;
   final List<Widget> pages = [
     OfflinePage(),
     DownloadPage(),
@@ -19,7 +20,7 @@ class MNavigator {
     LoginPage(),
   ];
   //có 4 trang và nhiều widget khác
-  
+
   MNavigator.__() {}
 
   navigate(int id) {
@@ -49,39 +50,40 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Obx(
-      () => Scaffold(
-        body: MNavigator.instance.pages[MNavigator.instance.selectedIndex
-            .value], // phần dưới chỉ là setup các trang để move
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: blackBG,
-          selectedItemColor: purpButton,
-          unselectedItemColor: grayText,
-          type: BottomNavigationBarType.fixed,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Ionicons.home_outline),
-              label: "Offline",
+          () => Scaffold(
+            body: MNavigator.instance.pages[MNavigator.instance.selectedIndex
+                .value], // phần dưới chỉ là setup các trang để move
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: blackBG,
+              selectedItemColor: purpButton,
+              unselectedItemColor: grayText,
+              type: BottomNavigationBarType.fixed,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Ionicons.home_outline),
+                  label: "Offline",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Ionicons.download_outline),
+                  label: "Download",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Ionicons.heart_outline),
+                  label: "Favourite",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Ionicons.person_outline),
+                  label: "Profile",
+                )
+              ],
+              currentIndex: MNavigator.instance.selectedIndex.value,
+              onTap: _onItemTapped,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Ionicons.download_outline),
-              label: "Download",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Ionicons.heart_outline),
-              label: "Favourite",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Ionicons.person_outline),
-              label: "Profile",
-            )
-          ],
-          currentIndex: MNavigator.instance.selectedIndex.value,
-          onTap: _onItemTapped,
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 }

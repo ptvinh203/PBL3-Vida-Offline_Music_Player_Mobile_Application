@@ -27,6 +27,7 @@ Widget textFild({
         Container(
           width: 270.0,
           child: TextField(
+            controller: controller,
             textAlignVertical: TextAlignVertical.center,
             obscureText: isObs,
             keyboardType: keyBordType,
@@ -35,7 +36,6 @@ Widget textFild({
               hintText: hintTxt,
               hintStyle: hintStyle,
             ),
-            
             style: headline2,
           ),
         ),

@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:Vida/services/config.dart';
 import 'package:Vida/services/song_service.dart';
+import 'package:Vida/services/user_service.dart';
+import 'package:Vida/views/offline_page.dart';
 import 'package:async/async.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -34,6 +36,7 @@ class _DownloadPageState extends State<DownloadPage> {
   SongService service = SongService();
   var connectionChecked = false;
   CancelableOperation? cancelOperator = null;
+  UserService userService = UserService.instance;
   Future refresh() async {
     setState(() {});
   }
@@ -77,6 +80,29 @@ class _DownloadPageState extends State<DownloadPage> {
         return AlertDialog(
           title: Text('Notification'),
           content: Text("Downloading"),
+        );
+      },
+    );
+  }
+
+  Route<Object?> _dialogHaveToLoginBuilder(BuildContext context, String noti) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Notification'),
+          content: Text(noti),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
@@ -289,7 +315,14 @@ class _DownloadPageState extends State<DownloadPage> {
                                             //  /storage/emulated/0/Download/file.mp3
                                             var fileExisted =
                                                 await File(savePath).exists();
-                                            if (fileExisted) {
+                                            if (userService.loggedInUser ==
+                                                null) {
+                                              Navigator.push(
+                                                  context,
+                                                  _dialogHaveToLoginBuilder(
+                                                      context,
+                                                      "You have to log in to use this feature!"));
+                                            } else if (fileExisted) {
                                               Navigator.of(context).push(
                                                   _dialogAlreadyExistBuilder(
                                                       context));
@@ -315,7 +348,13 @@ class _DownloadPageState extends State<DownloadPage> {
                                                         "%");
                                                   }
                                                 });
+
                                                 Navigator.pop(context);
+                                                OfflinePage(
+                                                  reloadCallback: () {
+                                                    setState(() {});
+                                                  },
+                                                );
 
                                                 print(
                                                     "File is saved to download folder.");

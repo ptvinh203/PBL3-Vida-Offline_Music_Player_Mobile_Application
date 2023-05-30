@@ -1,17 +1,17 @@
 class LoginRequest {
-  String? userName;
+  String? username;
   String? password;
 
-  LoginRequest({this.userName, this.password});
+  LoginRequest({this.username, this.password});
   factory LoginRequest.ByPassword(String userName, String password) {
-    return LoginRequest(userName: userName, password: password);
+    return LoginRequest(username: userName, password: password);
   }
 
   factory LoginRequest.fromJson(Map<String, dynamic> json) {
-    return LoginRequest.ByPassword(json["userName"], json["password"]);
+    return LoginRequest.ByPassword(json["username"], json["password"]);
   }
 
   Map<String, dynamic> toJson() {
-    return {"userName": this.userName, "password": this.password};
+    return {"username": this.username, "password": this.password};
   }
 }

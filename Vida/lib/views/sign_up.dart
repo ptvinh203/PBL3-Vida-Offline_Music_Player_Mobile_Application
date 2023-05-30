@@ -1,6 +1,8 @@
 import 'package:Vida/models/login_request.dart';
+import 'package:Vida/models/register_request.dart';
 import 'package:Vida/models/user_model.dart';
 import 'package:Vida/services/user_service.dart';
+import 'package:Vida/views/my_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,9 +21,35 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  TextEditingController username = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController usernameSignUp = TextEditingController();
+  TextEditingController passwordSignUp = TextEditingController();
+  TextEditingController fullNameSignUp = TextEditingController();
+  TextEditingController phoneNumberSignUp = TextEditingController();
   final UserService service = UserService.instance;
+
+  Route<Object?> _dialogLoginFailedBuilder(BuildContext context, String noti) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Notification'),
+          content: Text(noti),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,45 +78,68 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               SpaceVH(height: 60.0),
               textFild(
-                controller: username,
+                controller: usernameSignUp,
                 image: CupertinoIcons.person,
                 keyBordType: TextInputType.name,
-                hintTxt: 'User Name',
+                hintTxt: 'Username',
               ),
               textFild(
-                controller: password,
+                controller: passwordSignUp,
                 isObs: true,
                 image: CupertinoIcons.lock,
                 hintTxt: 'Password',
               ),
+              textFild(
+                controller: fullNameSignUp,
+                keyBordType: TextInputType.name,
+                image: CupertinoIcons.person,
+                hintTxt: 'Full name',
+              ),
+              textFild(
+                controller: phoneNumberSignUp,
+                keyBordType: TextInputType.phone,
+                image: CupertinoIcons.phone,
+                hintTxt: 'Phone Number',
+              ),
               SpaceVH(height: 80.0),
               Mainbutton(
-                onTap: () {},
-                text: 'Đăng ký',
+                onTap: () {
+                  RegisterRequest userModel = RegisterRequest(
+                      username: usernameSignUp.text,
+                      password: passwordSignUp.text,
+                      fullName: fullNameSignUp.text,
+                      phoneNumber: phoneNumberSignUp.text);
+                  service.register(userModel).then((value) {
+                    print("Registered");
+
+                    Navigator.pop(context);
+                  }).onError((error, stackTrace) {
+                    print(error);
+                    print(stackTrace);
+                    Navigator.push(
+                        context,
+                        _dialogLoginFailedBuilder(
+                            context, "Register failed, account already exist"));
+                  });
+                },
+                text: 'Register',
                 btnColor: purpButton,
               ),
               SpaceVH(height: 20.0),
               TextButton(
                 onPressed: () {
-                  LoginRequest userModel = LoginRequest(
-                      userName: username.text, password: password.text);
-                  service.register(userModel).then((value) {
-                    print("Registerd");
-                    Navigator.pop(context);
-                  }).onError((error, stackTrace) {
-                    print(error);
-                  });
+                  Navigator.pop(context);
                 },
                 child: RichText(
                   text: TextSpan(children: [
                     TextSpan(
-                      text: 'Đã có tài khoản? ',
+                      text: 'Already have an account?',
                       style: headline.copyWith(
                         fontSize: 14.0,
                       ),
                     ),
                     TextSpan(
-                      text: ' Đăng nhập',
+                      text: ' Sign in',
                       style: headlineDot.copyWith(
                         fontSize: 14.0,
                       ),
