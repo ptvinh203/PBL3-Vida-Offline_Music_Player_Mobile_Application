@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbl3.musicapplication.model.model.UserRequest;
+import com.pbl3.musicapplication.model.model.LoginRequest;
+import com.pbl3.musicapplication.model.model.RegisterRequest;
 import com.pbl3.musicapplication.model.model.UserModel;
 import com.pbl3.musicapplication.service.UserService;
 
@@ -35,13 +36,18 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserModel> checkAuthentication(@RequestBody UserRequest loginRequest) {
-        return ResponseEntity.ok(userService.login(loginRequest));
+    public ResponseEntity<UserModel> checkAuthentication(@RequestBody LoginRequest loginRequest) {
+        UserModel userModel = userService.login(loginRequest);
+        if (userModel == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        return ResponseEntity.ok(userModel);
     }
 
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<UserModel> create(@RequestBody UserRequest userRequest) {
-        UserModel create = userService.create(userRequest);
+    public ResponseEntity<UserModel> create(@RequestBody RegisterRequest registerRequest) {
+        System.out.println(registerRequest.toString());
+        UserModel create = userService.create(registerRequest);
         if (create != null) {
             return ResponseEntity.ok(create);
         }

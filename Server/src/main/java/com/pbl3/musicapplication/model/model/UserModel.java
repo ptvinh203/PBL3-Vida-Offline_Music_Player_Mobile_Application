@@ -7,25 +7,26 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @Builder
+@ToString
 public class UserModel {
     private Integer userId;
     private String username;
     private boolean authentication;
+    private String fullName;
+    private String phoneNumber;
 
     public UserModel(User entity) {
         this.userId = entity.getUserId();
         this.username = entity.getUsername();
-    }
-
-    @Override
-    public String toString() {
-        return "UserModel [userId=" + userId + ", username=" + username + ", authentication=" + authentication + "]";
+        this.fullName = entity.getFullName();
+        this.phoneNumber = entity.getPhoneNumber();
     }
 
 }

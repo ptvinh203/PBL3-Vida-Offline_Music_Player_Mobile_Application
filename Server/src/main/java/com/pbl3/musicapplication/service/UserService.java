@@ -2,13 +2,14 @@ package com.pbl3.musicapplication.service;
 
 import java.util.List;
 
-import com.pbl3.musicapplication.model.model.UserRequest;
+import com.pbl3.musicapplication.model.model.LoginRequest;
+import com.pbl3.musicapplication.model.model.RegisterRequest;
 import com.pbl3.musicapplication.model.model.UserModel;
 
 public interface UserService {
-    UserModel create(UserRequest userRequest);
+    UserModel create(RegisterRequest registerRequest);
 
-    UserModel login(UserRequest loginRequest);
+    UserModel login(LoginRequest loginRequest);
 
     UserModel findById(Integer userId);
 

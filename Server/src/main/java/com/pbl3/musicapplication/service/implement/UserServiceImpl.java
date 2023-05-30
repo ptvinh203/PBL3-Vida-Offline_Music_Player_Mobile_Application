@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pbl3.musicapplication.model.entity.User;
-import com.pbl3.musicapplication.model.model.UserRequest;
+import com.pbl3.musicapplication.model.model.LoginRequest;
+import com.pbl3.musicapplication.model.model.RegisterRequest;
 import com.pbl3.musicapplication.model.model.UserModel;
 import com.pbl3.musicapplication.model.repository.UserRepository;
 import com.pbl3.musicapplication.service.UserService;
@@ -18,13 +19,14 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public UserModel create(UserRequest userRequest) {
+    public UserModel create(RegisterRequest registerRequest) {
         User user = new User();
-        user.setUsername(userRequest.getUsername());
+        user.setUsername(registerRequest.getUsername());
         try {
             if (user.isValid()) {
-                user.setPassword(userRequest.getPassword());
-
+                user.setPassword(registerRequest.getPassword());
+                user.setFullName(registerRequest.getFullName());
+                user.setPhoneNumber(registerRequest.getPhoneNumber());
                 User saved = userRepository.save(user);
                 if (saved != null)
                     return new UserModel(saved);
@@ -36,7 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel login(UserRequest loginRequest) {
+    public UserModel login(LoginRequest loginRequest) {
         UserModel userModel = null;
         for (User user : userRepository.findAll()) {
             if (user.getUsername().compareTo(loginRequest.getUsername()) == 0

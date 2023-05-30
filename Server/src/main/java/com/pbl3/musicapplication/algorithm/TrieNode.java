@@ -7,7 +7,8 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter@Getter
+@Setter
+@Getter
 public class TrieNode implements Serializable {
     private static final long serialVersionUID = 1234567L;
 
@@ -16,6 +17,6 @@ public class TrieNode implements Serializable {
 
     public TrieNode() {
         children = new HashMap<>();
-        endOfNode = false;  
+        endOfNode = false;
     }
 }
