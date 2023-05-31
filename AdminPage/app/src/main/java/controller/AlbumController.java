@@ -104,19 +104,15 @@ public class AlbumController implements ActionListener, WindowListener, Document
                     AlbumModel albumModel = iAlbumResponse
                             .findById(Integer.parseInt(albumView.albumTable.getValueAt(row, 0).toString().trim()));
 
-                    try {
-                        setIAlbumResponse(new AlbumResponseImpl());
+                    setIAlbumResponse(new AlbumResponseImpl());
 
-                        iAlbumResponse.deleteById(albumModel.getAlbumId());
-                        albumView.setAlbumTable(iAlbumResponse.findAll());
-                        ToastMessage toastMessage = new ToastMessage(
-                                String.format("Delete album '%s' successfully!", albumModel.getAlbumName()));
-                        toastMessage.showToast(
-                                albumView.getX() + (albumView.getWidth() / 2) - (toastMessage.getWidth() / 4),
-                                albumView.getY() + albumView.getHeight() - 55);
-                    } catch (NumberFormatException e1) {
-                        throw new Exception("Invalid format album file's ID");
-                    }
+                    iAlbumResponse.deleteById(albumModel.getAlbumId());
+                    albumView.setAlbumTable(iAlbumResponse.findAll());
+                    ToastMessage toastMessage = new ToastMessage(
+                            String.format("Delete album '%s' successfully!", albumModel.getAlbumName()));
+                    toastMessage.showToast(
+                            albumView.getX() + (albumView.getWidth() / 2) - (toastMessage.getWidth() / 4),
+                            albumView.getY() + albumView.getHeight() - 55);
                 }
             } catch (NumberFormatException e1) {
                 JOptionPane.showMessageDialog(albumView, e1.getMessage(), "Invalid format album's ID",

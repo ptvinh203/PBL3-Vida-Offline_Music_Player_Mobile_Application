@@ -20,7 +20,7 @@ import javax.swing.JButton;
 public class HomePageView extends JFrame implements MouseListener {
     public JPanel contentPane, pnHeader;
     public JLabel lbTitle;
-    public JButton btnAlbum, btnSong, btnArtist;
+    public JButton btnAlbum, btnSong, btnArtist, btnUser;
 
     private static final Color COLOR_1 = new Color(12, 19, 79);
     private static final Color COLOR_2 = new Color(29, 38, 125);
@@ -36,7 +36,7 @@ public class HomePageView extends JFrame implements MouseListener {
         contentPane.setBackground(COLOR_4);
 
         pnHeader = new JPanel();
-        pnHeader.setBounds(0, 0, 642, 180);
+        pnHeader.setBounds(0, 0, 849, 180);
         pnHeader.setLayout(null);
         pnHeader.setBackground(COLOR_1);
         pnHeader.setBorder(new LineBorder(COLOR_2, 7));
@@ -44,7 +44,7 @@ public class HomePageView extends JFrame implements MouseListener {
         lbTitle = new JLabel("VIDA MUSIC APPLICATION'S ADMIN PAGE");
         lbTitle.setFont(new Font("Verdana", Font.BOLD, 22));
         lbTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        lbTitle.setBounds(0, 0, 642, 180);
+        lbTitle.setBounds(0, 0, 849, 180);
         lbTitle.setForeground(Color.WHITE);
         pnHeader.add(lbTitle);
 
@@ -74,6 +74,14 @@ public class HomePageView extends JFrame implements MouseListener {
 
         contentPane.add(pnHeader);
 
+        btnUser = new JButton("USER_ACCOUNT");
+        btnUser.setForeground(new Color(255, 255, 255, 180));
+        btnUser.setFont(new Font("Verdana", Font.BOLD, 20));
+        btnUser.setBorder(new LineBorder(Color.BLACK, 3));
+        btnUser.setBackground(new Color(92, 70, 156));
+        btnUser.setBounds(642, 190, 200, 212);
+        contentPane.add(btnUser);
+
         addMouseListener(this);
     }
 
@@ -84,7 +92,7 @@ public class HomePageView extends JFrame implements MouseListener {
     private HomePageView() {
         init();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(0, 0, 656, 449);
+        setBounds(0, 0, 863, 449);
         setLocationRelativeTo(null);
         setContentPane(contentPane);
         setIconImage(new ImageIcon("assets/app_logo.png").getImage());
@@ -96,12 +104,14 @@ public class HomePageView extends JFrame implements MouseListener {
         btnAlbum.addActionListener(actionListener);
         btnSong.addActionListener(actionListener);
         btnArtist.addActionListener(actionListener);
+        btnUser.addActionListener(actionListener);
     }
 
     public void addMouseListener(MouseListener mouseListener) {
         btnAlbum.addMouseListener(mouseListener);
         btnArtist.addMouseListener(mouseListener);
         btnSong.addMouseListener(mouseListener);
+        btnUser.addMouseListener(mouseListener);
     }
 
     public static HomePageView getInstance() {
@@ -134,6 +144,9 @@ public class HomePageView extends JFrame implements MouseListener {
         } else if (e.getSource() == btnSong) {
             btnSong.setBackground(COLOR_3);
             btnSong.setForeground(COLOR_LITTLE_WHILE);
+        } else if (e.getSource() == btnUser) {
+            btnUser.setBackground(COLOR_3);
+            btnUser.setForeground(COLOR_LITTLE_WHILE);
         }
     }
 
@@ -148,6 +161,9 @@ public class HomePageView extends JFrame implements MouseListener {
         } else if (e.getSource() == btnSong) {
             btnSong.setBackground(COLOR_LITTLE_WHILE);
             btnSong.setForeground(Color.BLACK);
+        } else if (e.getSource() == btnUser) {
+            btnUser.setBackground(COLOR_LITTLE_WHILE);
+            btnUser.setForeground(Color.BLACK);
         }
     }
 }

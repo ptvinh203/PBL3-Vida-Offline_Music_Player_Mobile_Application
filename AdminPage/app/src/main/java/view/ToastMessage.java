@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.concurrent.CompletableFuture;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -50,21 +51,21 @@ public class ToastMessage extends JFrame {
     }
 
     public void showToast(int x, int y) {
-        try {
-            window.setLocation(x, y);
-            window.setOpacity(1);
-            window.setVisible(true);
+        CompletableFuture.runAsync(() -> {
+            try {
+                window.setLocation(x, y);
+                window.setOpacity(1);
+                window.setVisible(true);
 
-            Thread.sleep(1300);
+                Thread.sleep(3000);
+                for (double d = 1.0; d > 0.2; d -= 0.1) {
+                    Thread.sleep(50);
+                    window.setOpacity((float) d);
+                }
 
-            for (double d = 1.0; d > 0.2; d -= 0.1) {
-                Thread.sleep(50);
-                window.setOpacity((float) d);
+                window.setVisible(false);
+            } catch (Exception ex) {
             }
-
-            window.setVisible(false);
-        } catch (Exception e) {
-
-        }
+        });
     }
 }

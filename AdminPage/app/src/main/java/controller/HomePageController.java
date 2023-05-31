@@ -8,9 +8,11 @@ import javax.swing.JOptionPane;
 import httprequest.IAlbumResponse;
 import httprequest.IArtistResponse;
 import httprequest.ISongResponse;
+import httprequest.IUserResponse;
 import httprequest.implement.AlbumResponseImpl;
 import httprequest.implement.ArtistResponseImpl;
 import httprequest.implement.SongResponseImpl;
+import httprequest.implement.UserResponseImpl;
 import lombok.Getter;
 import view.HomePageView;
 
@@ -23,10 +25,13 @@ public class HomePageController implements ActionListener {
     private static final SongController songController = new SongController();
     @Getter
     private static final AlbumController albumController = new AlbumController();
+    @Getter
+    private static final UserController userController = new UserController();
 
     private IArtistResponse iArtistResponse;
     private ISongResponse iSongResponse;
     private IAlbumResponse iAlbumResponse;
+    private IUserResponse iUserResponse;
 
     public HomePageController() {
         homePageView = HomePageView.getInstance();
@@ -35,6 +40,7 @@ public class HomePageController implements ActionListener {
         iArtistResponse = new ArtistResponseImpl();
         iSongResponse = new SongResponseImpl();
         iAlbumResponse = new AlbumResponseImpl();
+        iUserResponse = new UserResponseImpl();
     }
 
     @Override
@@ -53,6 +59,14 @@ public class HomePageController implements ActionListener {
                 homePageView.setVisible(false);
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage(), "Album Response Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (e.getSource() == homePageView.btnUser) {
+            try {
+                userController.showGUI(iUserResponse.findAll());
+                homePageView.setVisible(false);
+            } catch (Exception e1) {
+                JOptionPane.showMessageDialog(null, e1.getMessage(), "User Response Error",
                         JOptionPane.ERROR_MESSAGE);
             }
         } else {
