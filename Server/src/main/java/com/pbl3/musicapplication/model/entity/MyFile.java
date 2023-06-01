@@ -14,8 +14,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@NoArgsConstructor@AllArgsConstructor
-@Setter@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 @Builder
 public class MyFile {
     @Id

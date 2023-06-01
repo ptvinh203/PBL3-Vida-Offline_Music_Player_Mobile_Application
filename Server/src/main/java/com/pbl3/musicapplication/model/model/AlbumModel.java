@@ -14,13 +14,16 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter@Setter
+@Getter
+@Setter
 @Builder
 public class AlbumModel {
     private Integer albumId;
     private String albumName;
-    private List<SongModel> songsAlbum; 
-    
+    private List<SongModel> songsAlbum;
+
+    private String artistName;
+
     public AlbumModel(Album entity) {
         this.albumId = entity.getAlbumId();
         this.albumName = entity.getAlbumName();
@@ -30,18 +33,12 @@ public class AlbumModel {
             for (Song song : entity.getSongsAlbum()) {
                 tmp.add(new SongModel(song));
             }
-    
+
             this.songsAlbum = tmp;
         }
-    }
-    public SongModel findSongById(Integer songId) {
-        if (this.songsAlbum != null) {
-            for (SongModel songModel : songsAlbum) {
-                if (songModel.getSongId().compareTo(songId) == 0) {
-                    return songModel;
-                }
-            }
+
+        if (entity.getArtist() != null) {
+            this.artistName = entity.getArtist().getArtistName();
         }
-        return null;
     }
 }

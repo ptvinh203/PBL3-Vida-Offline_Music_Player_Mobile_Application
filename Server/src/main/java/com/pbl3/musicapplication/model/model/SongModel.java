@@ -20,6 +20,7 @@ public class SongModel {
     private String backgroundImageFileUrl;
 
     private String artistName;
+    private String albumName;
 
     public SongModel(Song entity) {
         this.songId = entity.getSongId();
@@ -35,6 +36,10 @@ public class SongModel {
 
         if (entity.getArtist() != null) {
             this.artistName = entity.getArtist().getArtistName();
+        }
+
+        if (entity.getAlbum() != null) {
+            this.albumName = entity.getAlbum().getAlbumName();
         }
     }
 }

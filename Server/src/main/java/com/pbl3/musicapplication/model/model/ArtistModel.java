@@ -15,7 +15,8 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter@Setter
+@Getter
+@Setter
 @Builder
 public class ArtistModel {
     private Integer artistId;
@@ -34,10 +35,10 @@ public class ArtistModel {
 
         if (entity.getAlbums() != null) {
             List<AlbumModel> tmp = new ArrayList<>();
-            for (Album album  : entity.getAlbums()) {
+            for (Album album : entity.getAlbums()) {
                 tmp.add(new AlbumModel(album));
             }
-    
+
             this.albums = tmp;
         }
         if (entity.getSingleAndEpSongs() != null) {
@@ -48,31 +49,5 @@ public class ArtistModel {
 
             this.singleAndEpSongs = tmp;
         }
-    }
-    public AlbumModel findAlbumById(Integer albumId) {
-        if (this.albums != null) {
-            for (AlbumModel albumModel : this.albums) 
-                if (albumModel.getAlbumId().compareTo(albumId) == 0)
-                    return albumModel;
-        }
-        return null;
-    }
-    public SongModel findSongById(Integer songId, Boolean checkSingleSong) {
-        if (checkSingleSong) {
-            if (this.singleAndEpSongs != null) {
-                for (SongModel songModel : this.singleAndEpSongs) {
-                    if (songModel.getSongId().compareTo(songId) == 0) 
-                        return songModel;
-                }
-            }
-        }
-        else {
-            if (this.albums != null) {
-                for (AlbumModel albumModel : this.albums) {
-                    return albumModel.findSongById(songId);
-                }
-            }
-        }
-        return null;
     }
 }

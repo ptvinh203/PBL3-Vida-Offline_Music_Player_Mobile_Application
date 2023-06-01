@@ -14,5 +14,6 @@ import lombok.Setter;
 public class AlbumModel {
     private int albumId;
     private String albumName;
+    private String artistName;
     private List<SongModel> songsAlbum;
 }

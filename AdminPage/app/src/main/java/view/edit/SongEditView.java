@@ -210,6 +210,7 @@ public class SongEditView extends JFrame {
         txtId.setText(String.valueOf(songModel.getSongId()));
         txtName.setText(songModel.getSongName());
         txtArtist.setText(songModel.getArtistName());
+        txtAlbum.setText(songModel.getAlbumName());
         txtMusicFile.setText(songModel.getMusicFileUrl());
         txtArtworkFile.setText(songModel.getBackgroundImageFileUrl());
     }

@@ -29,6 +29,10 @@ public class SongResponseImpl implements ISongResponse {
         result.setSongId(jsonObject.getInt("songId"));
         result.setSongName(jsonObject.getString("songName"));
         result.setArtistName(jsonObject.getString("artistName"));
+        if (!jsonObject.isNull("albumName")) {
+            result.setAlbumName(jsonObject.getString("albumName"));
+        }
+
         if (!jsonObject.isNull("musicFileUrl")) {
             result.setMusicFileUrl(jsonObject.getString("musicFileUrl"));
         }
