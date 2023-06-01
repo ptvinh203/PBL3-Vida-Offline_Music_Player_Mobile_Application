@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.pbl3.musicapplication.model.entity.Album;
 import com.pbl3.musicapplication.model.entity.Artist;
 import com.pbl3.musicapplication.model.entity.MyFile;
-import com.pbl3.musicapplication.model.entity.Playlist;
 import com.pbl3.musicapplication.model.entity.Song;
 import com.pbl3.musicapplication.model.model.AlbumModel;
 import com.pbl3.musicapplication.model.model.ArtistModel;
@@ -17,7 +16,6 @@ import com.pbl3.musicapplication.model.model.SongModel;
 import com.pbl3.musicapplication.model.repository.AlbumRepository;
 import com.pbl3.musicapplication.model.repository.ArtistRepository;
 import com.pbl3.musicapplication.model.repository.MyFileRepository;
-import com.pbl3.musicapplication.model.repository.PlaylistRepository;
 import com.pbl3.musicapplication.model.repository.SongRepository;
 import com.pbl3.musicapplication.service.SongService;
 
@@ -36,9 +34,6 @@ public class SongServiceImpl implements SongService {
 
     @Autowired
     private MyFileRepository myFileRepository;
-
-    @Autowired
-    private PlaylistRepository playlistRepository;
 
     @Override
     public Song create(@Nonnull SongModel songModel) {
@@ -196,33 +191,6 @@ public class SongServiceImpl implements SongService {
             album.setSongsAlbum(list);
             albumRepository.save(album);
             return true;
-        }
-        return false;
-    }
-
-    @Override
-    public Boolean updatePlaylist(Integer songId, Boolean checkAdd) {
-        Song song = songRepository.findById(songId).orElse(null);
-        if (song != null) {
-            for (Playlist playlist : playlistRepository.findAll()) {
-                List<Song> listSong = playlist.getSongsPlaylist();
-                boolean contains = false;
-                for (Song tmp : listSong) {
-                    if (tmp.getSongId().compareTo(songId) == 0) {
-                        if (!checkAdd)
-                            listSong.remove(tmp);
-                        contains = true;
-                        break;
-                    }
-                }
-                if (!contains && checkAdd)
-                    listSong.add(song);
-
-                playlist.setSongsPlaylist(listSong);
-                playlistRepository.save(playlist);
-            }
-
-            return null;
         }
         return false;
     }

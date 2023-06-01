@@ -18,8 +18,6 @@ public interface SongService extends GenericService<Song, SongModel> {
 
     Boolean updateAlbum(Integer albumId, Integer songId, Boolean checkAdd);
 
-    Boolean updatePlaylist(Integer songId, Boolean checkAdd);
-
     SongModel setArtist(@Nonnull Integer songId, @Nonnull Integer artistId);
 
     SongModel setAlbum(@Nonnull Integer songId, @Nonnull Integer albumId);
