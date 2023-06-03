@@ -29,6 +29,7 @@ public class AlbumResponseImpl implements IAlbumResponse {
         AlbumModel result = new AlbumModel();
         result.setAlbumId(jsonObject.getInt("albumId"));
         result.setAlbumName(jsonObject.getString("albumName"));
+        result.setArtistName(jsonObject.getString("artistName"));
 
         List<SongModel> listSongModels = new ArrayList<>();
         if (!jsonObject.isNull("songsAlbum")) {

@@ -50,7 +50,15 @@ public class ArtistAddController implements ActionListener, WindowListener {
         if (e.getSource() == artistAddView.btnChooseFile) {
             artistAddView.fileChooser.showOpenDialog(artistAddView);
             if (artistAddView.fileChooser.getSelectedFile() != null) {
-                artistAddView.getTxtImage().setText(artistAddView.fileChooser.getSelectedFile().getAbsolutePath());
+                String file = artistAddView.fileChooser.getSelectedFile().getAbsolutePath();
+                String[] arr = file.split("/");
+                if (arr[arr.length - 1].contains(".png") || arr[arr.length - 1].contains(".jpg")) {
+                    artistAddView.getTxtImage().setText(file);
+                } else {
+                    JOptionPane.showMessageDialog(artistAddView,
+                            "Please choose image file (.png or .jpg)!", "File chooser",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         } else if (e.getSource() == artistAddView.btnCreate) {
             try {

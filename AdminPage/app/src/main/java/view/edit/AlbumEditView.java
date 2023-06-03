@@ -121,6 +121,7 @@ public class AlbumEditView extends JFrame {
     public void setDefaultInfo(AlbumModel albumModel) {
         txtId.setText(String.valueOf(albumModel.getAlbumId()));
         txtName.setText(albumModel.getAlbumName());
+        txtArtist.setText(albumModel.getArtistName());
     }
 
     public AlbumModel getAlbumModel() throws Exception {

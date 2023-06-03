@@ -63,7 +63,7 @@ public class SongView extends JFrame {
         contentPane.add(pnHeader);
 
         String[][] data = new String[0][];
-        String[] columnsName = { "ID", "Name", "Artist", "MusicURL", "ArtworkURL" };
+        String[] columnsName = { "ID", "Name", "Artist", "Album", "MusicURL", "ArtworkURL" };
         songTable = new JTable(data, columnsName);
         songTable.setBorder(new LineBorder(Color.BLACK, 1));
         songTable.setBackground(COLOR_4);
@@ -148,15 +148,16 @@ public class SongView extends JFrame {
 
     public void setSongTable(List<SongModel> listSongModels) {
         String[][] data = new String[listSongModels.size()][];
-        String[] columnsName = { "ID", "Name", "Artist", "MusicURL", "ArtworkURL" };
+        String[] columnsName = { "ID", "Name", "Artist", "Album", "MusicURL", "ArtworkURL" };
         TableModel tableModel = new DefaultTableModel(data, columnsName);
         int i = 0;
         for (SongModel songModel : listSongModels) {
             tableModel.setValueAt(String.valueOf(songModel.getSongId()), i, 0);
             tableModel.setValueAt(songModel.getSongName(), i, 1);
             tableModel.setValueAt(songModel.getArtistName(), i, 2);
-            tableModel.setValueAt(songModel.getMusicFileUrl(), i, 3);
-            tableModel.setValueAt(songModel.getBackgroundImageFileUrl(), i, 4);
+            tableModel.setValueAt(songModel.getAlbumName(), i, 3);
+            tableModel.setValueAt(songModel.getMusicFileUrl(), i, 4);
+            tableModel.setValueAt(songModel.getBackgroundImageFileUrl(), i, 5);
             i++;
         }
         songTable.setModel(tableModel);

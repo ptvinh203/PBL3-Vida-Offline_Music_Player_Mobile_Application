@@ -69,7 +69,7 @@ public class AlbumView extends JFrame {
         contentPane.add(pnHeader);
 
         String[][] data = new String[0][];
-        String[] columnsName = { "ID", "Name", "The number of songs" };
+        String[] columnsName = { "ID", "Name", "Artist", "The number of songs" };
         albumTable = new JTable(data, columnsName);
         albumTable.setBorder(new LineBorder(Color.BLACK, 1));
         albumTable.setBackground(COLOR_4);
@@ -160,13 +160,14 @@ public class AlbumView extends JFrame {
 
     public void setAlbumTable(List<AlbumModel> listAlbumModel) {
         String[][] data = new String[listAlbumModel.size()][];
-        String[] columnsName = { "ID", "Name", "The number of songs" };
+        String[] columnsName = { "ID", "Name", "Artist", "The number of songs" };
         TableModel tableModel = new DefaultTableModel(data, columnsName);
         int i = 0;
         for (AlbumModel albumModel : listAlbumModel) {
             tableModel.setValueAt(String.valueOf(albumModel.getAlbumId()), i, 0);
             tableModel.setValueAt(albumModel.getAlbumName(), i, 1);
-            tableModel.setValueAt(albumModel.getSongsAlbum().size(), i, 2);
+            tableModel.setValueAt(albumModel.getArtistName(), i, 2);
+            tableModel.setValueAt(albumModel.getSongsAlbum().size(), i, 3);
             i++;
         }
         albumTable.setModel(tableModel);
