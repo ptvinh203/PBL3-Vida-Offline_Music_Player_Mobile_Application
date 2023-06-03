@@ -1,0 +1,7 @@
+Link: https://dutudn-my.sharepoint.com/:f:/g/personal/102210048_sv1_dut_udn_vn/EmQp_wu4Ua1PmadPZM_39A4Bh9mNMa3S2DlJAKMeiDdvpQ?e=oDrYXA
+
+How to use database in project?
+1. Download database files from above link
+2. Delete 'database.mv.db' file and 'database.trace.db' file in 'Server' folder.
+3. Copy downloaded files and paste into 'Server' folder
+4. Run application
