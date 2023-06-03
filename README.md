@@ -7,7 +7,7 @@ Project Base Learning at DUT University about application programming that allow
   * A desktop application for admin that allows managing objects of application
 
 - Technology and Framework were used in this project:
-  * Server: Spring Boot
+  * Server: Spring Boot (Gradle)
   * Mobile client-application: Flutter
   * Desktop client-application: Java Swing
 ## Prerequirements
