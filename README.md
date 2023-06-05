@@ -1,6 +1,13 @@
 # PBL3 - Vida - Offline Music Player Mobile Application
+![](https://img.shields.io/github/directory-file-count/thanhvinh73/PBL3)
+![](https://img.shields.io/github/repo-size/thanhvinh73/PBL3)
+![](https://img.shields.io/github/last-commit/thanhvinh73/PBL3)
+![](https://img.shields.io/github/languages/count/thanhvinh73/PBL3)
+![](https://img.shields.io/github/languages/top/thanhvinh73/PBL3)
+
 ## Summary
 Project Base Learning at DUT University about application programming that allows user listen to music from local storage, download music from server and make playlists according to your hobby. 
+
 - What does this project has?
   * A local host server is used to storing data and business logic of application
   * A mobile application for user
