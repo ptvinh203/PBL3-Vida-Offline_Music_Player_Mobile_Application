@@ -194,14 +194,15 @@ public class SongResponseImpl implements ISongResponse {
             URL_CONNECTION = (Config_URL.SERVER_IP + "/search/song/"
                     + URLEncoder.encode(prefixBuffer.toString(), "UTF-8")).replaceAll("\\+", "%20");
         }
+
         URL url = new URL(URL_CONNECTION);
 
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-Type", "text/html;charset=UTF-8");
         connection.setRequestProperty("Accept-Charset", "UTF-8");
-        connection.setReadTimeout(2000);
-        connection.setConnectTimeout(2000);
+        connection.setReadTimeout(4000);
+        connection.setConnectTimeout(4000);
 
         int responseCode = connection.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {

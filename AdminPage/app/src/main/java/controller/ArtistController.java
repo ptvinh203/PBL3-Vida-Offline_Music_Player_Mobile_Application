@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -26,6 +27,8 @@ import view.ArtistView;
 import view.ToastMessage;
 
 public class ArtistController implements ActionListener, WindowListener, DocumentListener {
+    private String searchStr_old = "";
+    private int isSearchStrEmpty = 0;
     private final ArtistView artistView;
 
     @Getter
@@ -276,22 +279,42 @@ public class ArtistController implements ActionListener, WindowListener, Documen
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        setIArtistResponse(new ArtistResponseImpl());
-        try {
-            artistView.setArtistTable(iArtistResponse.search(artistView.txtSearch.getText()));
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
+        CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(500);
+                setIArtistResponse(new ArtistResponseImpl());
+                String searchStr_new = artistView.txtSearch.getText();
+                if (searchStr_new.compareTo(searchStr_old) != 0) {
+                    artistView.setArtistTable(iArtistResponse.search(artistView.txtSearch.getText()));
+                    searchStr_old = artistView.txtSearch.getText();
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        setIArtistResponse(new ArtistResponseImpl());
-        try {
-            artistView.setArtistTable(iArtistResponse.search(artistView.txtSearch.getText()));
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
+        CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(500);
+                setIArtistResponse(new ArtistResponseImpl());
+                String searchStr_new = artistView.txtSearch.getText();
+                if (searchStr_new.compareTo(searchStr_old) != 0) {
+                    artistView.setArtistTable(iArtistResponse.search(artistView.txtSearch.getText()));
+                    searchStr_old = artistView.txtSearch.getText();
+                    isSearchStrEmpty = 0;
+                } else if (searchStr_new.isEmpty() && searchStr_old.isEmpty()) {
+                    isSearchStrEmpty++;
+                }
+                if (isSearchStrEmpty == 1) {
+                    artistView.setArtistTable(iArtistResponse.search(artistView.txtSearch.getText()));
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     @Override

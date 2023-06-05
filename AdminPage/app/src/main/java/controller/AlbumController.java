@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -25,6 +26,8 @@ import view.AlbumView;
 import view.ToastMessage;
 
 public class AlbumController implements ActionListener, WindowListener, DocumentListener {
+    private String searchStr_old = "";
+    private int isSearchStrEmpty = 0;
     private final AlbumView albumView;
 
     @Setter
@@ -259,22 +262,43 @@ public class AlbumController implements ActionListener, WindowListener, Document
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        setIAlbumResponse(new AlbumResponseImpl());
-        try {
-            albumView.setAlbumTable(iAlbumResponse.search(albumView.txtSearch.getText()));
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
+        CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(500);
+                setIAlbumResponse(new AlbumResponseImpl());
+                String searchStr_new = albumView.txtSearch.getText();
+                if (searchStr_new.compareTo(searchStr_old) != 0) {
+                    albumView.setAlbumTable(iAlbumResponse.search(albumView.txtSearch.getText()));
+                    searchStr_old = albumView.txtSearch.getText();
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        setIAlbumResponse(new AlbumResponseImpl());
-        try {
-            albumView.setAlbumTable(iAlbumResponse.search(albumView.txtSearch.getText()));
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
+        CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(500);
+                setIAlbumResponse(new AlbumResponseImpl());
+                String searchStr_new = albumView.txtSearch.getText();
+                if (searchStr_new.compareTo(searchStr_old) != 0) {
+                    albumView.setAlbumTable(iAlbumResponse.search(albumView.txtSearch.getText()));
+                    searchStr_old = albumView.txtSearch.getText();
+                    isSearchStrEmpty = 0;
+                } else if (searchStr_new.isEmpty() && searchStr_old.isEmpty()) {
+                    isSearchStrEmpty++;
+                }
+
+                if (isSearchStrEmpty == 1) {
+                    albumView.setAlbumTable(iAlbumResponse.search(albumView.txtSearch.getText()));
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     @Override
