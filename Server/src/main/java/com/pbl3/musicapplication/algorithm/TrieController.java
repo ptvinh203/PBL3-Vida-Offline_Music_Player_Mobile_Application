@@ -1,6 +1,8 @@
 package com.pbl3.musicapplication.algorithm;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,17 +34,26 @@ public class TrieController {
     }
 
     @GetMapping("/artist/all")
-    public ResponseEntity<List<String>> artistSearchAll() {
-        return ResponseEntity.ok(trieService.showAll(TrieType.ARTIST));
+    public ResponseEntity<Map<List<String>, Integer>> artistSearchAll() {
+        Map<List<String>, Integer> ans = new HashMap<>();
+        List<String> listSong = trieService.showAll(TrieType.ARTIST);
+        ans.put(listSong, listSong.size());
+        return ResponseEntity.ok(ans);
     }
 
     @GetMapping("/song/all")
-    public ResponseEntity<List<String>> songSearchAll() {
-        return ResponseEntity.ok(trieService.showAll(TrieType.SONG));
+    public ResponseEntity<Map<List<String>, Integer>> songSearchAll() {
+        Map<List<String>, Integer> ans = new HashMap<>();
+        List<String> listSong = trieService.showAll(TrieType.SONG);
+        ans.put(listSong, listSong.size());
+        return ResponseEntity.ok(ans);
     }
 
     @GetMapping("/album/all")
-    public ResponseEntity<List<String>> albumSearchAll() {
-        return ResponseEntity.ok(trieService.showAll(TrieType.ALBUM));
+    public ResponseEntity<Map<List<String>, Integer>> albumSearchAll() {
+        Map<List<String>, Integer> ans = new HashMap<>();
+        List<String> listSong = trieService.showAll(TrieType.ALBUM);
+        ans.put(listSong, listSong.size());
+        return ResponseEntity.ok(ans);
     }
 }
