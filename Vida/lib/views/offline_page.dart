@@ -33,28 +33,46 @@ class _OfflinePageState extends State<OfflinePage> {
     setState(() {});
   }
 
+  Route<Object?> _dialogInFavouriteCheckBuilder(BuildContext context) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Notification'),
+          content: const Text(
+              "Can not delete favourite song. Remove out of favourite list and try again!"),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: purpButton),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Route<Object?> _dialogDoubleCheckBuilder(BuildContext context, File file) {
     return DialogRoute<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Notification'),
-          content: const Text("Are you sure?"),
+          content: const Text("Are you sure you want to delete this song?"),
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Delete'),
+              child: Text('Delete', style: TextStyle(color: purpButton)),
               onPressed: () {
                 deleteFile(file).then((value) {
                   Navigator.of(context).pop();
@@ -67,6 +85,18 @@ class _OfflinePageState extends State<OfflinePage> {
                 //});
               },
             ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: purpButton),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ],
         );
       },
@@ -74,8 +104,6 @@ class _OfflinePageState extends State<OfflinePage> {
   }
 
   List<Widget> buildTrailing(int index, bool isPlaying) {
-    print("Building");
-    print(" +++" + index.toString());
     LovedIcon icon = LovedIcon(isLoved: controller.isLoveds[index]);
     var widgets = <Widget>[];
     widgets.add(isPlaying
@@ -106,7 +134,6 @@ class _OfflinePageState extends State<OfflinePage> {
   //  return tags[0].toString();
   //}
   Future<String> getArtistName(SongModel songmd) async {
-    print(songmd.data);
     final file = File(songmd.data);
     var tagString;
     final tagProcessor = TagProcessor();
@@ -118,17 +145,6 @@ class _OfflinePageState extends State<OfflinePage> {
         return utf8.decode(tagString.toString().runes.toList());
       });
     });
-    //var tags = await ;
-
-    //print("000000000000000000000000000000000000");
-    //print(tags);
-    //print("doc metadata bang thu vien moi: " +
-    //    tagString.toString()); // doc metadata bang thu vien moi
-    //print("doc metadata bang thu vien cu: " +
-    //    songmd.artist.toString()); // doc bang thu vien cu
-    //print("000000000000000000000000000000000000");
-
-    //return tagString.toString();
   }
 
   Future<void> deleteFile(File file) async {
@@ -145,7 +161,7 @@ class _OfflinePageState extends State<OfflinePage> {
         sortType: null,
         uriType: UriType.EXTERNAL);
     List<Future<SongModelExtended>> futures = [];
-    await Future.delayed(Duration(milliseconds: 600));
+    //await Future.delayed(Duration(milliseconds: 400));
     songs.forEach((s) {
       futures
           .add(getArtistName(s).then((value) => SongModelExtended(s, value)));
@@ -210,7 +226,7 @@ class _OfflinePageState extends State<OfflinePage> {
               //<RxBool>[snapshot.data?.length];
               List<String> listTitle = List.generate(snapshot.data?.length ?? 0,
                   (index) => snapshot.data![index].songModel.title);
-              print("Debug list view");
+
               if (snapshot.data == null) {
                 return const Center(
                     child: CircularProgressIndicator(
@@ -281,16 +297,23 @@ class _OfflinePageState extends State<OfflinePage> {
                                   ),
                                 ),
                                 onLongPress: () async {
+                                  if (controller.isLoveds[index] == true) {
+                                    Navigator.of(context).push(
+                                        _dialogInFavouriteCheckBuilder(
+                                            context));
+                                  }
                                   //String filePath =
                                   //    snapshot.data![index].songModel.data;
 
                                   //File file = File(filePath);
-                                  File file = File(
-                                      snapshot.data![index].songModel.data);
-                                  print("DELETING ${file}");
-                                  Navigator.of(context).push(
-                                    _dialogDoubleCheckBuilder(context, file),
-                                  );
+                                  else {
+                                    File file = File(
+                                        snapshot.data![index].songModel.data);
+                                    print("DELETING ${file}");
+                                    Navigator.of(context).push(
+                                      _dialogDoubleCheckBuilder(context, file),
+                                    );
+                                  }
                                 },
                                 onTap: () async {
                                   Get.to(
@@ -300,25 +323,24 @@ class _OfflinePageState extends State<OfflinePage> {
                                             .toList()),
                                     transition: Transition.downToUp,
                                   );
-                                  print(
-                                      "_________________________________________________________________________________________________________");
-                                  final file = File(
-                                      snapshot.data![index].songModel.data);
 
-                                  final tagProcessor = TagProcessor();
-                                  final bytes = file.readAsBytesSync().toList();
-                                  final futureBytes = Future.value(bytes);
-                                  final tags = await tagProcessor
-                                      .getTagsFromByteArray(futureBytes);
-                                  var tagString =
-                                      tags.elementAt(0).tags["artist"];
-                                  print(tagString);
+                                  //final file = File(
+                                  //    snapshot.data![index].songModel.data);
 
-                                  print(tags);
-                                  // print tag title here please
+                                  //final tagProcessor = TagProcessor();
+                                  //final bytes = file.readAsBytesSync().toList();
+                                  //final futureBytes = Future.value(bytes);
+                                  //final tags = await tagProcessor
+                                  //    .getTagsFromByteArray(futureBytes);
+                                  //var tagString =
+                                  //    tags.elementAt(0).tags["artist"];
+                                  //print(tagString);
 
-                                  print(
-                                      "__________________________________________________________________________");
+                                  //print(tags);
+                                  //// print tag title here please
+
+                                  //print(
+                                  //    "__________________________________________________________________________");
                                   controller.playSong(
                                       snapshot.data![index].songModel.uri,
                                       index);

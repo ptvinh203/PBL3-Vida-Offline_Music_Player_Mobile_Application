@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '1.0'
+# platform :ios, '11.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -31,9 +31,6 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  pod 'just_audio', '~> 0.9.32', :source => 'https://github.com/ryanheise/just_audio.git'
-
-
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
@@ -42,13 +39,3 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
   end
 end
-pod 'cupertino_icons', '~> 1.0.2'
-pod 'get', '~> 4.6.5'
-pod 'on_audio_query', '~> 2.7.0'
-pod 'permission_handler', '~> 10.2.0'
-pod 'intl', '~> 0.17.0'
-pod 'animations', '~> 2.0.1'
-pod 'easy_search_bar', '~> 2.4.2'
-pod 'ionicons', '~> 0.2.2'
-pod 'http', '~> 0.13.5'
-pod 'pull_to_refresh', '~> 2.0.0'

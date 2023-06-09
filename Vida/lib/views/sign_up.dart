@@ -39,7 +39,7 @@ class _SignUpPageState extends State<SignUpPage> {
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              child: const Text('Cancel'),
+              child: Text('Cancel', style: TextStyle(color: purpButton)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -66,7 +66,6 @@ class _SignUpPageState extends State<SignUpPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SpaceVH(height: 10.0),
               Text(
                 'Create new account',
                 style: headline1,
@@ -76,7 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 'Please fill in the form to continue',
                 style: headline3,
               ),
-              SpaceVH(height: 60.0),
+              SpaceVH(height: 40.0),
               textFild(
                 controller: usernameSignUp,
                 image: CupertinoIcons.person,
@@ -101,7 +100,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 image: CupertinoIcons.phone,
                 hintTxt: 'Phone Number',
               ),
-              SpaceVH(height: 80.0),
+              SpaceVH(height: 60.0),
               Mainbutton(
                 onTap: () {
                   RegisterRequest userModel = RegisterRequest(
@@ -110,8 +109,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       fullName: fullNameSignUp.text,
                       phoneNumber: phoneNumberSignUp.text);
                   service.register(userModel).then((value) {
-                    print("Registered");
-
                     Navigator.pop(context);
                   }).onError((error, stackTrace) {
                     print(error);

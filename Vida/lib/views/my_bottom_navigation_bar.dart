@@ -1,5 +1,6 @@
 import 'package:Vida/services/user_service.dart';
 import 'package:Vida/views/download_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:Vida/consts/colors.dart';
@@ -64,19 +65,19 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
               showUnselectedLabels: false,
               items: const [
                 BottomNavigationBarItem(
-                  icon: Icon(Ionicons.home_outline),
+                  icon: Icon(CupertinoIcons.music_house_fill),
                   label: "Offline",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Ionicons.download_outline),
+                  icon: Icon(Ionicons.earth),
                   label: "Download",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Ionicons.heart_outline),
+                  icon: Icon(Ionicons.heart_half_sharp),
                   label: "Favourite",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Ionicons.person_outline),
+                  icon: Icon(CupertinoIcons.person_crop_circle_fill),
                   label: "Profile",
                 )
               ],

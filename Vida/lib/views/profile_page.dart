@@ -40,9 +40,6 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: const EdgeInsets.all(0.0),
           child: Column(
             children: [
-              const SizedBox(
-                height: 30,
-              ),
               Stack(
                 children: [
                   SizedBox(
@@ -72,33 +69,30 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 50),
-
+              SizedBox(
+                height: 20,
+              ),
               // -- Form Fields
               Form(
                 child: Column(
                   children: [
                     textShow(
-                        txt: service.loggedInUser!.userId.toString(),
-                        controller: userName,
+                        txt: "ID: ${service.loggedInUser!.userId.toString()}",
                         image: Icons.people),
 
                     const SizedBox(height: 5),
                     textShow(
                         txt: service.loggedInUser!.username.toString(),
-                        controller: userEmail,
                         image: Icons.email),
                     const SizedBox(height: 5),
                     textShow(
                         txt: service.loggedInUser!.fullName.toString(),
-                        controller: userPh,
-                        image: Icons.phone),
+                        image: Icons.person),
                     const SizedBox(height: 5),
                     textShow(
                         txt: service.loggedInUser!.phoneNumber.toString(),
-                        controller: userPh,
                         image: Icons.phone),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 15),
                     Mainbutton(
                         onTap: () {
                           setState(() {
@@ -108,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         },
                         text: 'Log out',
                         btnColor: purpButton),
-                    const SizedBox(height: 240),
+                    const SizedBox(height: 70),
 
                     // -- Form Submit Button
 

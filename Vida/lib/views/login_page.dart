@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              child: const Text('Cancel'),
+              child: Text('Cancel', style: TextStyle(color: purpButton)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                             username: username.text, password: password.text);
                         service.login(userModel).then((value) {
                           service.loggedInUser = value;
-                          print(value.toJson());
+
                           setState(() {});
                           MNavigator.instance.navigate(3);
                         }).onError((error, stackTrace) {

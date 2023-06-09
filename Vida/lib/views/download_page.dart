@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:Vida/services/config.dart';
 import 'package:Vida/services/song_service.dart';
 import 'package:Vida/services/user_service.dart';
+import 'package:Vida/views/my_bottom_navigation_bar.dart';
 import 'package:Vida/views/offline_page.dart';
 import 'package:async/async.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+import 'package:get/get.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 import 'package:Vida/models/song_model_download.dart';
@@ -19,6 +21,7 @@ import 'package:ionicons/ionicons.dart';
 import '../../consts/colors.dart';
 import '../../widget/custom_icon_button.dart';
 import '../consts/text_style_log.dart';
+import '../controllers/player_controller.dart';
 
 class DownloadPage extends StatefulWidget {
   DownloadPage({super.key});
@@ -28,6 +31,8 @@ class DownloadPage extends StatefulWidget {
 }
 
 class _DownloadPageState extends State<DownloadPage> {
+  var controller = Get.put(PlayerController());
+
   double? _progress;
   final searchController = TextEditingController();
   //static var httpClient = new HttpClient();
@@ -75,11 +80,12 @@ class _DownloadPageState extends State<DownloadPage> {
 
   Route<Object?> _dialogDownloadingBuilder(BuildContext context) {
     return DialogRoute<void>(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Notification'),
-          content: Text("Downloading"),
+          content: Text("Downloading, please wait..."),
         );
       },
     );
@@ -97,7 +103,17 @@ class _DownloadPageState extends State<DownloadPage> {
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              child: const Text('Cancel'),
+              child: Text('Log in', style: TextStyle(color: purpButton)),
+              onPressed: () {
+                Navigator.of(context).pop();
+                MNavigator.instance.navigate(3);
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: Text('Cancel', style: TextStyle(color: purpButton)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -229,7 +245,7 @@ class _DownloadPageState extends State<DownloadPage> {
                           child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 25, top: 150),
+                            padding: const EdgeInsets.only(left: 25, top: 40),
                             child: Image.asset(
                               'assets/image/dash_lost_connection.png',
                               fit: BoxFit.cover,
@@ -310,9 +326,7 @@ class _DownloadPageState extends State<DownloadPage> {
                                                 "${songs[index].title}";
                                             String savePath =
                                                 dir.path + "/${saveName}.mp3";
-                                            print(savePath);
-
-                                            //  /storage/emulated/0/Download/file.mp3
+                                            //print(savePath);
                                             var fileExisted =
                                                 await File(savePath).exists();
                                             if (userService.loggedInUser ==
@@ -349,15 +363,15 @@ class _DownloadPageState extends State<DownloadPage> {
                                                   }
                                                 });
 
+                                                controller.isLoveds
+                                                    .add(RxBool(false));
+
                                                 Navigator.pop(context);
                                                 OfflinePage(
                                                   reloadCallback: () {
                                                     setState(() {});
                                                   },
                                                 );
-
-                                                print(
-                                                    "File is saved to download folder.");
                                               } on DioError catch (e) {
                                                 print(e.message);
                                               }

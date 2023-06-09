@@ -25,7 +25,7 @@ class Mainbutton extends StatelessWidget {
         height: 70.0,
         margin: EdgeInsets.symmetric(horizontal: 20.0),
         decoration: BoxDecoration(
-          color: btnColor,
+          color: purpButton,
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Row(

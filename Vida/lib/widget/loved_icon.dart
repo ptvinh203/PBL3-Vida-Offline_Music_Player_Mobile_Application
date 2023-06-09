@@ -8,5 +8,5 @@ class LovedIcon extends Icon {
   RxBool isLoved;
   LovedIcon({super.key, required this.isLoved})
       : super(Ionicons.heart,
-            color: isLoved.value ? purpButton : white, size: 25);
+            color: isLoved.value ? purpButton : littleWhite, size: 25);
 }

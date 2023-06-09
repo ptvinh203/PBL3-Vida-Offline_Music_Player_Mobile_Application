@@ -21,7 +21,6 @@ class Player extends StatefulWidget {
 
 class _PlayerState extends State<Player> {
   Future<String> getArtistName(SongModel songmd) async {
-    print(songmd.data);
     final file = File(songmd.data);
     var tagString;
     final tagProcessor = TagProcessor();
@@ -124,35 +123,41 @@ class _PlayerState extends State<Player> {
                         child: Row(
                           children: [
                             Text(controller.position.value,
-                                style: ourStyle(color: bgDarkColor)),
+                                style: ourStyle(color: Colors.black)),
                             Expanded(
                                 child: Slider(
                                     value: controller.value.value,
                                     inactiveColor: littleBlack,
                                     thumbColor: black,
-                                    activeColor: Colors.black45,
+                                    activeColor:
+                                        Colors.black87.withOpacity(0.65),
                                     min: const Duration(seconds: 0)
                                         .inSeconds
                                         .toDouble(),
                                     max: controller.max.value,
                                     onChanged: (newValue) {
+                                      print("aaa");
                                       controller.changeDurationToSecond(
                                           newValue.toInt());
-                                      newValue = newValue;
-                                      //if ((controller. -
-                                      //    controller.max.value).abs() < 1e-5) {
+                                      //newValue = newValue;
+
+                                      //if ((controller.max.value -
+                                      //            controller.value.value)
+                                      //        .abs() <
+                                      //    1) {
                                       //  controller.playSong(
-                                      //      songList[(controller
+                                      //      widget
+                                      //          .songList[(controller
                                       //                      .playIndex.value +
                                       //                  1) %
-                                      //              songList.length]
+                                      //              widget.songList.length]
                                       //          .uri,
                                       //      (controller.playIndex.value + 1) %
-                                      //          songList.length);
+                                      //          widget.songList.length);
                                       //}
                                     })),
                             Text(controller.duration.value,
-                                style: ourStyle(color: bgDarkColor))
+                                style: ourStyle(color: Colors.black))
                           ],
                         ),
                       ),

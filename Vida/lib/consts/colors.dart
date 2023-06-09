@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 const Color blueButton = Color(0xFFFF6D00);
 const Color blueText = Colors.deepPurpleAccent;
 const Color purpButton = Colors.deepPurpleAccent;
-
+//const Color purpButton = Colors.blue;
 const Color grayText = Color(0xFF5D5F65);
 const Color whiteText = Color(0xFFEDEEEF);
 
@@ -47,5 +47,7 @@ final Shader linearGradient = const LinearGradient(
 ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
 final flutterPurple = Color.fromARGB(255, 178, 164, 255);
+
+//final flutterPurple = Colors.blueAccent.shade100;
 final homeBGColor = Color.fromARGB(255, 97, 85, 166);
 final playerColor = Color.fromARGB(255, 180, 120, 255);

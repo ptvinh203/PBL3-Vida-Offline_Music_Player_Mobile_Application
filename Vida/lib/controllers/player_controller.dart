@@ -1,16 +1,12 @@
-
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-
-
 
 class PlayerController extends GetxController {
   final audioQuery = new OnAudioQuery();
   final audioPlayer = new AudioPlayer();
   bool _hasPermission = false;
-  var isLoveds = <RxBool>[];
-  var isLoved = false.obs;
+  List<RxBool> isLoveds = [];
   var playIndex = 0.obs;
   var isPlaying = false.obs;
   var duration = ''.obs;

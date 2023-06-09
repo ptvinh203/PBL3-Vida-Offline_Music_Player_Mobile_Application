@@ -9,7 +9,7 @@ const TextStyle headline = TextStyle(
 
 const TextStyle headlineDot = TextStyle(
   fontSize: 30,
-  color: blueText,
+  color: purpButton,
   fontWeight: FontWeight.bold,
 );
 const TextStyle headline1 = TextStyle(
@@ -29,7 +29,7 @@ const TextStyle headline3 = TextStyle(
   fontWeight: FontWeight.bold,
 );
 const TextStyle hintStyle = TextStyle(
-  fontSize: 14,
+  fontSize: 15,
   color: grayText,
   fontWeight: FontWeight.bold,
 );
