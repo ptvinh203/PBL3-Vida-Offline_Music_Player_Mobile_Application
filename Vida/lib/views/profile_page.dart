@@ -1,10 +1,10 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:Vida/consts/colors.dart';
 import 'package:Vida/services/user_service.dart';
-import 'package:Vida/views/my_bottom_navigation_bar.dart';
 import 'package:Vida/widget/main_button.dart';
 import 'package:Vida/widget/text_show.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ProfilePage extends StatefulWidget {
   Function? logoutCallback;
@@ -17,11 +17,10 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    //final controller = Get.put(ProfileController());
-    TextEditingController userName = TextEditingController();
-    TextEditingController userPass = TextEditingController();
-    TextEditingController userEmail = TextEditingController();
-    TextEditingController userPh = TextEditingController();
+    // TextEditingController userName = TextEditingController();
+    // TextEditingController userPass = TextEditingController();
+    // TextEditingController userEmail = TextEditingController();
+    // TextEditingController userPh = TextEditingController();
     UserService service = UserService.instance;
     return Scaffold(
       backgroundColor: blackBG,

@@ -1,6 +1,5 @@
 import 'package:Vida/models/login_request.dart';
 import 'package:Vida/services/user_service.dart';
-import 'package:Vida/views/offline_page.dart';
 import 'package:Vida/views/my_bottom_navigation_bar.dart';
 import 'package:Vida/views/profile_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +10,6 @@ import 'package:Vida/consts/text_style_log.dart';
 import 'package:Vida/views/sign_up.dart';
 import 'package:Vida/widget/main_button.dart';
 import 'package:Vida/widget/text_fild.dart';
-import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

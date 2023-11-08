@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_tags/dart_tags.dart';
@@ -10,8 +9,6 @@ import 'package:Vida/consts/colors.dart';
 import 'package:Vida/consts/text_style.dart';
 import 'package:Vida/controllers/player_controller.dart';
 import 'package:Vida/views/player.dart';
-import 'offline_page.dart' as offl;
-import '../widget/custom_icon_button.dart';
 import '../widget/loved_icon.dart';
 import 'offline_page.dart';
 
@@ -62,7 +59,7 @@ class _FavouriteState extends State<Favourite> {
       final futureBytes = Future.value(bytes);
       return tagProcessor.getTagsFromByteArray(futureBytes).then((tags) {
         tagString = tags.elementAt(0).tags["artist"];
-        return utf8.decode(tagString.toString().runes.toList());
+        return (tagString as String);
       });
     });
     //var tags = await ;
@@ -179,7 +176,7 @@ class _FavouriteState extends State<Favourite> {
                       itemCount: ids.length,
                       itemBuilder: (BuildContext context, int index) {
                         final songIndex = ids[index];
-                        final song = snapshot.data![songIndex];
+                        // final song = snapshot.data![songIndex];
                         return Container(
                           margin: const EdgeInsets.only(bottom: 8),
                           child: Obx(
@@ -192,7 +189,7 @@ class _FavouriteState extends State<Favourite> {
                                   style: ourStyle(
                                       fontWeight: FontWeight.bold, size: 15.0)),
                               subtitle: Text(
-                                  "${snapshot.data![songIndex].artistName ?? snapshot.data![index].songModel.artist!}",
+                                  "${snapshot.data![songIndex].artistName}",
                                   style: ourStyle(size: 15.0)),
                               leading: Container(
                                 padding: const EdgeInsets.all(1.0),

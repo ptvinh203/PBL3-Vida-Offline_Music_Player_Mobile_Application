@@ -20,7 +20,6 @@ class MNavigator {
     Favourite(),
     LoginPage(),
   ];
-  //có 4 trang và nhiều widget khác
 
   MNavigator.__() {}
 
@@ -42,20 +41,22 @@ class MyBottomNavigationBar extends StatefulWidget {
 }
 
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
-  // cái navigation dưới màn hình dùng để move giữa các trang
-
   void _onItemTapped(int index) {
     MNavigator.instance.navigate(index);
   }
 
   @override
   Widget build(BuildContext context) {
+    // return MaterialApp(
+    //     home: Scaffold(
+    //   body: Center(child: Text("Welcome back")),
+    // ));
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Obx(
           () => Scaffold(
-            body: MNavigator.instance.pages[MNavigator.instance.selectedIndex
-                .value], // phần dưới chỉ là setup các trang để move
+            body: MNavigator
+                .instance.pages[MNavigator.instance.selectedIndex.value],
             bottomNavigationBar: BottomNavigationBar(
               backgroundColor: blackBG,
               selectedItemColor: purpButton,

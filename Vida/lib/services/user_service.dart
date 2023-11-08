@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:Vida/models/login_request.dart';
 import 'package:Vida/models/user_model.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'config.dart';
 

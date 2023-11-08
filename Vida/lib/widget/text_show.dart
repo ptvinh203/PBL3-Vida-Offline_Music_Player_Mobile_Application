@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Vida/consts/colors.dart';
-import 'package:Vida/consts/text_style_log.dart';
 
 Widget textShow({
   required String txt,
- 
   required IconData image,
 }) {
   return Container(

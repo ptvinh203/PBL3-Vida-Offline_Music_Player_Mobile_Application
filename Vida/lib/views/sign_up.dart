@@ -1,8 +1,5 @@
-import 'package:Vida/models/login_request.dart';
 import 'package:Vida/models/register_request.dart';
-import 'package:Vida/models/user_model.dart';
 import 'package:Vida/services/user_service.dart';
-import 'package:Vida/views/my_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

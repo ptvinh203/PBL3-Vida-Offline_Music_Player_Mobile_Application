@@ -1,4 +1,4 @@
-import 'dart:convert';
+// ignore_for_file: must_be_immutable
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,6 @@ import 'package:Vida/consts/text_style.dart';
 import 'package:Vida/controllers/player_controller.dart';
 import 'package:Vida/views/player.dart';
 import 'package:Vida/widget/loved_icon.dart';
-import '../widget/custom_icon_button.dart';
 import 'package:dart_tags/dart_tags.dart';
 
 class SongModelExtended {
@@ -123,7 +122,6 @@ class _OfflinePageState extends State<OfflinePage> {
           },
           icon: icon),
     );
-
     return widgets;
   }
 
@@ -137,12 +135,11 @@ class _OfflinePageState extends State<OfflinePage> {
     final file = File(songmd.data);
     var tagString;
     final tagProcessor = TagProcessor();
-    //tagProcessor.putTagsToByteArray(bytes)
     return file.readAsBytes().then((bytes) {
       final futureBytes = Future.value(bytes);
       return tagProcessor.getTagsFromByteArray(futureBytes).then((tags) {
         tagString = tags.elementAt(0).tags["artist"];
-        return utf8.decode(tagString.toString().runes.toList());
+        return (tagString as String);
       });
     });
   }
@@ -161,16 +158,10 @@ class _OfflinePageState extends State<OfflinePage> {
         sortType: null,
         uriType: UriType.EXTERNAL);
     List<Future<SongModelExtended>> futures = [];
-    //await Future.delayed(Duration(milliseconds: 400));
     songs.forEach((s) {
       futures
           .add(getArtistName(s).then((value) => SongModelExtended(s, value)));
     });
-    //for (int i = 0; i < songs.length; i++) {
-    //  var s = songs[i];
-    //  String aName = await getArtistName(s);
-    //  nSongs.add(SongModelExtended(s, aName));
-    //}
     return Future.wait(futures);
   }
 
@@ -224,8 +215,8 @@ class _OfflinePageState extends State<OfflinePage> {
                 controller.isLoveds = List.generate(
                     snapshot.data?.length ?? 0, (index) => RxBool(false));
               //<RxBool>[snapshot.data?.length];
-              List<String> listTitle = List.generate(snapshot.data?.length ?? 0,
-                  (index) => snapshot.data![index].songModel.title);
+              // List<String> listTitle = List.generate(snapshot.data?.length ?? 0,
+              //     (index) => snapshot.data![index].songModel.title);
 
               if (snapshot.data == null) {
                 return const Center(
@@ -264,9 +255,7 @@ class _OfflinePageState extends State<OfflinePage> {
                                           fontWeight: FontWeight.bold,
                                           size: 15.0,
                                         )),
-                                subtitle: Text(
-                                    snapshot.data![index].artistName ??
-                                        snapshot.data![index].songModel.artist!,
+                                subtitle: Text(snapshot.data![index].artistName,
                                     style: ourStyle(
                                         size: 15.0, color: littleWhite)),
                                 leading: Container(

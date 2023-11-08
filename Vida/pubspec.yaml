@@ -1,10 +1,10 @@
 name: Vida
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=2.19.2 <3.0.0'
+  sdk: ">=2.19.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -12,15 +12,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   just_audio: ^0.9.32
-  on_audio_query: ^2.7.0
+  on_audio_query: ^2.9.0
   permission_handler: ^10.2.0
-  
+
   animations: ^2.0.1
 
   ionicons: ^0.2.2
   http: ^0.13.5
   pull_to_refresh: ^2.0.0
-  
 
   async: ^2.10.0
   downloads_path_provider_28: ^0.1.2
@@ -28,7 +27,7 @@ dependencies:
   dart_tags: ^0.4.0
   flutter_media_metadata: ^1.0.0+1
   flutter_launcher_icons: ^0.13.1
- 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -46,14 +45,12 @@ flutter:
 
   assets:
     - assets/image/
-  
+
   fonts:
     - family: Comfortaa
       fonts:
-        
         - asset: assets/font/Comfortaa-Bold.ttf
         - asset: assets/font/Comfortaa-Light.ttf
         - asset: assets/font/Comfortaa-Medium.ttf
         - asset: assets/font/Comfortaa-Regular.ttf
         - asset: assets/font/Comfortaa-Semibold.ttf
- 

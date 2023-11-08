@@ -5,7 +5,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 class PlayerController extends GetxController {
   final audioQuery = new OnAudioQuery();
   final audioPlayer = new AudioPlayer();
-  bool _hasPermission = false;
+  bool hasPermission = false;
   List<RxBool> isLoveds = [];
   var playIndex = 0.obs;
   var isPlaying = false.obs;
@@ -15,7 +15,6 @@ class PlayerController extends GetxController {
   var value = 0.0.obs;
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit;
     checkAndRequestPermissions();
   }
@@ -59,8 +58,7 @@ class PlayerController extends GetxController {
   }
 
   checkAndRequestPermissions({bool retry = false}) async {
-    // The param 'retryRequest' is false, by default.
-    _hasPermission = await audioQuery.checkAndRequest(
+    hasPermission = await audioQuery.checkAndRequest(
       retryRequest: retry,
     );
   }

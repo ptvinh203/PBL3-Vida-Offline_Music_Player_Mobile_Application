@@ -1,11 +1,11 @@
-import 'package:Vida/views/download_page.dart';
-import 'package:Vida/views/login_page.dart';
 import 'package:Vida/views/my_bottom_navigation_bar.dart';
-import 'package:Vida/views/offline_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Permission.storage.request();
   runApp(const MainApp());
 }
 
