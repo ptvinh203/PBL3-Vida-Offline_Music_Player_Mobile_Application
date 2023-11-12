@@ -3,7 +3,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlayerController extends GetxController {
-  final audioQuery = new OnAudioQuery();
+  OnAudioQuery audioQuery = new OnAudioQuery();
   final audioPlayer = new AudioPlayer();
   bool hasPermission = false;
   List<RxBool> isLoveds = [];

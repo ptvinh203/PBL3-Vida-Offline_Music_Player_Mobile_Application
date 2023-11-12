@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Vida/consts/colors.dart';
-import 'package:Vida/consts/text_style_log.dart';
+import 'package:Vida/shared/consts/colors.dart';
+import 'package:Vida/shared/consts/text_style_log.dart';
 
 Widget textFild({
   required String hintTxt,

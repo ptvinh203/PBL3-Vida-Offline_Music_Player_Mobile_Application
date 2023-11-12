@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Vida/consts/colors.dart';
+import 'package:Vida/shared/consts/colors.dart';
 
 Widget textShow({
   required String txt,

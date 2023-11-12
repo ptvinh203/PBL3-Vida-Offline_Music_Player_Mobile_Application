@@ -1,45 +1,50 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:dart_tags/dart_tags.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:Vida/consts/colors.dart';
-import 'package:Vida/consts/text_style.dart';
+import 'package:Vida/shared/consts/colors.dart';
+import 'package:Vida/shared/consts/text_style.dart';
 import 'package:Vida/controllers/player_controller.dart';
 
-class Player extends StatefulWidget {
+class PlayerScreen extends StatefulWidget {
   final List<SongModel> songList;
-
-  const Player({super.key, required this.songList});
+  final int currentIndex;
+  const PlayerScreen(
+      {super.key, required this.songList, this.currentIndex = 0});
 
   @override
-  State<Player> createState() => _PlayerState();
+  State<PlayerScreen> createState() => _PlayerScreenState();
 }
 
-class _PlayerState extends State<Player> {
-  Future<String> getArtistName(SongModel songmd) async {
-    final file = File(songmd.data);
-    var tagString;
-    final tagProcessor = TagProcessor();
-    return file.readAsBytes().then((bytes) {
-      final futureBytes = Future.value(bytes);
-      return tagProcessor.getTagsFromByteArray(futureBytes).then((tags) {
-        tagString = tags.elementAt(0).tags["artist"];
-        return utf8.decode(tagString.toString().runes.toList());
-      });
-    });
+class _PlayerScreenState extends State<PlayerScreen> {
+  final controller = Get.find<PlayerController>();
+
+  @override
+  void initState() {
+    controller.playSong(
+        widget.songList[widget.currentIndex].uri, widget.currentIndex);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.find<PlayerController>();
-
     return Scaffold(
       backgroundColor: flutterPurple,
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: flutterPurple,
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            controller.audioPlayer.pause();
+            Get.back();
+          },
+          child: const Icon(
+            Icons.chevron_left,
+            color: white,
+            size: 35,
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
         child: Column(
@@ -105,17 +110,6 @@ class _PlayerState extends State<Player> {
                             //foreground: Paint()..shader = linearGradient
                             color: Colors.black)),
                     const SizedBox(height: 10),
-                    //Text(
-                    //    widget.songList[controller.playIndex.value]
-                    //            .artist
-                    //            .toString(),
-                    //    textAlign: TextAlign.center,
-                    //    overflow: TextOverflow.ellipsis,
-                    //    maxLines: 2,
-                    //    style: ourStyle(
-                    //        size: 20,
-                    //        fontWeight: FontWeight.normal,
-                    //        color: bgDarkColor)),
                     const SizedBox(height: 40),
                     Obx(
                       () => Padding(
@@ -136,25 +130,8 @@ class _PlayerState extends State<Player> {
                                         .toDouble(),
                                     max: controller.max.value,
                                     onChanged: (newValue) {
-                                      print("aaa");
                                       controller.changeDurationToSecond(
                                           newValue.toInt());
-                                      //newValue = newValue;
-
-                                      //if ((controller.max.value -
-                                      //            controller.value.value)
-                                      //        .abs() <
-                                      //    1) {
-                                      //  controller.playSong(
-                                      //      widget
-                                      //          .songList[(controller
-                                      //                      .playIndex.value +
-                                      //                  1) %
-                                      //              widget.songList.length]
-                                      //          .uri,
-                                      //      (controller.playIndex.value + 1) %
-                                      //          widget.songList.length);
-                                      //}
                                     })),
                             Text(controller.duration.value,
                                 style: ourStyle(color: Colors.black))

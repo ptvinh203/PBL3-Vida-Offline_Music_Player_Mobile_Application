@@ -1,14 +1,12 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../consts/colors.dart';
 
+// ignore: must_be_immutable
 class LovedIcon extends Icon {
-  RxBool isLoved;
+  bool isLoved;
   LovedIcon({super.key, required this.isLoved})
       : super(Ionicons.heart,
-            color: isLoved.value ? purpButton : littleWhite, size: 25);
+            color: isLoved ? purpButton : littleWhite, size: 25);
 }

@@ -1,59 +1,63 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:Vida/models/register_request.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:Vida/models/login_request.dart';
 import 'package:Vida/models/user_model.dart';
-
 import 'config.dart';
 
 class UserService {
-  static UserService instance = UserService.__();
-
+  UserModel? loggedInUser = null;
+  static UserService? instance;
   UserService.__() {}
-
-  Future<UserModel> login(LoginRequest request) {
-    return http
-        .post(Uri.http(api_url, "/users/login"),
-            headers: {
-              "Accept": "application/json;charset=utf-8",
-              "Content-Type": "application/json;charset=utf-8"
-            },
-            body: jsonEncode(request.toJson()))
-        .then((value) {
-      if (value.statusCode != HttpStatus.ok)
-        return Future.error(Exception(
-            "Status: " + value.statusCode.toString() + ". " + value.body));
-      UserModel userModel = UserModel.fromJson(jsonDecode(value.body));
-      loggedInUser = userModel;
-      print("-----" + loggedInUser!.toJson().toString());
-      return userModel;
-    });
+  static UserService getInstance() {
+    if (instance == null) {
+      instance = UserService.__();
+    }
+    return instance!;
   }
 
-  Future<UserModel> register(RegisterRequest request) {
-    print(request.toString());
-    print(jsonEncode(request.toJson()));
-    return http
-        .post(Uri.http(api_url, "/users"),
-            headers: {
-              "Accept": "application/json;charset=utf-8",
-              "Content-Type": "application/json;charset=utf-8"
-            },
-            body: jsonEncode(request.toJson()))
-        .then((value) {
-      if (value.statusCode != HttpStatus.ok)
+  Future<UserModel> login(String username, String password) async {
+    try {
+      http.Response response =
+          await http.post(Uri.http(API_URL, "/users/login"),
+              headers: {
+                "Accept": "application/json;charset=utf-8",
+                "Content-Type": "application/json;charset=utf-8"
+              },
+              body: jsonEncode({username: username, password: password}));
+      if (response.statusCode != HttpStatus.ok) {
         return Future.error(Exception(
-            "Status: " + value.statusCode.toString() + ". " + value.body));
-      UserModel userModel = UserModel.fromJson(jsonDecode(value.body));
+            "Status: ${response.statusCode} with body ${response.body}"));
+      }
+      UserModel userModel = UserModel.fromJson(jsonDecode(response.body));
+      loggedInUser = userModel;
       return userModel;
-    });
+    } catch (err) {
+      return Future.error(err);
+    }
+  }
+
+  Future<UserModel> register(UserModel userModel, String password) async {
+    try {
+      http.Response response = await http.post(Uri.http(API_URL, "/users"),
+          headers: {
+            "Accept": "application/json;charset=utf-8",
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          body: jsonEncode({
+            ...userModel.toJson(),
+            "password": password,
+          }));
+      if (response.statusCode != HttpStatus.ok) {
+        return Future.error(Exception(
+            "Status: ${response.statusCode} with body ${response.body}"));
+      }
+      return UserModel.fromJson(jsonDecode(response.body));
+    } catch (err) {
+      return Future.error(err);
+    }
   }
 
   void logout() {
     loggedInUser = null;
   }
-
-  UserModel? loggedInUser = null;
 }
