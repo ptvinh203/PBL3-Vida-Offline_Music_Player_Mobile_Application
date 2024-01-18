@@ -25,7 +25,7 @@ Before you continue, ensure you meet the following requirments:
 ## How to use?
 
 ### 1. Download database
-- Download database files from link: [database-url](https://drive.google.com/drive/folders/1r1qCkWtHiD8ejweOyrPvEi6XLDucXn8v?usp=drive_link)
+- Download database files from link: [database-url](https://drive.google.com/drive/folders/1pxygWWaRzwSXsNw5zZgYhs8_tTAgi4Lb?usp=sharing)
 - Delete 'database.mv.db' file and 'database.trace.db' file in 'Server' folder
 - Copy downloaded files and paste into 'Server' folder
 ### 2. Config IP in client application in order to connect to Server successfully
